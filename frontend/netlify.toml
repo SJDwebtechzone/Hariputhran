@@ -2,7 +2,11 @@
   publish = "dist"
   command = "npm run build"
 
+[build.environment]
+  NITRO_PRESET = "netlify"
+  NODE_VERSION = "20"
+
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/.netlify/functions/server"
   status = 200
