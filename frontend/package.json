@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
+    "postbuild": "node -e \"require('fs').writeFileSync('dist/_redirects', '/*    /.netlify/functions/server    200\\n')\"",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
