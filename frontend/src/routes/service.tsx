@@ -4,10 +4,10 @@ import { ServicePage } from "@/service";
 export const Route = createFileRoute("/service")({
   head: () => ({
     meta: [
-      { title: "Services — AquaPure" },
-      { name: "description", content: "AquaPure water services." },
-      { property: "og:title", content: "Services — AquaPure" },
-      { property: "og:description", content: "AquaPure water services." },
+      { title: "Services — Hariputhran Enterprises | Infrastructure & Civil Contractors" },
+      { name: "description", content: "Explore Hariputhran Enterprises underground sewerage, drainage systems, pipeline laying, and infrastructure services." },
+      { property: "og:title", content: "Services — Hariputhran Enterprises" },
+      { property: "og:description", content: "Explore Hariputhran Enterprises underground sewerage, drainage systems, pipeline laying, and infrastructure services." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
