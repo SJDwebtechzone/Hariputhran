@@ -14,8 +14,11 @@ import {
   Plus,
   Shield,
   Layers3,
+  MessageSquareText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { NotificationBell } from "@/components/admin/NotificationBell";
+import { useServiceRequestNotifications } from "@/hooks/useServiceRequestNotifications";
 import { toast } from "sonner";
 
 export interface AdminUser {
@@ -34,7 +37,8 @@ interface AdminLayoutProps {
 const NAV_ITEMS = [
   { id: "dashboard", label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { id: "services", label: "Services", href: "/admin/services", icon: Layers3 },
-  { id: "projects", label: "Projects", href: "#", icon: FolderGit2, count: 12 },
+  { id: "recent-works", label: "Recent Works", href: "/admin/recent-works", icon: FolderGit2 },
+  { id: "service-requests", label: "Service Requests", href: "/admin/service-requests", icon: MessageSquareText },
   { id: "documents", label: "Documents", href: "#", icon: FileText, count: 34 },
   { id: "clients", label: "Clients", href: "#", icon: Users, count: 24 },
   { id: "settings", label: "Settings", href: "/settings", icon: SettingsIcon },
@@ -53,6 +57,8 @@ export function AdminLayout({
   const [user, setUser] = useState<AdminUser | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
+
+  const { unreadCount } = useServiceRequestNotifications();
 
   const loadUser = () => {
     const token =
@@ -189,9 +195,12 @@ export function AdminLayout({
               ? activeNav === item.id
               : (item.href === "/dashboard" && currentPath === "/dashboard") ||
                 (item.href === "/admin/services" && currentPath.startsWith("/admin/services")) ||
+                (item.href === "/admin/recent-works" && currentPath.startsWith("/admin/recent-works")) ||
+                (item.href === "/admin/service-requests" && currentPath.startsWith("/admin/service-requests")) ||
                 (item.href === "/settings" && currentPath === "/settings");
 
             const isLink = item.href !== "#";
+            const displayCount = item.id === "service-requests" ? (unreadCount > 0 ? (unreadCount > 99 ? "99+" : unreadCount) : null) : item.count;
 
             const itemContent = (
               <>
@@ -204,15 +213,17 @@ export function AdminLayout({
                   <span>{item.label}</span>
                 </div>
 
-                {item.count && (
+                {displayCount && (
                   <span
                     className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
-                      isActive
+                      item.id === "service-requests"
+                        ? "bg-[#f97316] text-white"
+                        : isActive
                         ? "bg-white/20 text-white"
                         : "bg-white/10 text-slate-300 group-hover:bg-white/15"
                     }`}
                   >
-                    {item.count}
+                    {displayCount}
                   </span>
                 )}
               </>
@@ -340,17 +351,7 @@ export function AdminLayout({
             </Button>
 
             {/* Notification Bell */}
-            <button
-              onClick={() =>
-                toast.info("Notifications", {
-                  description: "All infrastructure systems are operating normally.",
-                })
-              }
-              className="relative grid size-10 place-items-center rounded-full border border-slate-200 bg-slate-50 text-slate-600 transition-colors hover:bg-slate-100 hover:text-[#082342]"
-            >
-              <Bell className="size-4" />
-              <span className="absolute right-2.5 top-2.5 size-2 rounded-full bg-[#f97316]" />
-            </button>
+            <NotificationBell />
 
             {/* Avatar Pill */}
             <Link

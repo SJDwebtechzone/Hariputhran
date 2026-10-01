@@ -24,6 +24,11 @@ import {
 } from "lucide-react";
 import { PageFrame } from "@/components/site-layout";
 import { Button } from "@/components/ui/button";
+import {
+  getRecentWorkImageSrc,
+  handleRecentWorkImageError,
+} from "@/utils/recentWorkImage";
+import type { RecentWorkItem } from "@/types/recentWork";
 
 /* =========================================================================
    CUSTOM ICONS MATCHING REFERENCE
@@ -403,6 +408,47 @@ export const projectsData = [
 ];
 
 export function ProjectsSection() {
+  const [items, setItems] = useState<RecentWorkItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadRecentWorks() {
+      try {
+        const rawApiUrl = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
+        const res = await fetch(`${rawApiUrl}/api/recent-works`, {
+          cache: "no-store",
+          headers: {
+            Pragma: "no-cache",
+            "Cache-Control": "no-cache",
+          },
+        });
+        if (!res.ok) {
+          console.warn("Recent Works: using fallback content, API status:", res.status);
+          return;
+        }
+        const json = await res.json();
+        if (isMounted && json.success && Array.isArray(json.data) && json.data.length > 0) {
+          // Sort by position 1..4
+          const sorted = [...json.data].sort((a, b) => (a.position || a.id) - (b.position || b.id));
+          setItems(sorted);
+        }
+      } catch (err) {
+        console.warn("Recent Works: using fallback content", err);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadRecentWorks();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <section className="bg-white py-16 lg:py-24" id="projects">
       <div className="site-container">
@@ -427,37 +473,89 @@ export function ProjectsSection() {
 
         {/* 4-Column Responsive Grid */}
         <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {projectsData.map((project) => (
-            <div
-              key={project.title}
-              className="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-            >
-              {/* Image Container */}
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  loading="lazy"
-                  width={600}
-                  height={450}
-                  className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-
-              {/* Title & Location */}
-              <div className="flex flex-1 flex-col justify-between p-4">
-                <div>
-                  <h3 className="text-sm sm:text-[15px] font-bold text-[#082342] group-hover:text-[#0284c7] transition-colors leading-snug">
-                    {project.title}
-                  </h3>
-                  <p className="mt-1.5 flex items-center gap-1.5 text-xs sm:text-[13px] text-slate-600">
-                    <MapPin className="size-3.5 text-[#0284c7] shrink-0" />
-                    {project.location}
-                  </p>
+          {loading ? (
+            /* Loading Skeletons */
+            [1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                className="flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.04)] animate-pulse"
+              >
+                <div className="aspect-[4/3] w-full bg-slate-100" />
+                <div className="p-4 space-y-2.5">
+                  <div className="h-4 w-3/4 rounded bg-slate-200" />
+                  <div className="h-3.5 w-1/2 rounded bg-slate-200" />
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : items.length > 0 ? (
+            /* Dynamic API Cards */
+            items.map((project) => (
+              <div
+                key={project.id}
+                className="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              >
+                {/* Image Container */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
+                  <img
+                    src={getRecentWorkImageSrc(project)}
+                    alt={project.title}
+                    loading="lazy"
+                    width={600}
+                    height={450}
+                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    onError={(e) => handleRecentWorkImageError(e, project.position || project.id)}
+                  />
+                </div>
+
+                {/* Title & Location */}
+                <div className="flex flex-1 flex-col justify-between p-4">
+                  <div>
+                    <h3 className="text-sm sm:text-[15px] font-bold text-[#082342] group-hover:text-[#0284c7] transition-colors leading-snug">
+                      {project.title}
+                    </h3>
+                    <p className="mt-1.5 flex items-center gap-1.5 text-xs sm:text-[13px] text-slate-600">
+                      <MapPin className="size-3.5 text-[#0284c7] shrink-0" />
+                      {project.location}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            /* Fallback Static Cards */
+            projectsData.map((project, idx) => (
+              <div
+                key={project.title}
+                className="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              >
+                {/* Image Container */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    loading="lazy"
+                    width={600}
+                    height={450}
+                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    onError={(e) => handleRecentWorkImageError(e, idx + 1)}
+                  />
+                </div>
+
+                {/* Title & Location */}
+                <div className="flex flex-1 flex-col justify-between p-4">
+                  <div>
+                    <h3 className="text-sm sm:text-[15px] font-bold text-[#082342] group-hover:text-[#0284c7] transition-colors leading-snug">
+                      {project.title}
+                    </h3>
+                    <p className="mt-1.5 flex items-center gap-1.5 text-xs sm:text-[13px] text-slate-600">
+                      <MapPin className="size-3.5 text-[#0284c7] shrink-0" />
+                      {project.location}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </section>

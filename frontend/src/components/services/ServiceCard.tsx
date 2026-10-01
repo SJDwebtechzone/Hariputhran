@@ -11,9 +11,10 @@ export type { ServiceItemData };
 interface ServiceCardProps {
   service: Partial<ServiceItemData>;
   index: number;
+  onRequestQuote?: (service: Partial<ServiceItemData>) => void;
 }
 
-export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
+export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequestQuote }) => {
   const Icon = getServiceIcon(service.icon_key);
   const isPhotoLeft = index % 2 === 0;
   const serviceNumber = String(index + 1).padStart(2, "0");
@@ -107,22 +108,34 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
 
                 {/* CTA Button */}
                 <div className="mt-5">
-                  <Button
-                    asChild
-                    className="group h-10 rounded-full bg-gradient-to-r from-[#FF7A00] to-[#F97316] px-7 text-xs font-bold uppercase tracking-wider text-white shadow-[0_10px_22px_-4px_rgba(249,115,22,0.42)] transition-all duration-300 hover:scale-[1.02] hover:from-[#ea6c00] hover:to-[#ea580c] hover:shadow-[0_14px_26px_-4px_rgba(249,115,22,0.52)] sm:h-11 sm:text-[12.5px]"
-                  >
-                    {ctaLink.startsWith("http") ? (
-                      <a href={ctaLink} target="_blank" rel="noopener noreferrer">
-                        {ctaLabel}
-                        <ArrowRight className="ml-2 size-4 transition-transform duration-200 group-hover:translate-x-1" />
-                      </a>
-                    ) : (
-                      <Link to={ctaLink}>
-                        {ctaLabel}
-                        <ArrowRight className="ml-2 size-4 transition-transform duration-200 group-hover:translate-x-1" />
-                      </Link>
-                    )}
-                  </Button>
+                  {onRequestQuote ? (
+                    <Button
+                      type="button"
+                      aria-haspopup="dialog"
+                      onClick={() => onRequestQuote(service)}
+                      className="group h-10 rounded-full bg-gradient-to-r from-[#FF7A00] to-[#F97316] px-7 text-xs font-bold uppercase tracking-wider text-white shadow-[0_10px_22px_-4px_rgba(249,115,22,0.42)] transition-all duration-300 hover:scale-[1.02] hover:from-[#ea6c00] hover:to-[#ea580c] hover:shadow-[0_14px_26px_-4px_rgba(249,115,22,0.52)] sm:h-11 sm:text-[12.5px] cursor-pointer"
+                    >
+                      {ctaLabel}
+                      <ArrowRight className="ml-2 size-4 transition-transform duration-200 group-hover:translate-x-1" />
+                    </Button>
+                  ) : (
+                    <Button
+                      asChild
+                      className="group h-10 rounded-full bg-gradient-to-r from-[#FF7A00] to-[#F97316] px-7 text-xs font-bold uppercase tracking-wider text-white shadow-[0_10px_22px_-4px_rgba(249,115,22,0.42)] transition-all duration-300 hover:scale-[1.02] hover:from-[#ea6c00] hover:to-[#ea580c] hover:shadow-[0_14px_26px_-4px_rgba(249,115,22,0.52)] sm:h-11 sm:text-[12.5px]"
+                    >
+                      {ctaLink.startsWith("http") ? (
+                        <a href={ctaLink} target="_blank" rel="noopener noreferrer">
+                          {ctaLabel}
+                          <ArrowRight className="ml-2 size-4 transition-transform duration-200 group-hover:translate-x-1" />
+                        </a>
+                      ) : (
+                        <Link to={ctaLink}>
+                          {ctaLabel}
+                          <ArrowRight className="ml-2 size-4 transition-transform duration-200 group-hover:translate-x-1" />
+                        </Link>
+                      )}
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
@@ -176,22 +189,34 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
 
                 {/* CTA Button */}
                 <div className="mt-5">
-                  <Button
-                    asChild
-                    className="group h-10 rounded-full bg-gradient-to-r from-[#FF7A00] to-[#F97316] px-7 text-xs font-bold uppercase tracking-wider text-white shadow-[0_10px_22px_-4px_rgba(249,115,22,0.42)] transition-all duration-300 hover:scale-[1.02] hover:from-[#ea6c00] hover:to-[#ea580c] hover:shadow-[0_14px_26px_-4px_rgba(249,115,22,0.52)] sm:h-11 sm:text-[12.5px]"
-                  >
-                    {ctaLink.startsWith("http") ? (
-                      <a href={ctaLink} target="_blank" rel="noopener noreferrer">
-                        {ctaLabel}
-                        <ArrowRight className="ml-2 size-4 transition-transform duration-200 group-hover:translate-x-1" />
-                      </a>
-                    ) : (
-                      <Link to={ctaLink}>
-                        {ctaLabel}
-                        <ArrowRight className="ml-2 size-4 transition-transform duration-200 group-hover:translate-x-1" />
-                      </Link>
-                    )}
-                  </Button>
+                  {onRequestQuote ? (
+                    <Button
+                      type="button"
+                      aria-haspopup="dialog"
+                      onClick={() => onRequestQuote(service)}
+                      className="group h-10 rounded-full bg-gradient-to-r from-[#FF7A00] to-[#F97316] px-7 text-xs font-bold uppercase tracking-wider text-white shadow-[0_10px_22px_-4px_rgba(249,115,22,0.42)] transition-all duration-300 hover:scale-[1.02] hover:from-[#ea6c00] hover:to-[#ea580c] hover:shadow-[0_14px_26px_-4px_rgba(249,115,22,0.52)] sm:h-11 sm:text-[12.5px] cursor-pointer"
+                    >
+                      {ctaLabel}
+                      <ArrowRight className="ml-2 size-4 transition-transform duration-200 group-hover:translate-x-1" />
+                    </Button>
+                  ) : (
+                    <Button
+                      asChild
+                      className="group h-10 rounded-full bg-gradient-to-r from-[#FF7A00] to-[#F97316] px-7 text-xs font-bold uppercase tracking-wider text-white shadow-[0_10px_22px_-4px_rgba(249,115,22,0.42)] transition-all duration-300 hover:scale-[1.02] hover:from-[#ea6c00] hover:to-[#ea580c] hover:shadow-[0_14px_26px_-4px_rgba(249,115,22,0.52)] sm:h-11 sm:text-[12.5px]"
+                    >
+                      {ctaLink.startsWith("http") ? (
+                        <a href={ctaLink} target="_blank" rel="noopener noreferrer">
+                          {ctaLabel}
+                          <ArrowRight className="ml-2 size-4 transition-transform duration-200 group-hover:translate-x-1" />
+                        </a>
+                      ) : (
+                        <Link to={ctaLink}>
+                          {ctaLabel}
+                          <ArrowRight className="ml-2 size-4 transition-transform duration-200 group-hover:translate-x-1" />
+                        </Link>
+                      )}
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

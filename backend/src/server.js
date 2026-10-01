@@ -3,6 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const { publicRouter, adminRouter } = require("./routes/serviceRoutes");
+const { publicRecentWorksRouter, adminRecentWorksRouter } = require("./routes/recentWorksRoutes");
+const { publicRouter: publicServiceRequestsRouter, adminRouter: adminServiceRequestsRouter } = require("./routes/serviceRequestRoutes");
 
 const app = express();
 
@@ -30,6 +32,10 @@ app.get("/api/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/services", publicRouter);
 app.use("/api/admin/services", adminRouter);
+app.use("/api/recent-works", publicRecentWorksRouter);
+app.use("/api/admin/recent-works", adminRecentWorksRouter);
+app.use("/api/service-requests", publicServiceRequestsRouter);
+app.use("/api/admin/service-requests", adminServiceRequestsRouter);
 
 // Global Error Handler Middleware
 app.use((err, req, res, next) => {

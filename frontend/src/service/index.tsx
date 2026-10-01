@@ -24,6 +24,7 @@ import {
 import { PageFrame } from "@/components/site-layout";
 import { Button } from "@/components/ui/button";
 import { ServiceCard } from "@/components/services/ServiceCard";
+import { ServiceRequestDialog } from "@/components/services/ServiceRequestDialog";
 import type { ServiceItemData } from "@/types/service";
 
 const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/+$/, "");
@@ -315,6 +316,24 @@ export function ServicesOverview() {
     },
   ]);
 
+  const [quoteModal, setQuoteModal] = useState<{
+    open: boolean;
+    serviceId: number | string | null;
+    serviceName: string;
+  }>({
+    open: false,
+    serviceId: null,
+    serviceName: "",
+  });
+
+  const handleRequestQuote = (service: Partial<ServiceItemData>) => {
+    setQuoteModal({
+      open: true,
+      serviceId: service.id || null,
+      serviceName: service.title || "Core Infrastructure Service",
+    });
+  };
+
   useEffect(() => {
     let isMounted = true;
     async function loadDynamicServices() {
@@ -454,10 +473,23 @@ export function ServicesOverview() {
         {/* Dynamic Service Rows (Stacked with gap) */}
         <div className="mt-14 space-y-10 lg:mt-16 lg:space-y-12">
           {services.map((service, index) => (
-            <ServiceCard key={service.id || index} service={service} index={index} />
+            <ServiceCard
+              key={service.id || index}
+              service={service}
+              index={index}
+              onRequestQuote={handleRequestQuote}
+            />
           ))}
         </div>
       </div>
+
+      {/* Quote Request Modal */}
+      <ServiceRequestDialog
+        open={quoteModal.open}
+        onOpenChange={(open) => setQuoteModal((prev) => ({ ...prev, open }))}
+        serviceId={quoteModal.serviceId}
+        serviceName={quoteModal.serviceName}
+      />
     </section>
   );
 }

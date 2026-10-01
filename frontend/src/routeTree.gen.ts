@@ -19,6 +19,8 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ServiceRouteImport } from './routes/service'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as AdminRecentWorksRouteImport } from './routes/admin.recent-works'
+import { Route as AdminServiceRequestsRouteImport } from './routes/admin.service-requests'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
 
 const IndexRoute = IndexRouteImport.update({
@@ -71,6 +73,16 @@ const SettingsRoute = SettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRecentWorksRoute = AdminRecentWorksRouteImport.update({
+  id: '/admin/recent-works',
+  path: '/admin/recent-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminServiceRequestsRoute = AdminServiceRequestsRouteImport.update({
+  id: '/admin/service-requests',
+  path: '/admin/service-requests',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminServicesRoute = AdminServicesRouteImport.update({
   id: '/admin/services',
   path: '/admin/services',
@@ -88,6 +100,8 @@ export interface FileRoutesByFullPath {
   '/service': typeof ServiceRoute
   '/services': typeof ServicesRoute
   '/settings': typeof SettingsRoute
+  '/admin/recent-works': typeof AdminRecentWorksRoute
+  '/admin/service-requests': typeof AdminServiceRequestsRoute
   '/admin/services': typeof AdminServicesRoute
 }
 export interface FileRoutesByTo {
@@ -101,6 +115,8 @@ export interface FileRoutesByTo {
   '/service': typeof ServiceRoute
   '/services': typeof ServicesRoute
   '/settings': typeof SettingsRoute
+  '/admin/recent-works': typeof AdminRecentWorksRoute
+  '/admin/service-requests': typeof AdminServiceRequestsRoute
   '/admin/services': typeof AdminServicesRoute
 }
 export interface FileRoutesById {
@@ -115,6 +131,8 @@ export interface FileRoutesById {
   '/service': typeof ServiceRoute
   '/services': typeof ServicesRoute
   '/settings': typeof SettingsRoute
+  '/admin/recent-works': typeof AdminRecentWorksRoute
+  '/admin/service-requests': typeof AdminServiceRequestsRoute
   '/admin/services': typeof AdminServicesRoute
 }
 export interface FileRouteTypes {
@@ -130,6 +148,8 @@ export interface FileRouteTypes {
     | '/service'
     | '/services'
     | '/settings'
+    | '/admin/recent-works'
+    | '/admin/service-requests'
     | '/admin/services'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -143,6 +163,8 @@ export interface FileRouteTypes {
     | '/service'
     | '/services'
     | '/settings'
+    | '/admin/recent-works'
+    | '/admin/service-requests'
     | '/admin/services'
   id:
     | '__root__'
@@ -156,6 +178,8 @@ export interface FileRouteTypes {
     | '/service'
     | '/services'
     | '/settings'
+    | '/admin/recent-works'
+    | '/admin/service-requests'
     | '/admin/services'
   fileRoutesById: FileRoutesById
 }
@@ -170,6 +194,8 @@ export interface RootRouteChildren {
   ServiceRoute: typeof ServiceRoute
   ServicesRoute: typeof ServicesRoute
   SettingsRoute: typeof SettingsRoute
+  AdminRecentWorksRoute: typeof AdminRecentWorksRoute
+  AdminServiceRequestsRoute: typeof AdminServiceRequestsRoute
   AdminServicesRoute: typeof AdminServicesRoute
 }
 
@@ -245,6 +271,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/recent-works': {
+      id: '/admin/recent-works'
+      path: '/admin/recent-works'
+      fullPath: '/admin/recent-works'
+      preLoaderRoute: typeof AdminRecentWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/service-requests': {
+      id: '/admin/service-requests'
+      path: '/admin/service-requests'
+      fullPath: '/admin/service-requests'
+      preLoaderRoute: typeof AdminServiceRequestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/services': {
       id: '/admin/services'
       path: '/admin/services'
@@ -266,6 +306,8 @@ const rootRouteChildren: RootRouteChildren = {
   ServiceRoute: ServiceRoute,
   ServicesRoute: ServicesRoute,
   SettingsRoute: SettingsRoute,
+  AdminRecentWorksRoute: AdminRecentWorksRoute,
+  AdminServiceRequestsRoute: AdminServiceRequestsRoute,
   AdminServicesRoute: AdminServicesRoute,
 }
 export const routeTree = rootRouteImport
