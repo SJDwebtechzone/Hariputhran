@@ -1,0 +1,7 @@
+const { ALLOWED_SERVICE_ICONS, ALLOWED_ICONS, DEFAULT_SERVICES } = require("./defaultServices");
+
+module.exports = {
+  ALLOWED_SERVICE_ICONS,
+  ALLOWED_ICONS,
+  DEFAULT_SERVICES,
+};

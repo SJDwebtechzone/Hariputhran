@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -22,6 +23,10 @@ import {
 
 import { PageFrame } from "@/components/site-layout";
 import { Button } from "@/components/ui/button";
+import { ServiceCard } from "@/components/services/ServiceCard";
+import type { ServiceItemData } from "@/types/service";
+
+const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/+$/, "");
 
 /* =========================================================================
    IMAGE PATH CONSTANTS (Centralized for easy updating)
@@ -109,17 +114,31 @@ export const coreServicesData = [
 export const coreServiceGroups = [
   {
     number: "01",
-    title: "Construction & Infrastructure Services",
-    description: "We provide complete underground utility solutions including sewerage systems, drainage networks, pipeline laying, manhole and chamber construction.",
-    items: ["Sewerage Works", "Drainage Systems", "Pipeline Laying", "Manhole & Chamber Construction"],
+    title: "Underground Utility Construction",
+    description:
+      "We design-build and execute sewerage networks, storm-water drains and pipelines with precise levels, quality materials and strict safety practices. Every line is built to carry flow reliably for decades.",
+    items: [
+      "Sewerage Network Works",
+      "Storm-Water Drainage Systems",
+      "Pipeline Laying & Jointing",
+      "Manhole & Chamber Construction",
+    ],
+    ctaText: "Request a Quote",
     image: CORE_GROUP_IMAGE_1,
     icon: Droplets,
   },
   {
     number: "02",
-    title: "Civil & Infrastructure Works",
-    description: "We execute large-scale civil works and restoration projects with advanced equipment and a skilled team, ensuring durability and long-term performance.",
-    items: ["Rehabilitation Works", "Road Cutting & Restoration", "Pumping Station Works", "Civil Construction Support"],
+    title: "Rehabilitation & Civil Restoration",
+    description:
+      "We revive ageing infrastructure and restore roads after excavation. Our crews and equipment keep disruption low, so public roads are back in service quickly and finished properly.",
+    items: [
+      "Sewer & Drain Rehabilitation",
+      "Road Cutting & Restoration",
+      "Pumping Station Works",
+      "Supporting Civil Works",
+    ],
+    ctaText: "Discuss Your Project",
     image: CORE_GROUP_IMAGE_2,
     icon: Construction,
   },
@@ -257,92 +276,186 @@ export function ServicesHero() {
    ========================================================================= */
 
 export function ServicesOverview() {
+  const [services, setServices] = useState<ServiceItemData[]>([
+    {
+      id: 1,
+      title: "Underground Utility Construction",
+      description:
+        "We design-build and execute sewerage networks, storm-water drains and pipelines with precise levels, quality materials and strict safety practices. Every line is built to carry flow reliably for decades.",
+      features: [
+        "Sewerage & Storm-Water Networks",
+        "Water Supply & Utility Pipelines",
+        "Deep Chamber & Manhole Construction",
+        "Trench Excavation & Shoring",
+      ],
+      button_label: "Request a Quote",
+      button_link: "/contact",
+      icon_key: "Droplets",
+      image_url: CORE_GROUP_IMAGE_1,
+      sort_order: 1,
+      is_active: true,
+    },
+    {
+      id: 2,
+      title: "Rehabilitation & Civil Restoration",
+      description:
+        "We revive ageing infrastructure and restore roads after excavation. Our crews and equipment keep disruption low, so public roads are back in service quickly and finished properly.",
+      features: [
+        "Sewer & Drain Rehabilitation",
+        "Road Cutting & Restoration",
+        "Pumping Station Works",
+        "Supporting Civil Works",
+      ],
+      button_label: "Discuss Your Project",
+      button_link: "/contact",
+      icon_key: "Construction",
+      image_url: CORE_GROUP_IMAGE_2,
+      sort_order: 2,
+      is_active: true,
+    },
+  ]);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadDynamicServices() {
+      try {
+        const res = await fetch(`${API_BASE}/api/services`, {
+          cache: "no-store",
+          headers: {
+            "Pragma": "no-cache",
+            "Cache-Control": "no-cache",
+          },
+        });
+        if (!res.ok) {
+          console.warn("[Services] API returned status " + res.status + ", using static fallback.");
+          return;
+        }
+        const data = await res.json();
+        if (isMounted && data.success && Array.isArray(data.data) && data.data.length > 0) {
+          setServices(data.data);
+        }
+      } catch (err) {
+        console.warn("[Services] API fetch failed, falling back to static default copy:", err);
+      }
+    }
+
+    loadDynamicServices();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
-    <section id="services-overview" className="bg-gradient-to-b from-white to-[#f8fbff] py-16 lg:py-24">
-      <div className="site-container">
+    <section
+      id="services-overview"
+      className="relative overflow-hidden bg-[#F5FAFF] py-20 lg:py-28"
+    >
+      <style>{`
+        @media (min-width: 1024px) {
+          .slant-photo-left {
+            clip-path: polygon(0 0, 100% 0, calc(100% - 65px) 100%, 0 100%);
+          }
+          .slant-card-right {
+            clip-path: polygon(65px 0, 100% 0, 100% 100%, 0 100%);
+          }
+          .slant-card-left {
+            clip-path: polygon(0 0, 100% 0, calc(100% - 65px) 100%, 0 100%);
+          }
+          .slant-photo-right {
+            clip-path: polygon(65px 0, 100% 0, 100% 100%, 0 100%);
+          }
+        }
+      `}</style>
+
+      {/* Background Decorative Elements */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        {/* Left Edge Wave Lines */}
+        <svg
+          className="absolute -left-12 top-1/4 h-[500px] w-48 text-[#0A9BE0]/10"
+          viewBox="0 0 200 600"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M-50 50C30 150 70 200 -20 350C-80 450 40 520 100 580"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M-30 20C50 120 90 170 0 320C-60 420 60 490 120 550"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M-10 -10C70 90 110 140 20 290C-40 390 80 460 140 520"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M10 -40C90 60 130 110 40 260C-20 360 100 430 160 490"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+        </svg>
+
+        {/* Right Edge Wave Lines */}
+        <svg
+          className="absolute -right-12 bottom-1/4 h-[500px] w-48 text-[#0A9BE0]/10"
+          viewBox="0 0 200 600"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M250 50C170 150 130 200 220 350C280 450 160 520 100 580"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M230 20C150 120 110 170 200 320C260 420 140 490 80 550"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M210 -10C130 90 90 140 180 290C240 390 120 460 60 520"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+        </svg>
+
+        {/* Soft Translucent Light-Blue Rounded Diamonds */}
+        <div className="absolute -right-16 top-16 size-80 rotate-45 rounded-[60px] bg-gradient-to-br from-[#0A9BE0]/8 to-transparent blur-2xl" />
+        <div className="absolute -left-16 bottom-16 size-80 rotate-45 rounded-[60px] bg-gradient-to-tr from-[#0A9BE0]/8 to-transparent blur-2xl" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8">
         {/* Header, centered */}
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="font-['Poppins',sans-serif] text-2xl font-extrabold tracking-tight text-[#0284c7] sm:text-3xl md:text-4xl lg:text-[36px]">
-            Core Services. <span className="text-[#082342]">One Reliable Partner.</span>
+        <div className="mx-auto max-w-3xl text-center">
+          {/* Eyebrow Pill Badge with Fading Side Lines */}
+          <div className="flex items-center justify-center gap-3">
+            <span className="h-[2px] w-12 bg-gradient-to-r from-transparent to-[#0A8FD8]" />
+            <span className="inline-flex items-center rounded-full bg-[#E0F1FC] px-5 py-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#0A8FD8] shadow-sm">
+              OUR CORE SERVICES
+            </span>
+            <span className="h-[2px] w-12 bg-gradient-to-l from-transparent to-[#0A8FD8]" />
+          </div>
+
+          <h2 className="mt-4 font-['Poppins',sans-serif] text-3xl font-extrabold tracking-tight text-[#0B2A5B] sm:text-4xl lg:text-[42px] leading-tight">
+            Core Services. <span className="text-[#0A9BE0]">Built for a Better Tomorrow.</span>
           </h2>
 
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-500 sm:text-base">
-            We focus on two key areas of infrastructure development, delivering end-to-end solutions with expertise and excellence.
+          <p className="mx-auto mt-4 max-w-[740px] text-sm leading-[1.6] text-[#5B6B80] sm:text-[16px]">
+            From laying the first pipe to restoring the road above it,{" "}
+            <strong className="font-bold text-[#0B2A5B]">Hariputhran</strong> delivers
+            complete underground infrastructure solutions for municipal bodies, contractors
+            and private developers.
           </p>
         </div>
 
-        {/* Cards grid */}
-        <div className="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
-          {coreServiceGroups.map((group) => {
-            const Icon = group.icon;
-
-            return (
-              <div
-                key={group.number}
-                className="group overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-[0_18px_50px_-18px_rgba(2,132,199,0.35)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-18px_rgba(2,132,199,0.45)]"
-              >
-                {/* Image on top */}
-                <div className="overflow-hidden">
-                  <img
-                    src={group.image}
-                    alt={group.title}
-                    loading="lazy"
-                    className="aspect-[16/9] w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-
-                {/* Body */}
-                <div className="relative flex flex-col gap-4 px-6 pb-6 sm:flex-row sm:gap-5">
-                  {/* Icon badge (left column) */}
-                  <div className="relative z-10 -mt-7 grid size-14 shrink-0 place-items-center rounded-full bg-[#e6f3fb] text-[#0284c7] shadow-md ring-4 ring-white">
-                    <Icon className="size-6" />
-                  </div>
-
-                  {/* Text column (right) */}
-                  <div className="flex-1 pt-3">
-                    <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#f97316]">
-                      SERVICE {group.number}
-                    </span>
-
-                    <h3 className="mt-1 font-['Poppins',sans-serif] text-lg font-bold text-[#0284c7] lg:text-xl">
-                      {group.title}
-                    </h3>
-
-                    <p className="mt-2 text-xs leading-relaxed text-slate-600 sm:text-[13px]">
-                      {group.description}
-                    </p>
-
-                    {/* Checklist */}
-                    <div className="mt-4 space-y-2">
-                      {group.items.map((item) => (
-                        <div key={item} className="flex items-center gap-2.5">
-                          <span className="grid size-4 shrink-0 place-items-center rounded-full bg-[#0284c7] text-white">
-                            <Check className="size-3 stroke-[3]" />
-                          </span>
-                          <span className="text-xs font-medium text-slate-700 sm:text-[13px]">
-                            {item}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Button */}
-                    <div className="mt-5">
-                      <Button
-                        asChild
-                        className="h-10 rounded-full bg-[#f97316] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:scale-[1.02] hover:bg-[#ea580c]"
-                      >
-                        <Link to="/contact">
-                          EXPLORE SERVICE
-                          <ArrowRight className="ml-1.5 size-4" />
-                        </Link>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        {/* Dynamic Service Rows (Stacked with gap) */}
+        <div className="mt-14 space-y-10 lg:mt-16 lg:space-y-12">
+          {services.map((service, index) => (
+            <ServiceCard key={service.id || index} service={service} index={index} />
+          ))}
         </div>
       </div>
     </section>
@@ -354,119 +467,7 @@ export function ServicesOverview() {
    ========================================================================= */
 
 export function FeaturedService() {
-  return (
-    <section className="relative w-full overflow-hidden bg-white">
-      <div className="grid min-h-[360px] w-full lg:min-h-[420px] lg:grid-cols-[45%_55%]">
-        {/* Left 45% Panel: Full-bleed dark photo with script overlay */}
-        <div className="relative min-h-[320px] overflow-hidden bg-[#082342] lg:min-h-full">
-          <img
-            src={FEATURED_LEFT_IMAGE}
-            alt="Underground utility infrastructure"
-            className="absolute inset-0 size-full object-cover"
-            loading="lazy"
-          />
-
-          {/* Dark gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-transparent lg:bg-gradient-to-r lg:from-black/70 lg:via-black/30 lg:to-transparent" />
-
-          {/* Handwritten Script Overlay (bottom-left) */}
-          <div className="absolute bottom-8 left-8 z-10 -rotate-6">
-            <p className="font-serif text-3xl font-normal italic leading-none text-white sm:text-4xl lg:text-5xl drop-shadow-lg">
-              Built
-              <br />
-              Below.
-              <br />
-              <span className="text-[#f97316]">Designed</span>
-              <br />
-              <span className="text-[#f97316]">to Last.</span>
-            </p>
-            <div className="mt-2 h-1 w-24 rounded-full bg-[#f97316] -rotate-6 shadow" />
-          </div>
-        </div>
-
-        {/* Right 55% Panel: Light gradient with text & staggered stadium photos */}
-        <div className="relative flex items-center overflow-hidden bg-gradient-to-br from-white to-[#e6f3fb] p-8 lg:p-12">
-          {/* Soft ambient blob */}
-          <div className="pointer-events-none absolute -right-20 -top-20 size-72 rounded-full bg-[#0284c7]/10 blur-3xl" />
-
-          <div className="relative z-10 grid w-full items-center gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-            {/* Text Column (~60%) */}
-            <div>
-              <div className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[2px] text-[#f97316]">
-                <span className="h-0.5 w-6 bg-[#f97316]" />
-                FEATURED SERVICE
-              </div>
-
-              <h2 className="mt-3 font-['Poppins',sans-serif] text-2xl font-bold leading-tight tracking-tight sm:text-3xl lg:text-4xl">
-                <span className="text-[#082342]">Underground Utility</span>
-                <br />
-                <span className="text-[#0284c7]">Infrastructure</span>
-              </h2>
-
-              <p className="mt-4 text-xs leading-relaxed text-slate-600 sm:text-sm">
-                We specialize in designing and constructing underground utility systems that form the backbone of modern cities.
-              </p>
-
-              {/* 4-item checklist with orange filled circles */}
-              <div className="mt-5 space-y-2.5">
-                {[
-                  "Sewer networks & treatment systems",
-                  "Stormwater drainage systems",
-                  "Water & utility pipelines",
-                  "Chambers & manholes",
-                ].map((item) => (
-                  <div key={item} className="flex items-center gap-2.5">
-                    <span className="grid size-5 shrink-0 place-items-center rounded-full bg-[#f97316] text-white shadow-sm">
-                      <Check className="size-3.5 stroke-[3]" />
-                    </span>
-                    <span className="text-xs font-semibold text-slate-700 sm:text-sm">
-                      {item}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              <Button
-                asChild
-                variant="outline"
-                className="mt-6 h-10 rounded-full border-[#0284c7] px-6 text-xs font-bold uppercase tracking-wider text-[#0284c7] transition-all hover:bg-[#0284c7] hover:text-white"
-              >
-                <Link to="/contact">
-                  LEARN MORE
-                  <ArrowRight className="ml-2 size-3.5" />
-                </Link>
-              </Button>
-            </div>
-
-            {/* Photo Cluster Column (~40%) */}
-            <div className="relative hidden items-center justify-center sm:flex">
-              <div className="relative flex items-center gap-3">
-                {/* Left Arched Photo */}
-                <div className="h-[280px] w-[115px] rotate-[3deg] overflow-hidden rounded-[2rem] border-4 border-white shadow-xl lg:h-[300px] lg:w-[125px]">
-                  <img
-                    src={FEATURED_ARCH_1}
-                    alt="Sewerage construction"
-                    className="size-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-
-                {/* Right Arched Photo (staggered 40px higher) */}
-                <div className="-mt-10 h-[280px] w-[115px] -rotate-[3deg] overflow-hidden rounded-[2rem] border-4 border-white shadow-xl lg:h-[300px] lg:w-[125px]">
-                  <img
-                    src={FEATURED_ARCH_2}
-                    alt="Pipeline installation"
-                    className="size-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+  return null;
 }
 
 /* =========================================================================
@@ -640,7 +641,6 @@ export function ServicePage() {
     <PageFrame>
       <ServicesHero />
       <ServicesOverview />
-      <FeaturedService />
       <WorkProcessSection />
       <ServiceClosingBanner />
     </PageFrame>
