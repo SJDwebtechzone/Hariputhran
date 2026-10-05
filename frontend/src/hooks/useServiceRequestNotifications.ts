@@ -1,14 +1,16 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import {
-  fetchServiceRequestNotifications,
-  markAllServiceRequestsAsRead,
-} from "@/admin-service-requests/api";
-import { NotificationItem } from "@/types/serviceRequests";
+  fetchUnifiedNotifications,
+  markAllUnifiedNotificationsAsRead,
+} from "@/admin-contact-messages/api";
+import { UnifiedNotificationItem } from "@/types/contactMessages";
 import { toast } from "sonner";
 
 export function useServiceRequestNotifications() {
   const [unreadCount, setUnreadCount] = useState<number>(0);
-  const [latest, setLatest] = useState<NotificationItem[]>([]);
+  const [serviceRequestsUnread, setServiceRequestsUnread] = useState<number>(0);
+  const [contactMessagesUnread, setContactMessagesUnread] = useState<number>(0);
+  const [latest, setLatest] = useState<UnifiedNotificationItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const previousUnreadCountRef = useRef<number | null>(null);
 
@@ -19,9 +21,11 @@ export function useServiceRequestNotifications() {
     }
 
     try {
-      const res = await fetchServiceRequestNotifications();
+      const res = await fetchUnifiedNotifications();
       if (res && res.success) {
-        setUnreadCount(res.unreadCount);
+        setUnreadCount(res.unreadCount || 0);
+        setServiceRequestsUnread(res.serviceRequestsUnread || 0);
+        setContactMessagesUnread(res.contactMessagesUnread || 0);
         setLatest(res.latest || []);
 
         // Show toast notification only if unread count increased after initial load
@@ -32,10 +36,19 @@ export function useServiceRequestNotifications() {
           res.latest.length > 0
         ) {
           const newest = res.latest[0];
-          toast.info(`New service request from ${newest.customerName}`, {
-            description: `${newest.serviceName} • Click notification bell to view.`,
-          });
+          if (newest) {
+            const isContact = newest.type === "contact_message";
+            toast.info(
+              isContact
+                ? `New contact message from ${newest.name}`
+                : `New service request from ${newest.name}`,
+              {
+                description: `${newest.title} • Click notification bell to view.`,
+              }
+            );
+          }
         }
+
 
         previousUnreadCountRef.current = res.unreadCount;
       }
@@ -61,23 +74,28 @@ export function useServiceRequestNotifications() {
 
     window.addEventListener("focus", handleFocus);
     window.addEventListener("service_requests_updated", handleFocus);
+    window.addEventListener("contact_messages_updated", handleFocus);
 
     return () => {
       clearInterval(intervalId);
       window.removeEventListener("focus", handleFocus);
       window.removeEventListener("service_requests_updated", handleFocus);
+      window.removeEventListener("contact_messages_updated", handleFocus);
     };
   }, [loadNotifications]);
 
   const markAllAsRead = async () => {
     try {
       setLoading(true);
-      await markAllServiceRequestsAsRead();
+      await markAllUnifiedNotificationsAsRead();
       setUnreadCount(0);
+      setServiceRequestsUnread(0);
+      setContactMessagesUnread(0);
       setLatest([]);
       previousUnreadCountRef.current = 0;
-      toast.success("All service requests marked as read.");
+      toast.success("All notifications marked as read.");
       window.dispatchEvent(new Event("service_requests_updated"));
+      window.dispatchEvent(new Event("contact_messages_updated"));
     } catch (err: any) {
       toast.error("Failed to mark all as read: " + err.message);
     } finally {
@@ -87,9 +105,12 @@ export function useServiceRequestNotifications() {
 
   return {
     unreadCount,
+    serviceRequestsUnread,
+    contactMessagesUnread,
     latest,
     loading,
     refresh: () => loadNotifications(false),
     markAllAsRead,
   };
 }
+

@@ -15,6 +15,7 @@ import {
   Shield,
   Layers3,
   MessageSquareText,
+  Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NotificationBell } from "@/components/admin/NotificationBell";
@@ -39,10 +40,12 @@ const NAV_ITEMS = [
   { id: "services", label: "Services", href: "/admin/services", icon: Layers3 },
   { id: "recent-works", label: "Recent Works", href: "/admin/recent-works", icon: FolderGit2 },
   { id: "service-requests", label: "Service Requests", href: "/admin/service-requests", icon: MessageSquareText },
-  { id: "documents", label: "Documents", href: "#", icon: FileText, count: 34 },
-  { id: "clients", label: "Clients", href: "#", icon: Users, count: 24 },
+  { id: "contact-messages", label: "Contact Messages", href: "/admin/contact-messages", icon: Mail },
+  { id: "documents", label: "Documents", href: "#", icon: FileText },
+  { id: "clients", label: "Clients", href: "#", icon: Users },
   { id: "settings", label: "Settings", href: "/settings", icon: SettingsIcon },
 ];
+
 
 export function AdminLayout({
   children,
@@ -58,7 +61,8 @@ export function AdminLayout({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
 
-  const { unreadCount } = useServiceRequestNotifications();
+  const { unreadCount, serviceRequestsUnread, contactMessagesUnread } = useServiceRequestNotifications();
+
 
   const loadUser = () => {
     const token =
@@ -197,10 +201,17 @@ export function AdminLayout({
                 (item.href === "/admin/services" && currentPath.startsWith("/admin/services")) ||
                 (item.href === "/admin/recent-works" && currentPath.startsWith("/admin/recent-works")) ||
                 (item.href === "/admin/service-requests" && currentPath.startsWith("/admin/service-requests")) ||
+                (item.href === "/admin/contact-messages" && currentPath.startsWith("/admin/contact-messages")) ||
                 (item.href === "/settings" && currentPath === "/settings");
 
             const isLink = item.href !== "#";
-            const displayCount = item.id === "service-requests" ? (unreadCount > 0 ? (unreadCount > 99 ? "99+" : unreadCount) : null) : item.count;
+            const displayCount =
+              item.id === "service-requests"
+                ? (serviceRequestsUnread > 0 ? (serviceRequestsUnread > 99 ? "99+" : serviceRequestsUnread) : null)
+                : item.id === "contact-messages"
+                ? (contactMessagesUnread > 0 ? (contactMessagesUnread > 99 ? "99+" : contactMessagesUnread) : null)
+                : null;
+
 
             const itemContent = (
               <>
@@ -216,7 +227,7 @@ export function AdminLayout({
                 {displayCount && (
                   <span
                     className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
-                      item.id === "service-requests"
+                      item.id === "service-requests" || item.id === "contact-messages"
                         ? "bg-[#f97316] text-white"
                         : isActive
                         ? "bg-white/20 text-white"

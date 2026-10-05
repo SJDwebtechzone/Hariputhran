@@ -19,6 +19,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ServiceRouteImport } from './routes/service'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as AdminContactMessagesRouteImport } from './routes/admin.contact-messages'
 import { Route as AdminRecentWorksRouteImport } from './routes/admin.recent-works'
 import { Route as AdminServiceRequestsRouteImport } from './routes/admin.service-requests'
 import { Route as AdminServicesRouteImport } from './routes/admin.services'
@@ -73,6 +74,11 @@ const SettingsRoute = SettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminContactMessagesRoute = AdminContactMessagesRouteImport.update({
+  id: '/admin/contact-messages',
+  path: '/admin/contact-messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRecentWorksRoute = AdminRecentWorksRouteImport.update({
   id: '/admin/recent-works',
   path: '/admin/recent-works',
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/service': typeof ServiceRoute
   '/services': typeof ServicesRoute
   '/settings': typeof SettingsRoute
+  '/admin/contact-messages': typeof AdminContactMessagesRoute
   '/admin/recent-works': typeof AdminRecentWorksRoute
   '/admin/service-requests': typeof AdminServiceRequestsRoute
   '/admin/services': typeof AdminServicesRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/service': typeof ServiceRoute
   '/services': typeof ServicesRoute
   '/settings': typeof SettingsRoute
+  '/admin/contact-messages': typeof AdminContactMessagesRoute
   '/admin/recent-works': typeof AdminRecentWorksRoute
   '/admin/service-requests': typeof AdminServiceRequestsRoute
   '/admin/services': typeof AdminServicesRoute
@@ -131,6 +139,7 @@ export interface FileRoutesById {
   '/service': typeof ServiceRoute
   '/services': typeof ServicesRoute
   '/settings': typeof SettingsRoute
+  '/admin/contact-messages': typeof AdminContactMessagesRoute
   '/admin/recent-works': typeof AdminRecentWorksRoute
   '/admin/service-requests': typeof AdminServiceRequestsRoute
   '/admin/services': typeof AdminServicesRoute
@@ -148,6 +157,7 @@ export interface FileRouteTypes {
     | '/service'
     | '/services'
     | '/settings'
+    | '/admin/contact-messages'
     | '/admin/recent-works'
     | '/admin/service-requests'
     | '/admin/services'
@@ -163,6 +173,7 @@ export interface FileRouteTypes {
     | '/service'
     | '/services'
     | '/settings'
+    | '/admin/contact-messages'
     | '/admin/recent-works'
     | '/admin/service-requests'
     | '/admin/services'
@@ -178,6 +189,7 @@ export interface FileRouteTypes {
     | '/service'
     | '/services'
     | '/settings'
+    | '/admin/contact-messages'
     | '/admin/recent-works'
     | '/admin/service-requests'
     | '/admin/services'
@@ -194,6 +206,7 @@ export interface RootRouteChildren {
   ServiceRoute: typeof ServiceRoute
   ServicesRoute: typeof ServicesRoute
   SettingsRoute: typeof SettingsRoute
+  AdminContactMessagesRoute: typeof AdminContactMessagesRoute
   AdminRecentWorksRoute: typeof AdminRecentWorksRoute
   AdminServiceRequestsRoute: typeof AdminServiceRequestsRoute
   AdminServicesRoute: typeof AdminServicesRoute
@@ -271,6 +284,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/contact-messages': {
+      id: '/admin/contact-messages'
+      path: '/admin/contact-messages'
+      fullPath: '/admin/contact-messages'
+      preLoaderRoute: typeof AdminContactMessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/recent-works': {
       id: '/admin/recent-works'
       path: '/admin/recent-works'
@@ -306,6 +326,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServiceRoute: ServiceRoute,
   ServicesRoute: ServicesRoute,
   SettingsRoute: SettingsRoute,
+  AdminContactMessagesRoute: AdminContactMessagesRoute,
   AdminRecentWorksRoute: AdminRecentWorksRoute,
   AdminServiceRequestsRoute: AdminServiceRequestsRoute,
   AdminServicesRoute: AdminServicesRoute,

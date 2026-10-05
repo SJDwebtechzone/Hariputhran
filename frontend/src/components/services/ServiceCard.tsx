@@ -48,7 +48,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequ
   };
 
   return (
-    <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-5">
+    <div className="group flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-5 transition-all duration-300 hover:md:-translate-y-[6px]">
       {isPhotoLeft ? (
         <>
           {/* Photo (Left) */}
@@ -58,7 +58,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequ
               alt={service.title || "Core Service"}
               loading="lazy"
               onError={handleImageError}
-              className="size-full object-cover transition-transform duration-700 hover:scale-105"
+              className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
             />
           </div>
 
@@ -229,7 +229,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequ
               alt={service.title || "Core Service"}
               loading="lazy"
               onError={handleImageError}
-              className="size-full object-cover transition-transform duration-700 hover:scale-105"
+              className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
             />
           </div>
         </>

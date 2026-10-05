@@ -12,10 +12,10 @@ const navItems = [
 
 export function Logo({ className, imgClassName }: { className?: string; imgClassName?: string } = {}) {
   return (
-    <Link to="/" className={`inline-flex items-center ${className ?? ""}`} aria-label="AquaPure home">
+    <Link to="/" className={`inline-flex items-center ${className ?? ""}`} aria-label="Hariputhran Enterprises home">
       <img
         src="/logo.png"
-        alt="AquaPure Logo"
+        alt="Hariputhran Enterprises Logo"
         className={`h-12 sm:h-14 w-auto max-w-[200px] object-contain transition-transform hover:scale-105 ${imgClassName ?? ""}`}
       />
     </Link>
@@ -181,29 +181,47 @@ export function Footer() {
         <div>
           <p className="font-mono text-xs font-bold uppercase tracking-wider text-[#f97316]">Contact Info</p>
           <div className="mt-4 space-y-3.5 text-xs text-slate-300">
+            <div>
+              <p className="font-bold text-white text-sm">Anand K B.Sc.</p>
+              <p className="text-[11px] text-[#f97316] font-semibold">Proprietor</p>
+              <p className="text-[10.5px] text-slate-400">Chennai Metro Water - Registered Contractor</p>
+            </div>
+            <div className="space-y-1.5">
+              <a
+                href="tel:+917200333487"
+                className="flex items-center gap-2.5 transition-colors hover:text-[#f97316]"
+              >
+                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-white/10 text-[#f97316]">
+                  <Phone className="size-3" />
+                </span>
+                <span>+91 72003 33487</span>
+              </a>
+              <a
+                href="tel:+919003221019"
+                className="flex items-center gap-2.5 transition-colors hover:text-[#f97316]"
+              >
+                <span className="grid size-6 shrink-0 place-items-center rounded-full bg-white/10 text-[#f97316]">
+                  <Phone className="size-3" />
+                </span>
+                <span>+91 90032 21019</span>
+              </a>
+            </div>
             <a
-              href="tel:+919876543210"
-              className="flex items-center gap-3 transition-colors hover:text-[#f97316]"
+              href="mailto:anand@hariputhranenterprises.com"
+              className="flex items-center gap-2.5 transition-colors hover:text-[#f97316]"
             >
-              <span className="grid size-7 shrink-0 place-items-center rounded-full bg-white/10 text-[#f97316]">
-                <Phone className="size-3.5" />
+              <span className="grid size-6 shrink-0 place-items-center rounded-full bg-white/10 text-[#f97316]">
+                <Mail className="size-3" />
               </span>
-              <span>+91 98765 43210</span>
+              <span className="break-all">anand@hariputhranenterprises.com</span>
             </a>
-            <a
-              href="mailto:info@hariputhran.co.in"
-              className="flex items-center gap-3 transition-colors hover:text-[#f97316]"
-            >
-              <span className="grid size-7 shrink-0 place-items-center rounded-full bg-white/10 text-[#f97316]">
-                <Mail className="size-3.5" />
+            <div className="flex items-start gap-2.5">
+              <span className="grid size-6 shrink-0 place-items-center rounded-full bg-white/10 text-[#f97316] mt-0.5">
+                <MapPin className="size-3" />
               </span>
-              <span>info@hariputhran.co.in</span>
-            </a>
-            <div className="flex items-start gap-3">
-              <span className="grid size-7 shrink-0 place-items-center rounded-full bg-white/10 text-[#f97316]">
-                <MapPin className="size-3.5" />
+              <span className="leading-relaxed text-[11.5px]">
+                2B, Annai Sandhiya Nagar, TVK Link Road, Kodungaiyur, Chennai - 600118
               </span>
-              <span className="leading-5">Chennai, Tamil Nadu, India</span>
             </div>
           </div>
         </div>

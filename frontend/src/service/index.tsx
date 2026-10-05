@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   Award,
@@ -212,60 +213,98 @@ export const recentProjects = [
    ========================================================================= */
 
 export function ServicesHero() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <section className="relative min-h-[620px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden text-white flex items-center pt-20 sm:pt-24">
-      {/* Background Image */}
-      <img
-        src={HERO_BG_IMAGE}
-        alt="Hariputhran Infrastructure Services"
-        className="absolute inset-0 size-full object-cover object-[70%_center]"
-      />
+    <section className="relative min-h-[620px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 sm:pt-24 text-white flex flex-col justify-between">
+      {/* Background Image with scale entrance 1.06 -> 1 */}
+      <motion.div
+        initial={shouldReduceMotion ? { scale: 1 } : { scale: 1.06 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        className="absolute inset-0 size-full will-change-transform"
+      >
+        <img
+          src={HERO_BG_IMAGE}
+          alt="Hariputhran Infrastructure Services"
+          className="size-full object-cover object-[70%_center]"
+        />
+      </motion.div>
 
-      <div className="relative z-10 w-full px-6 pb-16 pt-32 sm:px-10 lg:px-[8%]">
-        <div className="max-w-[540px]">
-          {/* Eyebrow */}
-          <div className="inline-flex items-center gap-2.5 font-mono text-xs font-bold uppercase tracking-[2px] text-[#f97316] sm:text-sm">
-            <span className="h-0.5 w-7 rounded-full bg-[#f97316]" />
-            OUR SERVICES
-          </div>
-
-          {/* Heading (Exact 3 lines) */}
-          <h1 className="mt-4 font-['Poppins',sans-serif] text-3xl font-extrabold leading-[1.12] tracking-tight text-white sm:text-4xl lg:text-[46px]">
-            Infrastructure
-            <br />
-            Services Built for
-            <br />
-            a <span className="text-[#f97316]">Stronger Tomorrow</span>
-          </h1>
-
-          {/* Supporting Text */}
-          <p className="mt-5 max-w-[500px] text-sm leading-relaxed text-slate-100 sm:text-base">
-            From underground utilities to roads, drainage and pipeline networks,
-            we deliver end-to-end infrastructure solutions with a focus on safety,
-            quality and long-term performance.
-          </p>
-
-          {/* Action Buttons */}
-          <div className="mt-8 flex flex-wrap items-center gap-3.5">
-            <Button
-              asChild
-              className="h-11 rounded-full bg-[#f97316] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-orange-500/25 transition-all hover:scale-[1.02] hover:bg-[#ea580c]"
+      {/* Main Content Area (Vertically centered and aligned matching Home Hero) */}
+      <div className="site-container relative z-10 flex flex-1 flex-col justify-center py-6 sm:py-10 lg:py-12">
+        <div className="max-w-[560px] min-h-[420px] sm:min-h-[440px] flex flex-col justify-center">
+          <div className="will-change-transform -mt-10 sm:-mt-12 lg:-mt-14">
+            {/* Eyebrow */}
+            <motion.div
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.2, ease: "easeOut" }}
+              className="inline-flex items-center gap-2.5 font-mono text-sm sm:text-base lg:text-[17px] font-bold uppercase tracking-[2px] text-[#f97316] will-change-transform"
             >
-              <a href="#services-overview">
-                EXPLORE SERVICES
-                <ArrowRight className="ml-2 size-4" />
-              </a>
-            </Button>
+              <span className="h-[3px] w-7 bg-[#f97316] rounded-full" />
+              OUR SERVICES
+            </motion.div>
 
-            <Button
-              asChild
-              variant="outline"
-              className="h-11 rounded-full border border-white/50 bg-transparent px-6 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-sm transition-all hover:bg-white hover:text-[#082342]"
+            {/* Heading (Exact 3 lines, matched visual weight to Home Hero) */}
+            <motion.h1
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
+              className="mt-3 font-['Poppins',sans-serif] text-3xl font-extrabold leading-[1.12] tracking-tight text-white sm:text-4xl lg:text-[44px] will-change-transform"
             >
-              <Link to="/contact">GET A QUOTE</Link>
-            </Button>
-          </div>
+              Comprehensive <br />
+              Infrastructure <br />
+              <span className="text-[#f97316]">Services</span>
+            </motion.h1>
 
+            {/* Supporting Text */}
+            <motion.p
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
+              className="mt-4 max-w-[500px] text-sm sm:text-base lg:text-[17px] leading-relaxed text-slate-100 will-change-transform"
+            >
+              From underground utilities to roads, drainage and pipeline networks,
+              we deliver end-to-end infrastructure solutions with a focus on safety,
+              quality and long-term performance.
+            </motion.p>
+
+            {/* Action Buttons */}
+            <div className="mt-6 flex flex-wrap items-center gap-3.5">
+              <motion.div
+                initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: 0.65, ease: "easeOut" }}
+                className="will-change-transform"
+              >
+                <Button
+                  asChild
+                  className="h-10 rounded-full bg-[#f97316] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:scale-[1.02] hover:bg-[#ea580c]"
+                >
+                  <a href="#services-overview">
+                    EXPLORE SERVICES
+                    <ArrowRight className="ml-1.5 size-4" />
+                  </a>
+                </Button>
+              </motion.div>
+
+              <motion.div
+                initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: 0.75, ease: "easeOut" }}
+                className="will-change-transform"
+              >
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-10 rounded-full border-white/50 bg-transparent px-6 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-xs transition-all hover:bg-white hover:text-[#082342]"
+                >
+                  <Link to="/contact">GET A QUOTE</Link>
+                </Button>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -277,6 +316,7 @@ export function ServicesHero() {
    ========================================================================= */
 
 export function ServicesOverview() {
+  const shouldReduceMotion = useReducedMotion();
   const [services, setServices] = useState<ServiceItemData[]>([
     {
       id: 1,
@@ -450,35 +490,69 @@ export function ServicesOverview() {
         {/* Header, centered */}
         <div className="mx-auto max-w-3xl text-center">
           {/* Eyebrow Pill Badge with Fading Side Lines */}
-          <div className="flex items-center justify-center gap-3">
+          <motion.div
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.55, ease: "easeOut" }}
+            className="flex items-center justify-center gap-3 will-change-transform"
+          >
             <span className="h-[2px] w-12 bg-gradient-to-r from-transparent to-[#0A8FD8]" />
             <span className="inline-flex items-center rounded-full bg-[#E0F1FC] px-5 py-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#0A8FD8] shadow-sm">
               OUR CORE SERVICES
             </span>
             <span className="h-[2px] w-12 bg-gradient-to-l from-transparent to-[#0A8FD8]" />
-          </div>
+          </motion.div>
 
-          <h2 className="mt-4 font-['Poppins',sans-serif] text-3xl font-extrabold tracking-tight text-[#0B2A5B] sm:text-4xl lg:text-[42px] leading-tight">
+          <motion.h2
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+            className="mt-4 font-['Poppins',sans-serif] text-3xl font-extrabold tracking-tight text-[#0B2A5B] sm:text-4xl lg:text-[42px] leading-tight will-change-transform"
+          >
             Core Services. <span className="text-[#0A9BE0]">Built for a Better Tomorrow.</span>
-          </h2>
+          </motion.h2>
 
-          <p className="mx-auto mt-4 max-w-[740px] text-sm leading-[1.6] text-[#5B6B80] sm:text-[16px]">
+          <motion.p
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+            className="mx-auto mt-4 max-w-[740px] text-sm leading-[1.6] text-[#5B6B80] sm:text-[16px] will-change-transform"
+          >
             From laying the first pipe to restoring the road above it,{" "}
             <strong className="font-bold text-[#0B2A5B]">Hariputhran</strong> delivers
             complete underground infrastructure solutions for municipal bodies, contractors
             and private developers.
-          </p>
+          </motion.p>
         </div>
 
         {/* Dynamic Service Rows (Stacked with gap) */}
         <div className="mt-14 space-y-10 lg:mt-16 lg:space-y-12">
           {services.map((service, index) => (
-            <ServiceCard
+            <motion.div
               key={service.id || index}
-              service={service}
-              index={index}
-              onRequestQuote={handleRequestQuote}
-            />
+              initial={
+                shouldReduceMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, y: 25, scale: 0.97 }
+              }
+              whileInView={
+                shouldReduceMotion
+                  ? { opacity: 1 }
+                  : { opacity: 1, y: 0, scale: 1 }
+              }
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.55, delay: index * 0.12, ease: "easeOut" }}
+              className="will-change-transform"
+            >
+              <ServiceCard
+                service={service}
+                index={index}
+                onRequestQuote={handleRequestQuote}
+              />
+            </motion.div>
           ))}
         </div>
       </div>
@@ -507,6 +581,8 @@ export function FeaturedService() {
    ========================================================================= */
 
 export function WorkProcessSection() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section className="relative overflow-hidden bg-white py-14 lg:py-16">
       {/* Light blue soft glow on the left behind header */}
@@ -515,7 +591,13 @@ export function WorkProcessSection() {
       <div className="site-container relative z-10">
         <div className="grid items-center gap-10 lg:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr]">
           {/* Left Header (Left-aligned) */}
-          <div className="max-w-sm">
+          <motion.div
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="max-w-sm will-change-transform"
+          >
             <div className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[2px] text-[#0284c7]">
               <span className="h-0.5 w-6 bg-[#f97316]" />
               OUR APPROACH
@@ -530,18 +612,34 @@ export function WorkProcessSection() {
             <p className="mt-3 text-xs leading-relaxed text-slate-500 sm:text-sm">
               A structured and transparent process to ensure quality, safety and on-time delivery.
             </p>
-          </div>
+          </motion.div>
 
           {/* Right 5-Step Flow */}
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:flex lg:items-center lg:justify-between lg:gap-2">
             {approachSteps.map((step, idx) => {
               const Icon = step.icon;
+              const delay = idx * 0.1; // 0ms, 100ms, 200ms, 300ms, 400ms
 
               return (
-                <div key={step.number} className="flex items-center">
+                <motion.div
+                  key={step.number}
+                  initial={
+                    shouldReduceMotion
+                      ? { opacity: 0 }
+                      : { opacity: 0, y: 20, scale: 0.97 }
+                  }
+                  whileInView={
+                    shouldReduceMotion
+                      ? { opacity: 1 }
+                      : { opacity: 1, y: 0, scale: 1 }
+                  }
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.55, delay, ease: "easeOut" }}
+                  className="flex items-center will-change-transform"
+                >
                   <div className="flex flex-col items-center text-center">
                     {/* Circle Icon Badge */}
-                    <div className="grid size-16 place-items-center rounded-full bg-white shadow-[0_8px_24px_-8px_rgba(2,132,199,0.35)] ring-1 ring-[#0284c7]/15 transition-transform hover:scale-105 lg:size-[72px]">
+                    <div className="grid size-16 place-items-center rounded-full bg-white shadow-[0_8px_24px_-8px_rgba(2,132,199,0.35)] ring-1 ring-[#0284c7]/15 transition-transform duration-300 hover:scale-105 lg:size-[72px]">
                       <Icon className="size-7 text-[#0284c7]" />
                     </div>
 
@@ -567,7 +665,7 @@ export function WorkProcessSection() {
                       <ChevronRight className="size-5 text-[#0284c7]/70" />
                     </div>
                   )}
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -590,22 +688,38 @@ export function WhyChooseUsSection() {
    ========================================================================= */
 
 export function ServiceClosingBanner() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section className="relative flex min-h-[280px] w-full items-center overflow-hidden bg-[#082342] text-white lg:min-h-[320px]">
-      {/* Background Image */}
-      <img
-        src={CLOSING_BANNER_BG}
-        alt="Infrastructure consultation"
-        className="absolute inset-0 size-full object-cover object-center"
-      />
+      {/* Background Image with scale 1.05 -> 1 */}
+      <motion.div
+        initial={shouldReduceMotion ? { scale: 1 } : { scale: 1.05 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 1.0, ease: "easeOut" }}
+        className="absolute inset-0 size-full will-change-transform"
+      >
+        <img
+          src={CLOSING_BANNER_BG}
+          alt="Infrastructure consultation"
+          className="size-full object-cover object-center"
+        />
+      </motion.div>
 
       {/* Overlay Gradient: Left to right dark navy */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#082342]/95 via-[#082342]/70 to-[#082342]/30 lg:from-[#082342]/95 lg:via-[#082342]/60 lg:to-transparent" />
 
       <div className="site-container relative z-10 w-full py-10 lg:py-14">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          {/* Left Content */}
-          <div className="max-w-xl">
+          {/* Left Content (translateX: -15px -> 0) */}
+          <motion.div
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -15 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="max-w-xl will-change-transform"
+          >
             <div className="inline-flex items-center gap-2.5 font-mono text-xs font-bold uppercase tracking-[2px] text-[#f97316]">
               <span className="h-0.5 w-6 bg-[#f97316]" />
               LET&apos;S BUILD TOGETHER
@@ -621,7 +735,13 @@ export function ServiceClosingBanner() {
               Get in touch with our team for a consultation and let&apos;s build a stronger tomorrow.
             </p>
 
-            <div className="mt-6">
+            <motion.div
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: 15 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+              className="mt-6 will-change-transform"
+            >
               <Button
                 asChild
                 className="h-11 rounded-full bg-[#f97316] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-orange-500/25 transition-all hover:scale-[1.02] hover:bg-[#ea580c]"
@@ -631,11 +751,17 @@ export function ServiceClosingBanner() {
                   <ArrowRight className="ml-2 size-4" />
                 </Link>
               </Button>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right Script Text (Desktop) */}
-          <div className="hidden text-right lg:block -rotate-6">
+          <motion.div
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
+            whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="hidden text-right lg:block -rotate-6 will-change-transform"
+          >
             <p className="font-serif text-3xl font-normal italic leading-none text-white lg:text-4xl drop-shadow-lg">
               Stronger
               <br />
@@ -644,7 +770,7 @@ export function ServiceClosingBanner() {
               <span className="text-[#f97316]">Together</span>
             </p>
             <div className="ml-auto mt-2 h-1 w-20 rounded-full bg-[#f97316] shadow" />
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -680,3 +806,4 @@ export function ServicePage() {
 }
 
 export default ServicePage;
+

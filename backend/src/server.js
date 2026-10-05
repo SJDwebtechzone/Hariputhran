@@ -5,6 +5,9 @@ const authRoutes = require("./routes/authRoutes");
 const { publicRouter, adminRouter } = require("./routes/serviceRoutes");
 const { publicRecentWorksRouter, adminRecentWorksRouter } = require("./routes/recentWorksRoutes");
 const { publicRouter: publicServiceRequestsRouter, adminRouter: adminServiceRequestsRouter } = require("./routes/serviceRequestRoutes");
+const { publicRouter: publicContactMessagesRouter, adminRouter: adminContactMessagesRouter } = require("./routes/contactMessageRoutes");
+const adminNotificationRoutes = require("./routes/adminNotificationRoutes");
+const adminOverviewRoutes = require("./routes/adminOverviewRoutes");
 
 const app = express();
 
@@ -36,6 +39,11 @@ app.use("/api/recent-works", publicRecentWorksRouter);
 app.use("/api/admin/recent-works", adminRecentWorksRouter);
 app.use("/api/service-requests", publicServiceRequestsRouter);
 app.use("/api/admin/service-requests", adminServiceRequestsRouter);
+app.use("/api/contact-messages", publicContactMessagesRouter);
+app.use("/api/admin/contact-messages", adminContactMessagesRouter);
+app.use("/api/admin/notifications", adminNotificationRoutes);
+app.use("/api/admin/overview", adminOverviewRoutes);
+
 
 // Global Error Handler Middleware
 app.use((err, req, res, next) => {

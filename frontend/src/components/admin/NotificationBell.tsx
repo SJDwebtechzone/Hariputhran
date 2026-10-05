@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { Bell, CheckCheck, Clock, ExternalLink, Inbox } from "lucide-react";
+import { Bell, CheckCheck, Clock, ExternalLink, Inbox, Mail, MessageSquareText } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useServiceRequestNotifications } from "@/hooks/useServiceRequestNotifications";
+import { UnifiedNotificationItem } from "@/types/contactMessages";
 
 function formatRelativeTime(dateStr: string): string {
   const now = new Date();
@@ -48,12 +49,19 @@ export function NotificationBell() {
     };
   }, [dropdownOpen]);
 
-  const handleNotificationClick = (id: number) => {
+  const handleNotificationClick = (item: UnifiedNotificationItem) => {
     setDropdownOpen(false);
-    navigate({
-      to: "/admin/service-requests",
-      search: { open: id } as any,
-    });
+    if (item.type === "contact_message") {
+      navigate({
+        to: "/admin/contact-messages",
+        search: { open: item.id } as any,
+      });
+    } else {
+      navigate({
+        to: "/admin/service-requests",
+        search: { open: item.id } as any,
+      });
+    }
   };
 
   const badgeText = unreadCount > 9 ? "9+" : String(unreadCount);
@@ -80,7 +88,7 @@ export function NotificationBell() {
 
       {/* Dropdown Panel */}
       {dropdownOpen && (
-        <div className="absolute right-0 top-12 z-50 w-[360px] overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xl animate-in fade-in-50 slide-in-from-top-2">
+        <div className="absolute right-0 top-12 z-50 w-[380px] overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xl animate-in fade-in-50 slide-in-from-top-2">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50/80 px-4 py-3">
             <div className="flex items-center gap-2">
@@ -108,26 +116,34 @@ export function NotificationBell() {
           </div>
 
           {/* List Body */}
-          <div className="max-h-[340px] divide-y divide-slate-100 overflow-y-auto">
+          <div className="max-h-[360px] divide-y divide-slate-100 overflow-y-auto">
             {latest.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-8 text-center text-slate-400">
                 <div className="grid size-11 place-items-center rounded-full bg-slate-100 text-slate-400 mb-2">
                   <Inbox className="size-5" />
                 </div>
                 <p className="font-semibold text-xs text-slate-600">You're all caught up!</p>
-                <p className="text-[11px] text-slate-400 mt-0.5">No unread service requests.</p>
+                <p className="text-[11px] text-slate-400 mt-0.5">No unread requests or messages.</p>
               </div>
             ) : (
               latest.map((item) => {
-                const initial = item.customerName.charAt(0).toUpperCase() || "C";
+                const initial = item.name.charAt(0).toUpperCase() || "C";
+                const isContact = item.type === "contact_message";
+
                 return (
                   <div
-                    key={item.id}
-                    onClick={() => handleNotificationClick(item.id)}
+                    key={`${item.type}-${item.id}`}
+                    onClick={() => handleNotificationClick(item)}
                     className="flex cursor-pointer items-start gap-3 p-3.5 transition-colors hover:bg-sky-50/50"
                   >
                     {/* Customer Avatar */}
-                    <div className="grid size-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-[#082342] to-[#0284c7] font-mono text-xs font-bold text-white shadow-xs">
+                    <div
+                      className={`grid size-8 shrink-0 place-items-center rounded-full font-mono text-xs font-bold text-white shadow-xs ${
+                        isContact
+                          ? "bg-gradient-to-br from-[#082342] to-[#f97316]"
+                          : "bg-gradient-to-br from-[#082342] to-[#0284c7]"
+                      }`}
+                    >
                       {initial}
                     </div>
 
@@ -135,16 +151,27 @@ export function NotificationBell() {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-1">
                         <span className="truncate text-xs font-bold text-[#082342]">
-                          New request from {item.customerName}
+                          {isContact ? `Contact: ${item.name}` : `Request: ${item.name}`}
                         </span>
                         <span className="size-1.5 shrink-0 rounded-full bg-[#f97316]" />
                       </div>
                       <p className="truncate text-[11.5px] font-medium text-slate-600 mt-0.5">
-                        {item.serviceName}
+                        {item.title}
                       </p>
-                      <div className="mt-1 flex items-center gap-1 font-mono text-[10px] text-slate-400">
-                        <Clock className="size-3" />
-                        <span>{formatRelativeTime(item.createdAt)}</span>
+                      <div className="mt-1 flex items-center justify-between font-mono text-[10px] text-slate-400">
+                        <div className="flex items-center gap-1">
+                          <Clock className="size-3" />
+                          <span>{formatRelativeTime(item.createdAt)}</span>
+                        </div>
+                        <span
+                          className={`rounded-md px-1.5 py-0.5 font-bold uppercase tracking-wider text-[9px] ${
+                            isContact
+                              ? "bg-orange-50 text-[#f97316]"
+                              : "bg-sky-50 text-[#0284c7]"
+                          }`}
+                        >
+                          {isContact ? "Contact" : "Service"}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -153,14 +180,24 @@ export function NotificationBell() {
             )}
           </div>
 
-          {/* Footer Link */}
-          <div className="border-t border-slate-100 bg-slate-50/60 p-2.5 text-center">
+          {/* Footer Links */}
+          <div className="flex items-center justify-between border-t border-slate-100 bg-slate-50/75 px-4 py-2.5">
             <Link
               to="/admin/service-requests"
               onClick={() => setDropdownOpen(false)}
-              className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-[#0284c7] hover:text-[#f97316] transition-colors"
+              className="inline-flex items-center gap-1 font-mono text-[11px] font-bold text-[#0284c7] hover:text-[#082342] transition-colors"
             >
-              View all requests <ExternalLink className="size-3" />
+              <MessageSquareText className="size-3" />
+              Service Requests
+            </Link>
+
+            <Link
+              to="/admin/contact-messages"
+              onClick={() => setDropdownOpen(false)}
+              className="inline-flex items-center gap-1 font-mono text-[11px] font-bold text-[#f97316] hover:text-[#082342] transition-colors"
+            >
+              <Mail className="size-3" />
+              Contact Messages
             </Link>
           </div>
         </div>
@@ -169,3 +206,4 @@ export function NotificationBell() {
   );
 }
 export default NotificationBell;
+

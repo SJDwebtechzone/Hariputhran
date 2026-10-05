@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import {
   ShieldCheck,
   Clock,
@@ -118,58 +119,129 @@ function PumpingStationIcon({ className }: { className?: string }) {
    SECTION 1 — HERO SECTION
    ========================================================================= */
 export function HomeHero() {
+  const shouldReduceMotion = useReducedMotion();
+  const heroRef = useRef<HTMLElement>(null);
+
+  // Subtle scroll parallax: maximum ~50-60px movement, moves slower than scroll
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  const backgroundY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    shouldReduceMotion ? ["0px", "0px"] : ["0px", "55px"]
+  );
+
   return (
-    <section className="relative min-h-[620px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 sm:pt-24 text-white flex flex-col justify-between">
-      {/* Background Image Container */}
-      <div className="absolute inset-0 z-0">
+    <section
+      ref={heroRef}
+      className="relative min-h-[620px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 sm:pt-24 text-white flex flex-col justify-between"
+    >
+      {/* Fixed Background Image Container */}
+      <motion.div
+        style={{ y: backgroundY }}
+        initial={
+          shouldReduceMotion
+            ? { opacity: 1, scale: 1 }
+            : { opacity: 0.95, scale: 1.06 }
+        }
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        className="absolute inset-0 z-0 will-change-transform"
+      >
         <img
           src="/images/hero-baneer-const.png"
           alt="Underground sewer pipeline installation, excavator and workers on site"
           fetchPriority="high"
           decoding="async"
-          className="size-full object-cover object-center"
+          className="size-full object-cover object-center pointer-events-none select-none"
         />
-      </div>
+      </motion.div>
 
-      {/* Main Content Area */}
+      {/* Main Content Area (Vertically centered) */}
       <div className="site-container relative z-10 flex flex-1 flex-col justify-center py-6 sm:py-10 lg:py-12">
-        <div className="max-w-[540px]">
-          {/* Small Eyebrow Label with Orange Accent Bar */}
-          <div className="inline-flex items-center gap-2.5 font-mono text-sm sm:text-base lg:text-[17px] font-bold uppercase tracking-[2px] text-[#f97316]">
-            <span className="h-[3px] w-7 bg-[#f97316] rounded-full" />
-            UNDERGROUND INFRASTRUCTURE SOLUTIONS
-          </div>
+        <div className="max-w-[560px] min-h-[420px] sm:min-h-[440px] flex flex-col justify-center">
+          {/* =========================================================
+              BRAND LOGO HERO (Permanent Static Display)
+              ========================================================= */}
+          <motion.div
+            initial={
+              shouldReduceMotion
+                ? { opacity: 1 }
+                : { opacity: 0, scale: 0.94 }
+            }
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="will-change-transform flex flex-col justify-center items-start"
+          >
+            {/* Large Company Logo as the only visible element */}
+            <img
+              src="/logo.png"
+              alt="Hariputhran Enterprises - Underground Sewerage & Infrastructure Contractor Chennai"
+              className="w-[220px] sm:w-[250px] lg:w-[270px] xl:w-[280px] h-auto object-contain drop-shadow-2xl"
+            />
 
-          {/* Main Heading */}
-          <h1 className="mt-3 font-['Poppins',sans-serif] text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-[46px] leading-[1.12]">
-            Building the <br />
-            Infrastructure <br />
-            Beneath <span className="text-[#f97316]">Every City</span>
-          </h1>
+            {/* Semantic H1 for Search Engines & Accessibility */}
+            <h1 className="sr-only">
+              Underground Sewerage &amp; Infrastructure Solutions in Chennai
+            </h1>
 
-          {/* Description */}
-          <p className="mt-4 max-w-[500px] text-sm sm:text-base lg:text-[17px] leading-relaxed text-slate-100">
-            We specialize in underground sewerage, drainage, pipeline and civil works, creating a cleaner, safer and better tomorrow.
-          </p>
+            {/*
+              // =======================================================
+              // Future Hero Content (Currently Disabled)
+              // Heading, Subheading, Description, Tagline, Service
+              // Highlights, and CTA Buttons preserved below for future
+              // easy reactivation without rebuilding the section.
+              // =======================================================
 
-          {/* Action Buttons */}
-          <div className="mt-6 flex flex-wrap items-center gap-3.5">
-            <Button
-              asChild
-              className="h-10 rounded-full bg-[#f97316] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[#ea580c] hover:scale-[1.02]"
-            >
-              <Link to="/service">
-                Our Services <ArrowRight className="ml-1.5 size-4" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="h-10 rounded-full border-white/50 bg-transparent px-6 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-xs transition-all hover:bg-white hover:text-[#082342]"
-            >
-              <a href="#projects">View Projects</a>
-            </Button>
-          </div>
+              // Eyebrow / Tagline:
+              // <div className="mt-4 inline-flex items-center gap-2.5 font-mono text-sm sm:text-base lg:text-[17px] font-bold uppercase tracking-[2px] text-[#f97316]">
+              //   <span className="h-[3px] w-7 bg-[#f97316] rounded-full" />
+              //   UNDERGROUND INFRASTRUCTURE SOLUTIONS
+              // </div>
+
+              // Main Heading:
+              // <h1 className="mt-3 font-['Poppins',sans-serif] text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-[46px] leading-[1.12]">
+              //   Building the <br />
+              //   Infrastructure <br />
+              //   Beneath <span className="text-[#f97316]">Every City</span>
+              // </h1>
+
+              // Description:
+              // <p className="mt-4 max-w-[500px] text-sm sm:text-base lg:text-[17px] leading-relaxed text-slate-100">
+              //   We specialize in underground sewerage, drainage, pipeline and civil works, creating a cleaner, safer and better tomorrow.
+              // </p>
+
+              // CTA Buttons:
+              // <div className="mt-6 flex flex-wrap items-center gap-3.5">
+              //   <Button
+              //     asChild
+              //     className="h-10 rounded-full bg-[#f97316] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[#ea580c] hover:scale-[1.02]"
+              //   >
+              //     <Link to="/service">
+              //       Our Services <ArrowRight className="ml-1.5 size-4" />
+              //     </Link>
+              //   </Button>
+              //   <Button
+              //     asChild
+              //     variant="outline"
+              //     className="h-10 rounded-full border-white/50 bg-transparent px-6 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-xs transition-all hover:bg-white hover:text-[#082342]"
+              //   >
+              //     <a href="#projects">View Projects</a>
+              //   </Button>
+              // </div>
+
+              // Service Highlights:
+              // <div className="mt-4 grid grid-cols-2 gap-2 text-xs sm:text-sm text-slate-200">
+              //   <div>• Underground Sewerage Networks</div>
+              //   <div>• Stormwater Drainage Systems</div>
+              //   <div>• Civil Utility Pipelines</div>
+              //   <div>• Road Restoration Projects</div>
+              // </div>
+            */}
+          </motion.div>
         </div>
       </div>
     </section>
@@ -231,23 +303,49 @@ export const servicesData = [
 ];
 
 export function ServicesSection() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <section className="bg-white py-16 lg:py-24" id="services">
+    <section className="bg-white py-16 lg:py-24 overflow-hidden" id="services">
       <div className="site-container">
         <div className="grid gap-8 lg:grid-cols-[320px_1fr] xl:grid-cols-[360px_1fr] lg:gap-10 xl:gap-12 lg:items-start">
           {/* Left Side Header */}
           <div className="lg:sticky lg:top-28">
-            <div className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0284c7]">
+            <motion.div
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.55, delay: 0, ease: "easeOut" }}
+              className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0284c7] will-change-transform"
+            >
               <span className="h-0.5 w-6 bg-[#f97316]" />
               OUR SERVICES
-            </div>
-            <h2 className="mt-3 font-['Poppins',sans-serif] text-2xl font-bold tracking-tight text-[#082342] sm:text-3xl lg:text-[36px] leading-tight">
+            </motion.div>
+            <motion.h2
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.55, delay: 0.1, ease: "easeOut" }}
+              className="mt-3 font-['Poppins',sans-serif] text-2xl font-bold tracking-tight text-[#082342] sm:text-3xl lg:text-[36px] leading-tight will-change-transform"
+            >
               Comprehensive Infrastructure Solutions
-            </h2>
-            <p className="mt-4 text-sm sm:text-base leading-relaxed text-slate-600">
+            </motion.h2>
+            <motion.p
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.55, delay: 0.2, ease: "easeOut" }}
+              className="mt-4 text-sm sm:text-base leading-relaxed text-slate-600 will-change-transform"
+            >
               From underground sewerage networks to road restoration, we deliver end-to-end civil engineering services with precision and expertise.
-            </p>
-            <div className="mt-7">
+            </motion.p>
+            <motion.div
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.55, delay: 0.3, ease: "easeOut" }}
+              className="mt-7 will-change-transform"
+            >
               <Button
                 asChild
                 className="h-11 rounded-full bg-[#082342] px-7 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-[#0284c7]"
@@ -256,17 +354,30 @@ export function ServicesSection() {
                   Explore All Services <ArrowRight className="ml-1.5 size-4" />
                 </Link>
               </Button>
-            </div>
+            </motion.div>
           </div>
 
-          {/* Right Side 8 Service Cards (4x2 grid style) */}
+          {/* Right Side 8 Service Cards (Staggered 80ms increments) */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 sm:gap-4.5">
-            {servicesData.map((item) => {
+            {servicesData.map((item, index) => {
               const Icon = item.icon;
+              const delay = index * 0.08;
               return (
-                <div
+                <motion.div
                   key={item.title}
-                  className="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-[#f8fbff] shadow-[0_2px_10px_rgba(2,132,199,0.04)] transition-all duration-300 hover:-translate-y-1 hover:border-[#f97316]/50 hover:bg-white hover:shadow-lg"
+                  initial={
+                    shouldReduceMotion
+                      ? { opacity: 0 }
+                      : { opacity: 0, y: 25, scale: 0.97 }
+                  }
+                  whileInView={
+                    shouldReduceMotion
+                      ? { opacity: 1 }
+                      : { opacity: 1, y: 0, scale: 1 }
+                  }
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.55, delay, ease: "easeOut" }}
+                  className="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-[#f8fbff] shadow-[0_2px_10px_rgba(2,132,199,0.04)] transition-all duration-300 hover:md:-translate-y-[5px] hover:border-[#f97316]/50 hover:bg-white hover:shadow-xl will-change-transform"
                 >
                   {/* Top Image Container */}
                   <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
@@ -276,7 +387,7 @@ export function ServicesSection() {
                       loading="lazy"
                       width={400}
                       height={250}
-                      className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="size-full object-cover transition-transform duration-300 group-hover:scale-[1.04]"
                     />
                     <span className="absolute bottom-2.5 right-2.5 grid size-8 place-items-center rounded-lg bg-white/95 text-[#0284c7] shadow-sm transition-all group-hover:bg-[#f97316] group-hover:text-white">
                       <Icon className="size-4" />
@@ -294,7 +405,7 @@ export function ServicesSection() {
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -308,6 +419,8 @@ export function ServicesSection() {
    SECTION 3 — WHY CHOOSE US (With Skyline graphic / Water in Action)
    ========================================================================= */
 export function WhyChooseUs() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section className="relative border-t border-slate-100 bg-[#f8fbff] py-16 lg:py-24 overflow-hidden">
       {/* Decorative clean city blueprint skyline on right background */}
@@ -315,8 +428,22 @@ export function WhyChooseUs() {
 
       <div className="site-container relative z-10">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          {/* Left: Circular Brick Manhole Photo */}
-          <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
+          {/* Left: Image Side (Split reveal: translateX(-35px) -> 0, duration 0.8s) */}
+          <motion.div
+            initial={
+              shouldReduceMotion
+                ? { opacity: 0 }
+                : { opacity: 0, x: -35 }
+            }
+            whileInView={
+              shouldReduceMotion
+                ? { opacity: 1 }
+                : { opacity: 1, x: 0 }
+            }
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="relative mx-auto w-full max-w-lg lg:max-w-none will-change-transform"
+          >
             <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
               <img
                 src="/images/why-choose-us.jpg"
@@ -330,10 +457,24 @@ export function WhyChooseUs() {
                 Our Work in Action
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Right: Content & Checklist & Banner note */}
-          <div className="space-y-6">
+          {/* Right: Content Side (Split reveal: translateX(35px) -> 0, duration 0.8s, delay 0.15s) */}
+          <motion.div
+            initial={
+              shouldReduceMotion
+                ? { opacity: 0 }
+                : { opacity: 0, x: 35 }
+            }
+            whileInView={
+              shouldReduceMotion
+                ? { opacity: 1 }
+                : { opacity: 1, x: 0 }
+            }
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+            className="space-y-6 will-change-transform"
+          >
             <div className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0284c7]">
               <span className="h-0.5 w-6 bg-[#f97316]" />
               WHY CHOOSE US
@@ -348,29 +489,61 @@ export function WhyChooseUs() {
               We bring experience, technology and a dedicated team to deliver high-quality civil works that meet municipal and client standards.
             </p>
 
+            {/* Bullets: Staggered delays: 0.30s, 0.40s, 0.50s, 0.60s */}
             <div className="space-y-3.5 pt-1">
               {[
-                "Skilled & Experienced Workforce",
-                "Use of Quality Materials",
-                "Adherence to Safety Standards",
-                "Timely Project Completion",
+                { title: "Skilled & Experienced Workforce", delay: 0.3 },
+                { title: "Use of Quality Materials", delay: 0.4 },
+                { title: "Adherence to Safety Standards", delay: 0.5 },
+                { title: "Timely Project Completion", delay: 0.6 },
               ].map((point) => (
-                <div key={point} className="flex items-center gap-3.5">
+                <motion.div
+                  key={point.title}
+                  initial={
+                    shouldReduceMotion
+                      ? { opacity: 0 }
+                      : { opacity: 0, y: 15 }
+                  }
+                  whileInView={
+                    shouldReduceMotion
+                      ? { opacity: 1 }
+                      : { opacity: 1, y: 0 }
+                  }
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.5, delay: point.delay, ease: "easeOut" }}
+                  className="flex items-center gap-3.5 will-change-transform"
+                >
                   <span className="grid size-6 shrink-0 place-items-center rounded-full bg-[#f97316]/15 text-[#f97316]">
                     <Check className="size-4 stroke-[3]" />
                   </span>
-                  <span className="text-sm sm:text-base font-semibold text-slate-800">{point}</span>
-                </div>
+                  <span className="text-sm sm:text-base font-semibold text-slate-800">
+                    {point.title}
+                  </span>
+                </motion.div>
               ))}
             </div>
 
-            {/* Handwritten callout note like reference */}
-            <div className="pt-2 text-right">
+            {/* Brand Statement: Animate entire line together: opacity: 0 -> 1, scale: 0.98 -> 1, duration: 0.7s */}
+            <motion.div
+              initial={
+                shouldReduceMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, scale: 0.98 }
+              }
+              whileInView={
+                shouldReduceMotion
+                  ? { opacity: 1 }
+                  : { opacity: 1, scale: 1 }
+              }
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.7, delay: 0.7, ease: "easeOut" }}
+              className="pt-2 text-right will-change-transform"
+            >
               <p className="font-serif italic text-xs sm:text-sm text-[#0284c7]">
                 Cleaner Cities • Healthier Communities • Stronger Future
               </p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -408,6 +581,7 @@ export const projectsData = [
 ];
 
 export function ProjectsSection() {
+  const shouldReduceMotion = useReducedMotion();
   const [items, setItems] = useState<RecentWorkItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -450,25 +624,45 @@ export function ProjectsSection() {
   }, []);
 
   return (
-    <section className="bg-white py-16 lg:py-24" id="projects">
+    <section className="bg-white py-16 lg:py-24 overflow-hidden" id="projects">
       <div className="site-container">
         {/* Header */}
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0284c7]">
+            <motion.div
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.55, delay: 0, ease: "easeOut" }}
+              className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0284c7] will-change-transform"
+            >
               <span className="h-0.5 w-6 bg-[#f97316]" />
               OUR PROJECTS
-            </div>
-            <h2 className="mt-2 font-['Poppins',sans-serif] text-2xl font-bold tracking-tight text-[#082342] sm:text-3xl lg:text-[36px]">
+            </motion.div>
+            <motion.h2
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.55, delay: 0.1, ease: "easeOut" }}
+              className="mt-2 font-['Poppins',sans-serif] text-2xl font-bold tracking-tight text-[#082342] sm:text-3xl lg:text-[36px] will-change-transform"
+            >
               Recent Works
-            </h2>
+            </motion.h2>
           </div>
-          <Link
-            to="/service"
-            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0284c7] hover:text-[#f97316] transition-colors"
+          <motion.div
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.55, delay: 0.2, ease: "easeOut" }}
+            className="will-change-transform"
           >
-            View All Projects <ArrowUpRight className="size-4" />
-          </Link>
+            <Link
+              to="/service"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0284c7] hover:text-[#f97316] transition-colors"
+            >
+              View All Projects <ArrowUpRight className="size-4" />
+            </Link>
+          </motion.div>
         </div>
 
         {/* 4-Column Responsive Grid */}
@@ -489,72 +683,118 @@ export function ProjectsSection() {
             ))
           ) : items.length > 0 ? (
             /* Dynamic API Cards */
-            items.map((project) => (
-              <div
-                key={project.id}
-                className="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-              >
-                {/* Image Container */}
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
-                  <img
-                    src={getRecentWorkImageSrc(project)}
-                    alt={project.title}
-                    loading="lazy"
-                    width={600}
-                    height={450}
-                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => handleRecentWorkImageError(e, project.position || project.id)}
-                  />
-                </div>
-
-                {/* Title & Location */}
-                <div className="flex flex-1 flex-col justify-between p-4">
-                  <div>
-                    <h3 className="text-sm sm:text-[15px] font-bold text-[#082342] group-hover:text-[#0284c7] transition-colors leading-snug">
-                      {project.title}
-                    </h3>
-                    <p className="mt-1.5 flex items-center gap-1.5 text-xs sm:text-[13px] text-slate-600">
-                      <MapPin className="size-3.5 text-[#0284c7] shrink-0" />
-                      {project.location}
-                    </p>
+            items.map((project, idx) => {
+              const delay = idx * 0.1;
+              return (
+                <motion.div
+                  key={project.id}
+                  initial={
+                    shouldReduceMotion
+                      ? { opacity: 0 }
+                      : { opacity: 0, y: 30 }
+                  }
+                  whileInView={
+                    shouldReduceMotion
+                      ? { opacity: 1 }
+                      : { opacity: 1, y: 0 }
+                  }
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.6, delay, ease: "easeOut" }}
+                  className="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.04)] transition-all duration-300 hover:md:-translate-y-1 hover:shadow-xl will-change-transform"
+                >
+                  {/* Image Container with entrance scale: 1.04 -> 1, hover: scale 1.05 */}
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
+                    <motion.img
+                      initial={
+                        shouldReduceMotion
+                          ? { scale: 1 }
+                          : { scale: 1.04 }
+                      }
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true, amount: 0.2 }}
+                      transition={{ duration: 0.8, delay, ease: "easeOut" }}
+                      src={getRecentWorkImageSrc(project)}
+                      alt={project.title}
+                      loading="lazy"
+                      width={600}
+                      height={450}
+                      className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => handleRecentWorkImageError(e, project.position || project.id)}
+                    />
                   </div>
-                </div>
-              </div>
-            ))
+
+                  {/* Title & Location */}
+                  <div className="flex flex-1 flex-col justify-between p-4">
+                    <div>
+                      <h3 className="text-sm sm:text-[15px] font-bold text-[#082342] group-hover:text-[#0284c7] transition-colors leading-snug">
+                        {project.title}
+                      </h3>
+                      <p className="mt-1.5 flex items-center gap-1.5 text-xs sm:text-[13px] text-slate-600">
+                        <MapPin className="size-3.5 text-[#0284c7] shrink-0" />
+                        {project.location}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })
           ) : (
             /* Fallback Static Cards */
-            projectsData.map((project, idx) => (
-              <div
-                key={project.title}
-                className="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-              >
-                {/* Image Container */}
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    loading="lazy"
-                    width={600}
-                    height={450}
-                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => handleRecentWorkImageError(e, idx + 1)}
-                  />
-                </div>
-
-                {/* Title & Location */}
-                <div className="flex flex-1 flex-col justify-between p-4">
-                  <div>
-                    <h3 className="text-sm sm:text-[15px] font-bold text-[#082342] group-hover:text-[#0284c7] transition-colors leading-snug">
-                      {project.title}
-                    </h3>
-                    <p className="mt-1.5 flex items-center gap-1.5 text-xs sm:text-[13px] text-slate-600">
-                      <MapPin className="size-3.5 text-[#0284c7] shrink-0" />
-                      {project.location}
-                    </p>
+            projectsData.map((project, idx) => {
+              const delay = idx * 0.1;
+              return (
+                <motion.div
+                  key={project.title}
+                  initial={
+                    shouldReduceMotion
+                      ? { opacity: 0 }
+                      : { opacity: 0, y: 30 }
+                  }
+                  whileInView={
+                    shouldReduceMotion
+                      ? { opacity: 1 }
+                      : { opacity: 1, y: 0 }
+                  }
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.6, delay, ease: "easeOut" }}
+                  className="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.04)] transition-all duration-300 hover:md:-translate-y-1 hover:shadow-xl will-change-transform"
+                >
+                  {/* Image Container with entrance scale: 1.04 -> 1, hover: scale 1.05 */}
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
+                    <motion.img
+                      initial={
+                        shouldReduceMotion
+                          ? { scale: 1 }
+                          : { scale: 1.04 }
+                      }
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true, amount: 0.2 }}
+                      transition={{ duration: 0.8, delay, ease: "easeOut" }}
+                      src={project.image}
+                      alt={project.title}
+                      loading="lazy"
+                      width={600}
+                      height={450}
+                      className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => handleRecentWorkImageError(e, idx + 1)}
+                    />
                   </div>
-                </div>
-              </div>
-            ))
+
+                  {/* Title & Location */}
+                  <div className="flex flex-1 flex-col justify-between p-4">
+                    <div>
+                      <h3 className="text-sm sm:text-[15px] font-bold text-[#082342] group-hover:text-[#0284c7] transition-colors leading-snug">
+                        {project.title}
+                      </h3>
+                      <p className="mt-1.5 flex items-center gap-1.5 text-xs sm:text-[13px] text-slate-600">
+                        <MapPin className="size-3.5 text-[#0284c7] shrink-0" />
+                        {project.location}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })
           )}
         </div>
       </div>
@@ -649,7 +889,7 @@ export function StrengthsSection() {
                 >
                   <img
                     src={item.image}
-                    alt=""
+                    alt={`${item.title} - Hariputhran Enterprises key strengths`}
                     loading="lazy"
                     decoding="async"
                     className="size-full scale-110 object-cover transition-transform duration-700 ease-out group-data-[active=true]:scale-100"
@@ -723,15 +963,24 @@ export function ContactCTA() {
                 Contact Us <ArrowRight className="ml-2 size-4" />
               </Link>
             </Button>
-            <div className="space-y-2.5 text-xs sm:text-[13px] font-medium text-slate-700">
+            <div className="space-y-2 text-xs sm:text-[13px] font-medium text-slate-700">
+              <div className="flex items-center gap-2.5">
+                <Phone className="size-4 text-[#0284c7] shrink-0" />
+                <div className="flex flex-wrap gap-x-2">
+                  <a href="tel:+917200333487" className="hover:text-[#f97316] transition-colors">+91 72003 33487</a>
+                  <span>/</span>
+                  <a href="tel:+919003221019" className="hover:text-[#f97316] transition-colors">+91 90032 21019</a>
+                </div>
+              </div>
               <p className="flex items-center gap-2.5">
-                <Phone className="size-4 text-[#0284c7] shrink-0" /> +91 98765 43210
+                <Mail className="size-4 text-[#0284c7] shrink-0" />
+                <a href="mailto:anand@hariputhranenterprises.com" className="hover:text-[#f97316] transition-colors break-all">
+                  anand@hariputhranenterprises.com
+                </a>
               </p>
               <p className="flex items-center gap-2.5">
-                <Mail className="size-4 text-[#0284c7] shrink-0" /> info@hariputhran.co.in
-              </p>
-              <p className="flex items-center gap-2.5">
-                <MapPin className="size-4 text-[#0284c7] shrink-0" /> Chennai, Tamil Nadu
+                <MapPin className="size-4 text-[#0284c7] shrink-0" />
+                <span>Kodungaiyur, Chennai - 600118</span>
               </p>
             </div>
           </div>
