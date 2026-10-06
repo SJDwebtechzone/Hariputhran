@@ -137,7 +137,7 @@ export function HomeHero() {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-[620px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 sm:pt-24 text-white flex flex-col justify-between"
+      className="relative min-h-[500px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 pb-8 sm:pt-24 sm:pb-12 text-white flex flex-col justify-between"
     >
       {/* Fixed Background Image Container */}
       <motion.div
@@ -162,7 +162,7 @@ export function HomeHero() {
 
       {/* Main Content Area (Vertically centered) */}
       <div className="site-container relative z-10 flex flex-1 flex-col justify-center py-6 sm:py-10 lg:py-12">
-        <div className="max-w-[560px] min-h-[420px] sm:min-h-[440px] flex flex-col justify-center">
+        <div className="max-w-[560px] min-h-[320px] sm:min-h-[440px] flex flex-col justify-center items-center sm:items-start text-center sm:text-left">
           {/* =========================================================
               BRAND LOGO HERO (Permanent Static Display)
               ========================================================= */}
@@ -174,13 +174,13 @@ export function HomeHero() {
             }
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="will-change-transform flex flex-col justify-center items-start"
+            className="will-change-transform flex flex-col justify-center items-center sm:items-start"
           >
             {/* Large Company Logo as the only visible element */}
             <img
               src="/logo.png"
               alt="Hariputhran Enterprises - Underground Sewerage & Infrastructure Contractor Chennai"
-              className="w-[220px] sm:w-[250px] lg:w-[270px] xl:w-[280px] h-auto object-contain drop-shadow-2xl"
+              className="w-[200px] min-[375px]:w-[220px] sm:w-[250px] lg:w-[270px] xl:w-[280px] h-auto object-contain drop-shadow-2xl"
             />
 
             {/* Semantic H1 for Search Engines & Accessibility */}
@@ -306,7 +306,7 @@ export function ServicesSection() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="bg-white py-16 lg:py-24 overflow-hidden" id="services">
+    <section className="bg-white py-12 sm:py-16 lg:py-24 overflow-hidden" id="services">
       <div className="site-container">
         <div className="grid gap-8 lg:grid-cols-[320px_1fr] xl:grid-cols-[360px_1fr] lg:gap-10 xl:gap-12 lg:items-start">
           {/* Left Side Header */}
@@ -344,11 +344,11 @@ export function ServicesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.55, delay: 0.3, ease: "easeOut" }}
-              className="mt-7 will-change-transform"
+              className="mt-6 sm:mt-7 will-change-transform"
             >
               <Button
                 asChild
-                className="h-11 rounded-full bg-[#082342] px-7 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-[#0284c7]"
+                className="h-11 w-full min-[480px]:w-auto justify-center rounded-full bg-[#082342] px-7 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-[#0284c7]"
               >
                 <Link to="/service">
                   Explore All Services <ArrowRight className="ml-1.5 size-4" />
@@ -422,12 +422,12 @@ export function WhyChooseUs() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="relative border-t border-slate-100 bg-[#f8fbff] py-16 lg:py-24 overflow-hidden">
+    <section className="relative border-t border-slate-100 bg-[#f8fbff] py-12 sm:py-16 lg:py-24 overflow-hidden">
       {/* Decorative clean city blueprint skyline on right background */}
       <div className="pointer-events-none absolute right-0 bottom-0 h-full w-1/2 opacity-25 bg-[radial-gradient(#0284c7_0.75px,transparent_0.75px)] [background-size:16px_16px]" />
 
       <div className="site-container relative z-10">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+        <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-14">
           {/* Left: Image Side (Split reveal: translateX(-35px) -> 0, duration 0.8s) */}
           <motion.div
             initial={
@@ -444,16 +444,16 @@ export function WhyChooseUs() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="relative mx-auto w-full max-w-lg lg:max-w-none will-change-transform"
           >
-            <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
+            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-slate-200 bg-white p-1.5 sm:p-2 shadow-xl">
               <img
                 src="/images/why-choose-us.jpg"
                 alt="Brick manhole construction and underground civil works execution"
                 loading="lazy"
                 width={800}
                 height={600}
-                className="w-full h-auto rounded-xl object-contain"
+                className="w-full h-auto rounded-lg sm:rounded-xl object-contain"
               />
-              <div className="absolute bottom-5 right-5 rounded-full bg-[#082342]/85 px-4 py-1.5 font-mono text-xs font-semibold text-white shadow backdrop-blur-xs">
+              <div className="absolute bottom-3 right-3 sm:bottom-5 sm:right-5 rounded-full bg-[#082342]/85 px-3 py-1 sm:px-4 sm:py-1.5 font-mono text-[11px] sm:text-xs font-semibold text-white shadow backdrop-blur-xs">
                 Our Work in Action
               </div>
             </div>
@@ -473,7 +473,7 @@ export function WhyChooseUs() {
             }
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
-            className="space-y-6 will-change-transform"
+            className="space-y-5 sm:space-y-6 will-change-transform"
           >
             <div className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0284c7]">
               <span className="h-0.5 w-6 bg-[#f97316]" />
@@ -490,7 +490,7 @@ export function WhyChooseUs() {
             </p>
 
             {/* Bullets: Staggered delays: 0.30s, 0.40s, 0.50s, 0.60s */}
-            <div className="space-y-3.5 pt-1">
+            <div className="space-y-3 sm:space-y-3.5 pt-1">
               {[
                 { title: "Skilled & Experienced Workforce", delay: 0.3 },
                 { title: "Use of Quality Materials", delay: 0.4 },
@@ -511,12 +511,12 @@ export function WhyChooseUs() {
                   }
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.5, delay: point.delay, ease: "easeOut" }}
-                  className="flex items-center gap-3.5 will-change-transform"
+                  className="flex items-center gap-3 sm:gap-3.5 will-change-transform"
                 >
                   <span className="grid size-6 shrink-0 place-items-center rounded-full bg-[#f97316]/15 text-[#f97316]">
                     <Check className="size-4 stroke-[3]" />
                   </span>
-                  <span className="text-sm sm:text-base font-semibold text-slate-800">
+                  <span className="text-xs min-[375px]:text-sm sm:text-base font-semibold text-slate-800">
                     {point.title}
                   </span>
                 </motion.div>
@@ -537,7 +537,7 @@ export function WhyChooseUs() {
               }
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.7, delay: 0.7, ease: "easeOut" }}
-              className="pt-2 text-right will-change-transform"
+              className="pt-2 text-center sm:text-right will-change-transform"
             >
               <p className="font-serif italic text-xs sm:text-sm text-[#0284c7]">
                 Cleaner Cities • Healthier Communities • Stronger Future
@@ -624,10 +624,10 @@ export function ProjectsSection() {
   }, []);
 
   return (
-    <section className="bg-white py-16 lg:py-24 overflow-hidden" id="projects">
+    <section className="bg-white py-12 sm:py-16 lg:py-24 overflow-hidden" id="projects">
       <div className="site-container">
         {/* Header */}
-        <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div className="flex flex-col justify-between gap-3 sm:gap-4 sm:flex-row sm:items-end">
           <div>
             <motion.div
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
@@ -666,7 +666,7 @@ export function ProjectsSection() {
         </div>
 
         {/* 4-Column Responsive Grid */}
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 sm:mt-10 grid grid-cols-1 gap-4.5 sm:grid-cols-2 lg:grid-cols-4 sm:gap-5">
           {loading ? (
             /* Loading Skeletons */
             [1, 2, 3, 4].map((i) => (
@@ -724,7 +724,7 @@ export function ProjectsSection() {
                   </div>
 
                   {/* Title & Location */}
-                  <div className="flex flex-1 flex-col justify-between p-4">
+                  <div className="flex flex-1 flex-col justify-between p-3.5 sm:p-4">
                     <div>
                       <h3 className="text-sm sm:text-[15px] font-bold text-[#082342] group-hover:text-[#0284c7] transition-colors leading-snug">
                         {project.title}
@@ -781,7 +781,7 @@ export function ProjectsSection() {
                   </div>
 
                   {/* Title & Location */}
-                  <div className="flex flex-1 flex-col justify-between p-4">
+                  <div className="flex flex-1 flex-col justify-between p-3.5 sm:p-4">
                     <div>
                       <h3 className="text-sm sm:text-[15px] font-bold text-[#082342] group-hover:text-[#0284c7] transition-colors leading-snug">
                         {project.title}
@@ -830,7 +830,9 @@ export function StrengthsSection() {
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.25 });
+    const io = new IntersectionObserver((entries) => {
+      if (entries[0]) setInView(entries[0].isIntersecting);
+    }, { threshold: 0.25 });
     io.observe(el);
     return () => io.disconnect();
   }, []);
@@ -846,14 +848,14 @@ export function StrengthsSection() {
   const active = hovered ?? (inView ? auto : null);
 
   return (
-    <section ref={sectionRef} className="bg-gradient-to-b from-white to-[#eaf6fd] py-16 lg:py-24">
+    <section ref={sectionRef} className="bg-gradient-to-b from-white to-[#eaf6fd] py-12 sm:py-16 lg:py-24">
       <div className="site-container">
         {/* Header */}
         <div className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold uppercase tracking-[2px] text-[#0375be]">
           <span className="h-0.5 w-6 bg-gradient-to-r from-[#fa6c16] to-[#d41a1b]" />
           KEY STRENGTHS
         </div>
-        <h2 className="mt-3 font-['Poppins',sans-serif] text-3xl font-bold leading-[1.1] tracking-tight text-slate-800 sm:text-4xl lg:text-[44px]">
+        <h2 className="mt-3 font-['Poppins',sans-serif] text-2xl min-[375px]:text-3xl font-bold leading-[1.1] tracking-tight text-slate-800 sm:text-4xl lg:text-[44px]">
           Why agencies &amp; teams <br />
           pick{" "}
           <span className="bg-gradient-to-r from-[#fa6c16] to-[#d41a1b] bg-clip-text text-transparent">
@@ -866,7 +868,7 @@ export function StrengthsSection() {
 
         {/* Cards */}
         <div
-          className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5"
+          className="mt-8 sm:mt-10 grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4"
           onMouseLeave={() => setHovered(null)}
         >
           {strengthsData.map((item, i) => {
@@ -880,7 +882,7 @@ export function StrengthsSection() {
                 onMouseEnter={() => setHovered(i)}
                 onFocus={() => setHovered(i)}
                 onBlur={() => setHovered(null)}
-                className="group relative min-h-[175px] cursor-pointer overflow-hidden rounded-xl border border-[#b5dff4] bg-white p-5 shadow-[0_2px_10px_rgba(3,117,190,0.06)] outline-none transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] data-[active=true]:-translate-y-1 data-[active=true]:border-[#fa6c16]/60 data-[active=true]:shadow-[0_18px_40px_-12px_rgba(3,117,190,0.35)]"
+                className="group relative min-h-[155px] sm:min-h-[175px] cursor-pointer overflow-hidden rounded-xl border border-[#b5dff4] bg-white p-4 sm:p-5 shadow-[0_2px_10px_rgba(3,117,190,0.06)] outline-none transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] data-[active=true]:-translate-y-1 data-[active=true]:border-[#fa6c16]/60 data-[active=true]:shadow-[0_18px_40px_-12px_rgba(3,117,190,0.35)]"
               >
                 {/* Image reveal layer: wipes up from the bottom when active */}
                 <div
@@ -900,10 +902,10 @@ export function StrengthsSection() {
 
                 {/* Content */}
                 <div className="relative z-10">
-                  <span className="grid size-10 place-items-center rounded-lg bg-[#e6f3fb] text-[#0375be] transition-all duration-500 group-data-[active=true]:-rotate-6 group-data-[active=true]:scale-110 group-data-[active=true]:bg-gradient-to-br group-data-[active=true]:from-[#fa6c16] group-data-[active=true]:to-[#d41a1b] group-data-[active=true]:text-white group-data-[active=true]:shadow-[0_8px_20px_rgba(250,108,22,0.45)]">
-                    <Icon className="size-5" />
+                  <span className="grid size-9 sm:size-10 place-items-center rounded-lg bg-[#e6f3fb] text-[#0375be] transition-all duration-500 group-data-[active=true]:-rotate-6 group-data-[active=true]:scale-110 group-data-[active=true]:bg-gradient-to-br group-data-[active=true]:from-[#fa6c16] group-data-[active=true]:to-[#d41a1b] group-data-[active=true]:text-white group-data-[active=true]:shadow-[0_8px_20px_rgba(250,108,22,0.45)]">
+                    <Icon className="size-4.5 sm:size-5" />
                   </span>
-                  <h3 className="mt-4 text-sm sm:text-[15px] font-bold leading-snug text-slate-800 transition-colors duration-300 group-data-[active=true]:text-[#ffb26b]">
+                  <h3 className="mt-3 sm:mt-4 text-sm sm:text-[15px] font-bold leading-snug text-slate-800 transition-colors duration-300 group-data-[active=true]:text-[#ffb26b]">
                     {item.title}
                   </h3>
                   <p className="mt-1.5 text-xs sm:text-[13px] leading-relaxed text-slate-600 transition-colors duration-300 group-data-[active=true]:text-white/95">
@@ -924,11 +926,11 @@ export function StrengthsSection() {
    ========================================================================= */
 export function ContactCTA() {
   return (
-    <section className="bg-[#f8fbff] py-16 lg:py-20">
+    <section className="bg-[#f8fbff] py-12 sm:py-16 lg:py-20">
       <div className="site-container">
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg lg:grid lg:grid-cols-[1.1fr_1.5fr_1fr] lg:items-center">
+        <div className="overflow-hidden rounded-xl sm:rounded-2xl border border-slate-200 bg-white shadow-lg lg:grid lg:grid-cols-[1.1fr_1.5fr_1fr] lg:items-center">
           {/* Left: Engineering & Consultation Photo */}
-          <div className="relative h-full min-h-[220px] bg-slate-100">
+          <div className="relative h-48 sm:h-64 lg:h-full lg:min-h-[220px] bg-slate-100">
             <img
               src="/images/contact.png"
               alt="Hariputhran Enterprises engineering consultation and infrastructure solutions"
@@ -940,7 +942,7 @@ export function ContactCTA() {
           </div>
 
           {/* Center: Headline & Copy */}
-          <div className="p-6 sm:p-8 lg:p-10">
+          <div className="p-5 sm:p-8 lg:p-10">
             <div className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0284c7]">
               <span className="h-0.5 w-6 bg-[#f97316]" />
               LET'S BUILD TOGETHER
@@ -954,10 +956,10 @@ export function ContactCTA() {
           </div>
 
           {/* Right: Contact Button & Details */}
-          <div className="border-t border-slate-100 p-6 lg:border-l lg:border-t-0 lg:p-8 flex flex-col justify-center gap-4">
+          <div className="border-t border-slate-100 p-5 sm:p-6 lg:border-l lg:border-t-0 lg:p-8 flex flex-col justify-center gap-4">
             <Button
               asChild
-              className="h-11 rounded-full bg-[#f97316] px-7 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[#ea580c] hover:scale-[1.02]"
+              className="h-11 w-full min-[480px]:w-auto justify-center rounded-full bg-[#f97316] px-7 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[#ea580c] hover:scale-[1.02]"
             >
               <Link to="/contact">
                 Contact Us <ArrowRight className="ml-2 size-4" />

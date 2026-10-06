@@ -27,13 +27,13 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-3 z-40 px-3 sm:top-4 sm:px-6">
-      <div className="site-container relative flex h-16 items-center justify-between gap-4 rounded-full border border-white/70 bg-white/75 px-4 shadow-[0_8px_32px_0_rgba(31,114,255,0.10)] backdrop-blur-xl transition-all duration-300 sm:h-18 sm:px-6 dark:border-white/10 dark:bg-card/75">
+    <header className="fixed inset-x-0 top-2 z-40 px-2 sm:top-4 sm:px-6">
+      <div className="site-container relative flex h-14 items-center justify-between gap-3 rounded-full border border-white/70 bg-white/80 px-3.5 shadow-[0_8px_32px_0_rgba(31,114,255,0.10)] backdrop-blur-xl transition-all duration-300 sm:h-18 sm:gap-4 sm:px-6 dark:border-white/10 dark:bg-card/75">
         {/* Soft water ambient gradient glow */}
         <div className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-brand-soft/40 via-surface-blue/30 to-brand-soft/30 opacity-70" />
 
         <div className="flex shrink-0 items-center">
-          <Logo imgClassName="h-9 sm:h-11" />
+          <Logo imgClassName="h-8 min-[375px]:h-9 sm:h-11" />
         </div>
 
         {/* Center Desktop Navigation Pill Links */}
@@ -69,7 +69,7 @@ export function Header() {
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-full text-foreground hover:bg-brand-soft/50 md:hidden"
+            className="size-10 rounded-full text-foreground hover:bg-brand-soft/50 md:hidden flex items-center justify-center"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
@@ -82,7 +82,7 @@ export function Header() {
       {/* Mobile Water Glass Card Menu */}
       {menuOpen && (
         <nav
-          className="site-container mt-2 grid gap-1.5 rounded-2xl border border-white/70 bg-white/90 p-3 shadow-xl backdrop-blur-2xl md:hidden dark:border-white/10 dark:bg-card/90"
+          className="site-container mt-2 grid gap-1 rounded-2xl border border-white/70 bg-white/95 p-3 shadow-xl backdrop-blur-2xl md:hidden dark:border-white/10 dark:bg-card/95"
           aria-label="Mobile navigation"
         >
           {navItems.map((item) => {
@@ -92,7 +92,7 @@ export function Header() {
                 key={item.to}
                 to={item.to}
                 onClick={() => setMenuOpen(false)}
-                className={`rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors ${
+                className={`rounded-xl px-4 py-3 text-sm font-semibold transition-colors ${
                   isActive ? "bg-brand text-white" : "text-foreground/80 hover:bg-brand-soft/70 hover:text-brand"
                 }`}
               >
@@ -103,7 +103,7 @@ export function Header() {
           <Button
             asChild
             size="sm"
-            className="mt-2 w-full rounded-xl bg-[#f97316] py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-orange-500/20 transition-all hover:bg-[#ea580c]"
+            className="mt-2 w-full rounded-xl bg-[#f97316] py-3 text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-orange-500/20 transition-all hover:bg-[#ea580c]"
           >
             <Link to="/contact" onClick={() => setMenuOpen(false)}>Get Started →</Link>
           </Button>
@@ -116,14 +116,14 @@ export function Header() {
 export function Footer() {
   return (
     <footer className="border-t border-[#0b63b6]/20 bg-[#083b6d] text-white">
-      <div className="site-container grid gap-10 py-14 sm:py-16 md:grid-cols-[1.3fr_0.9fr_1fr_1.2fr] md:items-start">
+      <div className="site-container grid gap-8 py-10 sm:gap-10 sm:py-14 md:grid-cols-[1.3fr_0.9fr_1fr_1.2fr] md:py-16 md:items-start">
         {/* Brand column */}
         <div className="space-y-4">
           <Link to="/" className="inline-flex items-center transition-transform hover:scale-105" aria-label="Hariputhran Enterprises home">
             <img
               src="/images/hariputhran-logo.png"
               alt="Hariputhran Enterprises Logo"
-              className="h-14 sm:h-16 md:h-18 w-auto max-w-[260px] object-contain"
+              className="h-12 sm:h-16 md:h-18 w-auto max-w-[240px] sm:max-w-[260px] object-contain"
             />
           </Link>
           <p className="max-w-xs text-xs leading-relaxed text-slate-300">

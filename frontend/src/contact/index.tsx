@@ -105,8 +105,8 @@ export function ContactPage() {
   return (
     <PageFrame>
       {/* SECTION 1 — CONTACT HERO */}
-      <section className="relative overflow-hidden pt-32 pb-16 sm:pt-36 sm:pb-20">
-        <div className="site-container grid items-center gap-10 md:grid-cols-[.9fr_1.1fr]">
+      <section className="relative overflow-hidden pt-24 pb-12 sm:pt-36 sm:pb-20">
+        <div className="site-container grid items-center gap-8 sm:gap-10 md:grid-cols-[.9fr_1.1fr]">
           <div className="min-w-0">
             <motion.div
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }}
@@ -123,7 +123,7 @@ export function ContactPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-              className="mt-5 text-[2.65rem] font-semibold leading-[1.08] sm:text-5xl md:text-6xl will-change-transform"
+              className="mt-4 sm:mt-5 text-3xl min-[375px]:text-4xl font-semibold leading-[1.08] sm:text-5xl md:text-6xl will-change-transform"
             >
               Get In Touch <br /><span className="text-brand">With Our Team</span>
             </motion.h1>
@@ -133,12 +133,12 @@ export function ContactPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
-              className="mt-6 max-w-md text-sm leading-7 text-muted-foreground will-change-transform"
+              className="mt-4 sm:mt-6 max-w-md text-xs min-[375px]:text-sm leading-6 sm:leading-7 text-muted-foreground will-change-transform"
             >
               Have a question, tender requirement, or need civil engineering consultation? Our team is here to help. Get in touch with us and we’ll respond as soon as possible.
             </motion.p>
 
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 text-[11px] sm:gap-6 sm:text-xs">
+            <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-6 text-xs">
               <motion.a
                 href="tel:+917200333487"
                 initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: 20 }}
@@ -193,9 +193,9 @@ export function ContactPage() {
       </section>
 
       {/* Form Section */}
-      <section className="py-16 sm:py-20 overflow-hidden">
-        <div className="site-container grid min-w-0 overflow-hidden rounded-lg bg-surface-blue shadow-sm lg:grid-cols-[.8fr_1.2fr]">
-          <div className="min-w-0 p-6 sm:p-8 md:p-12">
+      <section className="py-12 sm:py-16 lg:py-20 overflow-hidden">
+        <div className="site-container grid min-w-0 overflow-hidden rounded-xl sm:rounded-2xl bg-surface-blue shadow-sm lg:grid-cols-[.8fr_1.2fr]">
+          <div className="min-w-0 p-5 sm:p-8 md:p-12">
             <motion.div
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -204,16 +204,16 @@ export function ContactPage() {
               className="will-change-transform"
             >
               <Eyebrow>Send Us a Message</Eyebrow>
-              <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">
+              <h2 className="mt-3 sm:mt-4 text-2xl min-[375px]:text-3xl font-semibold sm:text-4xl">
                 Let’s Talk<br />About <span className="text-brand">Infrastructure</span>
               </h2>
-              <p className="mt-5 text-sm leading-6 text-muted-foreground">
+              <p className="mt-3 sm:mt-5 text-xs sm:text-sm leading-6 text-muted-foreground">
                 Fill out the form and we’ll get back to you within 24 hours.
               </p>
             </motion.div>
 
             {/* Contact Information Cards (Staggered translateX: 20px -> 0) */}
-            <div className="mt-8 space-y-4 text-xs text-muted-foreground">
+            <div className="mt-6 sm:mt-8 space-y-3 sm:space-y-4 text-xs text-muted-foreground">
               <motion.div
                 initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -273,16 +273,16 @@ export function ContactPage() {
 
           {isSuccess ? (
             /* Thank You State */
-            <div className="m-3 flex flex-col items-center justify-center rounded-lg bg-background p-6 sm:m-4 sm:p-10 md:m-7 text-center">
-              <div className="grid size-16 place-items-center rounded-full bg-emerald-100 text-emerald-600 shadow-md ring-8 ring-emerald-50 mb-4">
-                <CheckCircle2 className="size-9 stroke-[2.5]" />
+            <div className="m-3 flex flex-col items-center justify-center rounded-xl bg-background p-5 sm:m-4 sm:p-10 md:m-7 text-center">
+              <div className="grid size-14 sm:size-16 place-items-center rounded-full bg-emerald-100 text-emerald-600 shadow-md ring-8 ring-emerald-50 mb-4">
+                <CheckCircle2 className="size-8 sm:size-9 stroke-[2.5]" />
               </div>
 
-              <h3 className="font-['Poppins',sans-serif] text-2xl font-bold text-[#082342] sm:text-3xl">
+              <h3 className="font-['Poppins',sans-serif] text-xl min-[375px]:text-2xl font-bold text-[#082342] sm:text-3xl">
                 Thank you, {submittedData?.name.split(" ")[0]}!
               </h3>
 
-              <div className="mt-4 max-w-md rounded-2xl border border-sky-100 bg-sky-50/70 p-4 text-xs sm:text-sm leading-relaxed text-[#082342] text-left">
+              <div className="mt-3.5 sm:mt-4 max-w-md rounded-xl sm:rounded-2xl border border-sky-100 bg-sky-50/70 p-3.5 sm:p-4 text-xs sm:text-sm leading-relaxed text-[#082342] text-left">
                 <p>
                   We have received your message and sent a confirmation to{" "}
                   <strong className="text-[#0284c7]">{submittedData?.email}</strong>.
@@ -295,7 +295,7 @@ export function ContactPage() {
               <Button
                 type="button"
                 onClick={handleResetForm}
-                className="mt-6 h-11 rounded-full bg-[#082342] px-7 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#0284c7] transition-all"
+                className="mt-5 sm:mt-6 h-11 w-full min-[480px]:w-auto justify-center rounded-full bg-[#082342] px-7 text-xs font-bold uppercase tracking-wider text-white hover:bg-[#0284c7] transition-all"
               >
                 Send Another Message
               </Button>
@@ -303,7 +303,7 @@ export function ContactPage() {
           ) : (
             /* Contact Form */
             <form
-              className="m-3 grid min-w-0 gap-5 rounded-lg bg-background p-5 sm:m-4 sm:p-7 md:m-7 md:grid-cols-2"
+              className="m-3 grid min-w-0 gap-4 sm:gap-5 rounded-xl bg-background p-4 sm:m-4 sm:p-7 md:m-7 md:grid-cols-2"
               onSubmit={handleSubmit}
             >
               {/* Honeypot field (hidden from real users) */}
@@ -333,7 +333,7 @@ export function ContactPage() {
                 transition={{ duration: 0.45, delay: 0, ease: "easeOut" }}
                 className="min-w-0 will-change-transform"
               >
-                <span className="mb-2 block text-xs font-medium">
+                <span className="mb-1.5 sm:mb-2 block text-xs font-medium">
                   Your Name <span className="text-red-500">*</span>
                 </span>
                 <input
@@ -341,7 +341,7 @@ export function ContactPage() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className={`h-11 w-full min-w-0 rounded-md border bg-background px-4 text-sm outline-none transition focus:border-brand ${
+                  className={`h-11 w-full min-w-0 rounded-md border bg-background px-4 text-base sm:text-sm outline-none transition focus:border-brand ${
                     fieldErrors["name"] ? "border-red-400 bg-red-50/20" : "border-border"
                   }`}
                   placeholder="Enter your name"
@@ -359,7 +359,7 @@ export function ContactPage() {
                 transition={{ duration: 0.45, delay: 0.07, ease: "easeOut" }}
                 className="min-w-0 will-change-transform"
               >
-                <span className="mb-2 block text-xs font-medium">
+                <span className="mb-1.5 sm:mb-2 block text-xs font-medium">
                   Email Address <span className="text-red-500">*</span>
                 </span>
                 <input
@@ -367,7 +367,7 @@ export function ContactPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={`h-11 w-full min-w-0 rounded-md border bg-background px-4 text-sm outline-none transition focus:border-brand ${
+                  className={`h-11 w-full min-w-0 rounded-md border bg-background px-4 text-base sm:text-sm outline-none transition focus:border-brand ${
                     fieldErrors["email"] ? "border-red-400 bg-red-50/20" : "border-border"
                   }`}
                   placeholder="Enter email address"
@@ -385,12 +385,12 @@ export function ContactPage() {
                 transition={{ duration: 0.45, delay: 0.14, ease: "easeOut" }}
                 className="min-w-0 md:col-span-2 will-change-transform"
               >
-                <span className="mb-2 block text-xs font-medium">Phone Number</span>
+                <span className="mb-1.5 sm:mb-2 block text-xs font-medium">Phone Number</span>
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className={`h-11 w-full min-w-0 rounded-md border bg-background px-4 text-sm outline-none transition focus:border-brand ${
+                  className={`h-11 w-full min-w-0 rounded-md border bg-background px-4 text-base sm:text-sm outline-none transition focus:border-brand ${
                     fieldErrors["phone"] ? "border-red-400 bg-red-50/20" : "border-border"
                   }`}
                   placeholder="Enter phone number"
@@ -408,11 +408,11 @@ export function ContactPage() {
                 transition={{ duration: 0.45, delay: 0.21, ease: "easeOut" }}
                 className="min-w-0 md:col-span-2 will-change-transform"
               >
-                <span className="mb-2 block text-xs font-medium">Select Subject</span>
+                <span className="mb-1.5 sm:mb-2 block text-xs font-medium">Select Subject</span>
                 <select
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="h-11 w-full min-w-0 rounded-md border border-border bg-background px-4 text-sm text-foreground"
+                  className="h-11 w-full min-w-0 rounded-md border border-border bg-background px-4 text-base sm:text-sm text-foreground"
                 >
                   <option>Choose a subject</option>
                   <option>Underground Sewerage Works</option>
@@ -434,14 +434,14 @@ export function ContactPage() {
                 transition={{ duration: 0.45, delay: 0.28, ease: "easeOut" }}
                 className="min-w-0 md:col-span-2 will-change-transform"
               >
-                <span className="mb-2 block text-xs font-medium">
+                <span className="mb-1.5 sm:mb-2 block text-xs font-medium">
                   Your Message <span className="text-red-500">*</span>
                 </span>
                 <textarea
                   required
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className={`min-h-28 w-full min-w-0 rounded-md border bg-background p-4 text-sm outline-none transition focus:border-brand ${
+                  className={`min-h-28 w-full min-w-0 rounded-md border bg-background p-4 text-base sm:text-sm outline-none transition focus:border-brand ${
                     fieldErrors["message"] ? "border-red-400 bg-red-50/20" : "border-border"
                   }`}
                   placeholder="Type your message here..."
@@ -451,16 +451,15 @@ export function ContactPage() {
                 )}
               </motion.label>
 
-
               {/* Submit Button */}
               <motion.div
                 initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.45, delay: 0.35, ease: "easeOut" }}
-                className="justify-self-start will-change-transform"
+                className="justify-self-stretch sm:justify-self-start md:col-span-2 will-change-transform"
               >
-                <Button variant="brand" type="submit" disabled={isSubmitting}>
+                <Button variant="brand" type="submit" disabled={isSubmitting} className="h-11 w-full min-[480px]:w-auto justify-center">
                   {isSubmitting ? (
                     <span className="inline-flex items-center gap-2">
                       <Loader2 className="size-4 animate-spin" />
@@ -477,8 +476,8 @@ export function ContactPage() {
       </section>
 
       {/* SECTION 3 — LOCATIONS & MAP */}
-      <section className="pb-20 overflow-hidden">
-        <div className="site-container grid gap-10 md:grid-cols-2 items-center">
+      <section className="pb-12 sm:pb-20 overflow-hidden">
+        <div className="site-container grid gap-8 sm:gap-10 md:grid-cols-2 items-center">
           <motion.div
             initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -487,11 +486,11 @@ export function ContactPage() {
             className="will-change-transform"
           >
             <Eyebrow>Our Locations</Eyebrow>
-            <h2 className="mt-4 text-4xl font-semibold">Our Offices</h2>
-            <p className="mt-4 text-sm text-muted-foreground">
+            <h2 className="mt-3 sm:mt-4 text-2xl min-[375px]:text-3xl font-semibold sm:text-4xl">Our Offices</h2>
+            <p className="mt-2.5 sm:mt-4 text-xs sm:text-sm text-muted-foreground">
               Visit us at one of our locations or get in touch for more details.
             </p>
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs leading-6">
+            <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 text-xs leading-6">
               <div className="rounded-xl border border-slate-100 bg-surface-blue/50 p-4">
                 <p className="font-bold text-slate-900 text-sm">Head Office</p>
                 <p className="text-[#f97316] font-semibold text-[11.5px] mt-0.5">Hariputhran Enterprises</p>
@@ -526,12 +525,12 @@ export function ContactPage() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="group relative min-h-[320px] sm:min-h-[360px] overflow-hidden rounded-xl border border-border shadow-sm will-change-transform"
+            className="group relative min-h-[280px] sm:min-h-[360px] overflow-hidden rounded-xl border border-border shadow-sm will-change-transform"
           >
             <iframe
               title="Hariputhran Enterprises Official Location - 2B, Annai Sandhiya Nagar, TVK Link Road, Kodungaiyur, Chennai"
               src="https://maps.google.com/maps?q=13.1274995,80.2630203&hl=en&z=17&output=embed"
-              className="h-full min-h-[320px] sm:min-h-[360px] w-full border-0"
+              className="h-full min-h-[280px] sm:min-h-[360px] w-full border-0"
               loading="lazy"
               allowFullScreen
               referrerPolicy="no-referrer-when-downgrade"

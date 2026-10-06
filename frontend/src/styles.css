@@ -157,8 +157,11 @@
 }
 
 @utility site-container {
-  width: min(1280px, calc(100% - 3rem));
+  width: min(1280px, calc(100% - 1.75rem));
   margin-inline: auto;
+  @media (min-width: 640px) {
+    width: min(1280px, calc(100% - 3rem));
+  }
 }
 
 @utility nav-link {

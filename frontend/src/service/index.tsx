@@ -216,7 +216,7 @@ export function ServicesHero() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="relative min-h-[620px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 sm:pt-24 text-white flex flex-col justify-between">
+    <section className="relative min-h-[500px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 pb-8 sm:pt-24 sm:pb-12 text-white flex flex-col justify-between">
       {/* Background Image with scale entrance 1.06 -> 1 */}
       <motion.div
         initial={shouldReduceMotion ? { scale: 1 } : { scale: 1.06 }}
@@ -233,14 +233,14 @@ export function ServicesHero() {
 
       {/* Main Content Area (Vertically centered and aligned matching Home Hero) */}
       <div className="site-container relative z-10 flex flex-1 flex-col justify-center py-6 sm:py-10 lg:py-12">
-        <div className="max-w-[560px] min-h-[420px] sm:min-h-[440px] flex flex-col justify-center">
-          <div className="will-change-transform -mt-10 sm:-mt-12 lg:-mt-14">
+        <div className="max-w-[560px] min-h-[340px] sm:min-h-[440px] flex flex-col justify-center">
+          <div className="will-change-transform -mt-4 sm:-mt-10 lg:-mt-14">
             {/* Eyebrow */}
             <motion.div
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.2, ease: "easeOut" }}
-              className="inline-flex items-center gap-2.5 font-mono text-sm sm:text-base lg:text-[17px] font-bold uppercase tracking-[2px] text-[#f97316] will-change-transform"
+              className="inline-flex items-center gap-2.5 font-mono text-xs sm:text-base lg:text-[17px] font-bold uppercase tracking-[2px] text-[#f97316] will-change-transform"
             >
               <span className="h-[3px] w-7 bg-[#f97316] rounded-full" />
               OUR SERVICES
@@ -251,7 +251,7 @@ export function ServicesHero() {
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
-              className="mt-3 font-['Poppins',sans-serif] text-3xl font-extrabold leading-[1.12] tracking-tight text-white sm:text-4xl lg:text-[44px] will-change-transform"
+              className="mt-3 font-['Poppins',sans-serif] text-2xl min-[375px]:text-3xl font-extrabold leading-[1.12] tracking-tight text-white sm:text-4xl lg:text-[44px] will-change-transform"
             >
               Comprehensive <br />
               Infrastructure <br />
@@ -263,7 +263,7 @@ export function ServicesHero() {
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
-              className="mt-4 max-w-[500px] text-sm sm:text-base lg:text-[17px] leading-relaxed text-slate-100 will-change-transform"
+              className="mt-3 sm:mt-4 max-w-[500px] text-xs min-[375px]:text-sm sm:text-base lg:text-[17px] leading-relaxed text-slate-100 will-change-transform"
             >
               From underground utilities to roads, drainage and pipeline networks,
               we deliver end-to-end infrastructure solutions with a focus on safety,
@@ -271,7 +271,7 @@ export function ServicesHero() {
             </motion.p>
 
             {/* Action Buttons */}
-            <div className="mt-6 flex flex-wrap items-center gap-3.5">
+            <div className="mt-5 sm:mt-6 flex flex-col min-[390px]:flex-row items-stretch min-[390px]:items-center gap-3 sm:gap-3.5">
               <motion.div
                 initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -280,7 +280,7 @@ export function ServicesHero() {
               >
                 <Button
                   asChild
-                  className="h-10 rounded-full bg-[#f97316] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:scale-[1.02] hover:bg-[#ea580c]"
+                  className="h-10 w-full min-[390px]:w-auto justify-center rounded-full bg-[#f97316] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:scale-[1.02] hover:bg-[#ea580c]"
                 >
                   <a href="#services-overview">
                     EXPLORE SERVICES
@@ -298,7 +298,7 @@ export function ServicesHero() {
                 <Button
                   asChild
                   variant="outline"
-                  className="h-10 rounded-full border-white/50 bg-transparent px-6 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-xs transition-all hover:bg-white hover:text-[#082342]"
+                  className="h-10 w-full min-[390px]:w-auto justify-center rounded-full border-white/50 bg-transparent px-6 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-xs transition-all hover:bg-white hover:text-[#082342]"
                 >
                   <Link to="/contact">GET A QUOTE</Link>
                 </Button>
@@ -333,6 +333,7 @@ export function ServicesOverview() {
       button_link: "/contact",
       icon_key: "Droplets",
       image_url: CORE_GROUP_IMAGE_1,
+      has_image: true,
       sort_order: 1,
       is_active: true,
     },
@@ -351,6 +352,7 @@ export function ServicesOverview() {
       button_link: "/contact",
       icon_key: "Construction",
       image_url: CORE_GROUP_IMAGE_2,
+      has_image: true,
       sort_order: 2,
       is_active: true,
     },
@@ -407,7 +409,7 @@ export function ServicesOverview() {
   return (
     <section
       id="services-overview"
-      className="relative overflow-hidden bg-[#F5FAFF] py-20 lg:py-28"
+      className="relative overflow-hidden bg-[#F5FAFF] py-12 sm:py-20 lg:py-28"
     >
       <style>{`
         @media (min-width: 1024px) {
@@ -486,7 +488,7 @@ export function ServicesOverview() {
         <div className="absolute -left-16 bottom-16 size-80 rotate-45 rounded-[60px] bg-gradient-to-tr from-[#0A9BE0]/8 to-transparent blur-2xl" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-[1240px] px-3 sm:px-6 lg:px-8">
         {/* Header, centered */}
         <div className="mx-auto max-w-3xl text-center">
           {/* Eyebrow Pill Badge with Fading Side Lines */}
@@ -497,11 +499,11 @@ export function ServicesOverview() {
             transition={{ duration: 0.55, ease: "easeOut" }}
             className="flex items-center justify-center gap-3 will-change-transform"
           >
-            <span className="h-[2px] w-12 bg-gradient-to-r from-transparent to-[#0A8FD8]" />
-            <span className="inline-flex items-center rounded-full bg-[#E0F1FC] px-5 py-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[#0A8FD8] shadow-sm">
+            <span className="h-[2px] w-8 sm:w-12 bg-gradient-to-r from-transparent to-[#0A8FD8]" />
+            <span className="inline-flex items-center rounded-full bg-[#E0F1FC] px-4 py-1 sm:px-5 sm:py-1.5 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.18em] text-[#0A8FD8] shadow-sm">
               OUR CORE SERVICES
             </span>
-            <span className="h-[2px] w-12 bg-gradient-to-l from-transparent to-[#0A8FD8]" />
+            <span className="h-[2px] w-8 sm:w-12 bg-gradient-to-l from-transparent to-[#0A8FD8]" />
           </motion.div>
 
           <motion.h2
@@ -509,7 +511,7 @@ export function ServicesOverview() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-            className="mt-4 font-['Poppins',sans-serif] text-3xl font-extrabold tracking-tight text-[#0B2A5B] sm:text-4xl lg:text-[42px] leading-tight will-change-transform"
+            className="mt-3 sm:mt-4 font-['Poppins',sans-serif] text-2xl min-[375px]:text-3xl font-extrabold tracking-tight text-[#0B2A5B] sm:text-4xl lg:text-[42px] leading-tight will-change-transform"
           >
             Core Services. <span className="text-[#0A9BE0]">Built for a Better Tomorrow.</span>
           </motion.h2>
@@ -519,7 +521,7 @@ export function ServicesOverview() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-            className="mx-auto mt-4 max-w-[740px] text-sm leading-[1.6] text-[#5B6B80] sm:text-[16px] will-change-transform"
+            className="mx-auto mt-3 sm:mt-4 max-w-[740px] text-xs sm:text-sm leading-[1.6] text-[#5B6B80] sm:text-[16px] will-change-transform"
           >
             From laying the first pipe to restoring the road above it,{" "}
             <strong className="font-bold text-[#0B2A5B]">Hariputhran</strong> delivers
@@ -529,7 +531,7 @@ export function ServicesOverview() {
         </div>
 
         {/* Dynamic Service Rows (Stacked with gap) */}
-        <div className="mt-14 space-y-10 lg:mt-16 lg:space-y-12">
+        <div className="mt-10 space-y-8 sm:mt-14 sm:space-y-10 lg:mt-16 lg:space-y-12">
           {services.map((service, index) => (
             <motion.div
               key={service.id || index}
@@ -584,12 +586,12 @@ export function WorkProcessSection() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-white py-14 lg:py-16">
+    <section className="relative overflow-hidden bg-white py-12 sm:py-14 lg:py-16">
       {/* Light blue soft glow on the left behind header */}
       <div className="pointer-events-none absolute -left-20 top-1/2 size-80 -translate-y-1/2 rounded-full bg-[#0284c7]/5 blur-3xl" />
 
       <div className="site-container relative z-10">
-        <div className="grid items-center gap-10 lg:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr]">
+        <div className="grid items-center gap-8 sm:gap-10 lg:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr]">
           {/* Left Header (Left-aligned) */}
           <motion.div
             initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
@@ -603,19 +605,19 @@ export function WorkProcessSection() {
               OUR APPROACH
             </div>
 
-            <h2 className="mt-3 font-['Poppins',sans-serif] text-2xl font-bold leading-tight tracking-tight text-[#082342] sm:text-3xl lg:text-[32px]">
+            <h2 className="mt-2.5 sm:mt-3 font-['Poppins',sans-serif] text-2xl font-bold leading-tight tracking-tight text-[#082342] sm:text-3xl lg:text-[32px]">
               How We Deliver
               <br />
               <span className="text-[#0284c7]">Your Project</span>
             </h2>
 
-            <p className="mt-3 text-xs leading-relaxed text-slate-500 sm:text-sm">
+            <p className="mt-2.5 sm:mt-3 text-xs leading-relaxed text-slate-500 sm:text-sm">
               A structured and transparent process to ensure quality, safety and on-time delivery.
             </p>
           </motion.div>
 
           {/* Right 5-Step Flow */}
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:flex lg:items-center lg:justify-between lg:gap-2">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:flex lg:items-center lg:justify-between lg:gap-2">
             {approachSteps.map((step, idx) => {
               const Icon = step.icon;
               const delay = idx * 0.1; // 0ms, 100ms, 200ms, 300ms, 400ms
@@ -637,14 +639,14 @@ export function WorkProcessSection() {
                   transition={{ duration: 0.55, delay, ease: "easeOut" }}
                   className="flex items-center will-change-transform"
                 >
-                  <div className="flex flex-col items-center text-center">
+                  <div className="flex flex-col items-center text-center w-full">
                     {/* Circle Icon Badge */}
-                    <div className="grid size-16 place-items-center rounded-full bg-white shadow-[0_8px_24px_-8px_rgba(2,132,199,0.35)] ring-1 ring-[#0284c7]/15 transition-transform duration-300 hover:scale-105 lg:size-[72px]">
-                      <Icon className="size-7 text-[#0284c7]" />
+                    <div className="grid size-14 place-items-center rounded-full bg-white shadow-[0_8px_24px_-8px_rgba(2,132,199,0.35)] ring-1 ring-[#0284c7]/15 transition-transform duration-300 hover:scale-105 sm:size-16 lg:size-[72px]">
+                      <Icon className="size-6 sm:size-7 text-[#0284c7]" />
                     </div>
 
                     {/* Step Number */}
-                    <span className="mt-2.5 font-mono text-xs font-bold text-[#082342]">
+                    <span className="mt-2 sm:mt-2.5 font-mono text-[11px] sm:text-xs font-bold text-[#082342]">
                       {step.number}
                     </span>
 
@@ -654,7 +656,7 @@ export function WorkProcessSection() {
                     </h3>
 
                     {/* Description */}
-                    <p className="mt-1.5 max-w-[140px] text-[11px] leading-relaxed text-slate-500">
+                    <p className="mt-1 max-w-[140px] text-[10.5px] sm:text-[11px] leading-relaxed text-slate-500">
                       {step.description}
                     </p>
                   </div>
@@ -691,7 +693,7 @@ export function ServiceClosingBanner() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="relative flex min-h-[280px] w-full items-center overflow-hidden bg-[#082342] text-white lg:min-h-[320px]">
+    <section className="relative flex min-h-[260px] sm:min-h-[280px] w-full items-center overflow-hidden bg-[#082342] text-white lg:min-h-[320px]">
       {/* Background Image with scale 1.05 -> 1 */}
       <motion.div
         initial={shouldReduceMotion ? { scale: 1 } : { scale: 1.05 }}
@@ -710,7 +712,7 @@ export function ServiceClosingBanner() {
       {/* Overlay Gradient: Left to right dark navy */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#082342]/95 via-[#082342]/70 to-[#082342]/30 lg:from-[#082342]/95 lg:via-[#082342]/60 lg:to-transparent" />
 
-      <div className="site-container relative z-10 w-full py-10 lg:py-14">
+      <div className="site-container relative z-10 w-full py-8 sm:py-10 lg:py-14">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           {/* Left Content (translateX: -15px -> 0) */}
           <motion.div
@@ -725,13 +727,13 @@ export function ServiceClosingBanner() {
               LET&apos;S BUILD TOGETHER
             </div>
 
-            <h2 className="mt-3 font-['Poppins',sans-serif] text-2xl font-bold leading-tight sm:text-3xl lg:text-4xl">
+            <h2 className="mt-2.5 sm:mt-3 font-['Poppins',sans-serif] text-2xl font-bold leading-tight sm:text-3xl lg:text-4xl">
               Have an Infrastructure
               <br />
               <span className="text-[#f97316]">Project?</span>
             </h2>
 
-            <p className="mt-3 max-w-md text-xs leading-relaxed text-slate-200 sm:text-sm">
+            <p className="mt-2.5 sm:mt-3 max-w-md text-xs leading-relaxed text-slate-200 sm:text-sm">
               Get in touch with our team for a consultation and let&apos;s build a stronger tomorrow.
             </p>
 
@@ -740,11 +742,11 @@ export function ServiceClosingBanner() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-              className="mt-6 will-change-transform"
+              className="mt-5 sm:mt-6 will-change-transform"
             >
               <Button
                 asChild
-                className="h-11 rounded-full bg-[#f97316] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-orange-500/25 transition-all hover:scale-[1.02] hover:bg-[#ea580c]"
+                className="h-11 w-full min-[480px]:w-auto justify-center rounded-full bg-[#f97316] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-orange-500/25 transition-all hover:scale-[1.02] hover:bg-[#ea580c]"
               >
                 <Link to="/contact">
                   GET IN TOUCH
