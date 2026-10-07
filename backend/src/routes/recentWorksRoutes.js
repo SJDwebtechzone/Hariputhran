@@ -4,6 +4,8 @@ const {
   getRecentWorkImage,
   getAdminRecentWorks,
   updateRecentWork,
+  updateRecentWorkActive,
+  updateSectionActive,
 } = require("../controllers/recentWorksController");
 const authMiddleware = require("../middleware/authMiddleware");
 const { handleRecentWorkImageUpload } = require("../middleware/uploadRecentWorkImage");
@@ -24,7 +26,9 @@ publicRecentWorksRouter.get("/:id/image", getRecentWorkImage);
 adminRecentWorksRouter.use(authMiddleware);
 
 adminRecentWorksRouter.get("/", getAdminRecentWorks);
+adminRecentWorksRouter.patch("/section/active", updateSectionActive);
 adminRecentWorksRouter.put("/:id", handleRecentWorkImageUpload("image"), updateRecentWork);
+adminRecentWorksRouter.patch("/:id/active", updateRecentWorkActive);
 
 module.exports = {
   publicRecentWorksRouter,

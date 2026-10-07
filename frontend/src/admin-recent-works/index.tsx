@@ -12,13 +12,18 @@ import {
   Loader2,
   Trash2,
   ExternalLink,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { RecentWorkItem } from "@/types/recentWork";
 import {
   fetchAdminRecentWorks,
   updateAdminRecentWork,
+  toggleRecentWorkActive,
+  toggleRecentWorksSectionActive,
 } from "@/admin-recent-works/api";
 import {
   getRecentWorkImageSrc,
@@ -30,8 +35,11 @@ import { Link } from "@tanstack/react-router";
 
 export function AdminRecentWorksView() {
   const [items, setItems] = useState<RecentWorkItem[]>([]);
+  const [sectionActive, setSectionActive] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [togglingId, setTogglingId] = useState<number | null>(null);
+  const [togglingSection, setTogglingSection] = useState(false);
 
   // Edit Drawer / Modal state
   const [editingItem, setEditingItem] = useState<RecentWorkItem | null>(null);
@@ -53,12 +61,35 @@ export function AdminRecentWorksView() {
     setError(null);
     try {
       const data = await fetchAdminRecentWorks();
-      setItems(data);
+      setItems(data.items);
+      setSectionActive(data.sectionActive);
     } catch (err: any) {
       console.error("Failed to load admin recent works:", err);
       setError(err.message || "Failed to load recent works. Please check backend connection.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleToggleSectionActive = async (newActive: boolean) => {
+    if (togglingSection) return;
+    const previous = sectionActive;
+    setSectionActive(newActive);
+    setTogglingSection(true);
+
+    try {
+      await toggleRecentWorksSectionActive(newActive);
+      if (newActive) {
+        toast.success("Recent Works section shown on Home page");
+      } else {
+        toast.success("Recent Works section hidden from Home page");
+      }
+    } catch (err: any) {
+      console.error("Toggle section active failed:", err);
+      setSectionActive(previous);
+      toast.error(err.message || "Failed to update section visibility.");
+    } finally {
+      setTogglingSection(false);
     }
   };
 
@@ -74,6 +105,35 @@ export function AdminRecentWorksView() {
       window.removeEventListener("hariputhran_session_expired", handleSessionExpired);
     };
   }, []);
+
+  const handleToggleActive = async (id: number, currentActive: boolean) => {
+    if (togglingId !== null) return;
+    const newActive = !currentActive;
+
+    // Optimistic update
+    setItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, isActive: newActive } : item))
+    );
+    setTogglingId(id);
+
+    try {
+      await toggleRecentWorkActive(id, newActive);
+      if (newActive) {
+        toast.success("Card shown on Home page");
+      } else {
+        toast.success("Card hidden from Home page");
+      }
+    } catch (err: any) {
+      console.error("Toggle active failed:", err);
+      // Rollback
+      setItems((prev) =>
+        prev.map((item) => (item.id === id ? { ...item, isActive: currentActive } : item))
+      );
+      toast.error(err.message || "Failed to update card visibility.");
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   const openEditModal = (item: RecentWorkItem) => {
     setEditingItem(item);
@@ -211,8 +271,10 @@ export function AdminRecentWorksView() {
     return getRecentWorkImageSrc(editingItem);
   };
 
+  const activeCount = items.filter((i) => i.isActive !== false).length;
+
   return (
-    <AdminLayout activeNav="projects">
+    <AdminLayout activeNav="recent-works">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Header Bar */}
         <div className="flex flex-col justify-between gap-4 border-b border-slate-200/80 pb-6 sm:flex-row sm:items-center">
@@ -252,15 +314,93 @@ export function AdminRecentWorksView() {
           </div>
         </div>
 
+        {/* Master Section Visibility Card */}
+        <div className="mt-6 rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm transition-all">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-start sm:items-center gap-3.5">
+              <div
+                className={`grid size-10 shrink-0 place-items-center rounded-xl transition-colors ${
+                  sectionActive ? "bg-sky-100 text-[#0284c7]" : "bg-slate-100 text-slate-500"
+                }`}
+              >
+                {sectionActive ? <Eye className="size-5" /> : <EyeOff className="size-5" />}
+              </div>
+              <div>
+                <h3 className="font-['Poppins',sans-serif] text-sm sm:text-base font-bold text-[#082342]">
+                  Show Recent Works section on the Home page
+                </h3>
+                <p className="mt-0.5 text-xs text-slate-500 max-w-xl leading-relaxed">
+                  Turn this off to hide the whole section (heading, link and all cards) from the Home page. Your card settings are kept.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center self-end sm:self-center gap-3">
+              <span
+                className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-mono text-[11px] font-bold ${
+                  sectionActive
+                    ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/20"
+                    : "bg-slate-100 text-slate-600 ring-1 ring-slate-300"
+                }`}
+              >
+                {sectionActive ? (
+                  <>
+                    <Eye className="size-3 text-emerald-600" /> Visible
+                  </>
+                ) : (
+                  <>
+                    <EyeOff className="size-3 text-slate-500" /> Hidden
+                  </>
+                )}
+              </span>
+              <Switch
+                checked={sectionActive}
+                onCheckedChange={handleToggleSectionActive}
+                disabled={loading || togglingSection}
+                aria-label="Toggle Recent Works section visibility"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Section Hidden Notice */}
+        {!sectionActive && !loading && !error && (
+          <div className="mt-3 flex items-start sm:items-center gap-2.5 rounded-xl border border-amber-200 bg-amber-50/80 p-3.5 text-xs text-amber-900 shadow-sm">
+            <AlertCircle className="size-4 shrink-0 mt-0.5 sm:mt-0 text-amber-600" />
+            <span>
+              The whole Recent Works section is hidden on the Home page. Card settings below are saved and will apply again when you turn the section back on.
+            </span>
+          </div>
+        )}
+
         {/* Info Banner */}
-        <div className="mt-6 flex items-center justify-between rounded-xl border border-sky-100 bg-sky-50/60 p-4 text-xs text-sky-950">
+        <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 rounded-xl border border-sky-100 bg-sky-50/60 p-4 text-xs text-sky-950">
           <div className="flex items-center gap-2.5">
             <Sparkles className="size-4 shrink-0 text-[#0284c7]" />
             <span>
-              <strong>Fixed 4-Card Layout:</strong> Exactly 4 cards are rendered on the Home page. You can customize the title, location, and upload a custom photo for each card (max 200 KB).
+              These 4 cards are managed here. Use the switch to show or hide a card on the Home page. You can customize the title, location and upload a custom photo for each card (max 200 KB).
             </span>
           </div>
+          {sectionActive ? (
+            <span className="shrink-0 rounded-full bg-white px-3 py-1 font-mono text-[11px] font-bold text-[#0284c7] shadow-sm border border-sky-200">
+              {activeCount} of 4 cards visible on the Home page
+            </span>
+          ) : (
+            <span className="shrink-0 rounded-full bg-amber-100 px-3 py-1 font-mono text-[11px] font-bold text-amber-800 shadow-sm border border-amber-200">
+              Section hidden
+            </span>
+          )}
         </div>
+
+        {/* All Cards Hidden Amber Alert */}
+        {sectionActive && activeCount === 0 && !loading && !error && (
+          <div className="mt-3 flex items-center gap-2.5 rounded-xl border border-amber-200 bg-amber-50/80 p-3.5 text-xs text-amber-900 shadow-sm">
+            <AlertCircle className="size-4 shrink-0 text-amber-600" />
+            <span>
+              All cards are hidden, so the Recent Works section is not shown on the Home page.
+            </span>
+          </div>
+        )}
 
         {/* Content Area */}
         <div className="mt-8">
@@ -300,10 +440,16 @@ export function AdminRecentWorksView() {
 
           {/* 4 Cards Grid */}
           {!loading && !error && (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div
+              className={`grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 transition-opacity duration-300 ${
+                !sectionActive ? "opacity-70" : "opacity-100"
+              }`}
+            >
               {items.map((item) => {
                 const isJustSaved = recentlySavedId === item.id;
                 const cardImgSrc = getRecentWorkImageSrc(item);
+                const isActive = item.isActive !== false;
+                const isToggling = togglingId === item.id;
 
                 return (
                   <div
@@ -311,6 +457,8 @@ export function AdminRecentWorksView() {
                     className={`group relative flex flex-col overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-300 hover:shadow-md ${
                       isJustSaved
                         ? "border-emerald-500 ring-2 ring-emerald-400"
+                        : !isActive
+                        ? "border-slate-200 opacity-60 hover:opacity-100"
                         : "border-slate-200/90 hover:border-sky-300"
                     }`}
                   >
@@ -319,8 +467,13 @@ export function AdminRecentWorksView() {
                       CARD 0{item.position}
                     </div>
 
-                    {/* Image Source Badge */}
-                    <div className="absolute right-3 top-3 z-10">
+                    {/* Image Source & Hidden Badges */}
+                    <div className="absolute right-3 top-3 z-10 flex items-center gap-1.5">
+                      {!isActive && (
+                        <span className="rounded-full border border-amber-300/40 bg-amber-600/90 px-2 py-0.5 font-mono text-[9.5px] font-bold text-white shadow-sm backdrop-blur-sm">
+                          Hidden on website
+                        </span>
+                      )}
                       {item.hasImage ? (
                         <span className="rounded-full border border-sky-400/30 bg-[#0284c7]/90 px-2 py-0.5 font-mono text-[9.5px] font-bold text-white shadow-sm backdrop-blur-sm">
                           Custom Photo
@@ -337,7 +490,9 @@ export function AdminRecentWorksView() {
                       <img
                         src={cardImgSrc}
                         alt={item.title}
-                        className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className={`size-full object-cover transition-transform duration-500 group-hover:scale-105 ${
+                          !isActive ? "grayscale-[25%]" : ""
+                        }`}
                         onError={(e) => handleRecentWorkImageError(e, item.position)}
                       />
                     </div>
@@ -354,10 +509,33 @@ export function AdminRecentWorksView() {
                         </p>
                       </div>
 
+                      {/* Status Toggle & Edit Action */}
                       <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                        <span className="font-mono text-[10px] text-slate-400">
-                          ID #{item.id}
-                        </span>
+                        {/* Status Toggle Button */}
+                        <button
+                          type="button"
+                          disabled={isToggling}
+                          onClick={() => handleToggleActive(item.id, isActive)}
+                          className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold tracking-wide transition-colors ${
+                            isActive
+                              ? "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/20 hover:bg-emerald-100"
+                              : "bg-slate-100 text-slate-500 ring-1 ring-slate-300 hover:bg-slate-200"
+                          } disabled:opacity-50`}
+                          title={isActive ? "Click to hide from Home page" : "Click to show on Home page"}
+                        >
+                          {isToggling ? (
+                            <Loader2 className="size-3 animate-spin" />
+                          ) : isActive ? (
+                            <>
+                              <Eye className="size-3 text-emerald-600" /> Active
+                            </>
+                          ) : (
+                            <>
+                              <EyeOff className="size-3 text-slate-500" /> Hidden
+                            </>
+                          )}
+                        </button>
+
                         <Button
                           size="sm"
                           onClick={() => openEditModal(item)}

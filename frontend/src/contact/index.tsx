@@ -221,7 +221,7 @@ export function ContactPage() {
                 transition={{ duration: 0.5, delay: 0, ease: "easeOut" }}
                 className="rounded-lg bg-white/70 p-3.5 border border-slate-100 shadow-xs dark:bg-card/50"
               >
-                <p className="font-bold text-slate-900 text-sm">Anand K B.Sc.</p>
+                <p className="font-bold text-slate-900 text-sm">Anand K</p>
                 <p className="text-[11px] text-brand font-semibold">Proprietor</p>
                 <p className="text-[10.5px] text-slate-500">Chennai Metro Water - Registered Contractor</p>
               </motion.div>
@@ -500,7 +500,7 @@ export function ContactPage() {
                   Chennai - 600118, Tamil Nadu
                 </p>
                 <div className="mt-2.5 pt-2.5 border-t border-slate-200/60 text-[11px] text-slate-500">
-                  <p><b>Proprietor:</b> Anand K B.Sc.</p>
+                  <p><b>Proprietor:</b> Anand K</p>
                   <p>Chennai Metro Water - Registered Contractor</p>
                 </div>
               </div>

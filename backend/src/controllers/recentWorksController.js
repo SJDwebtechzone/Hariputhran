@@ -11,6 +11,7 @@ function formatRecentWorkRow(row, isAdmin = false) {
     position: Number(row.id),
     title: row.title,
     location: row.location,
+    isActive: row.is_active !== undefined ? Boolean(row.is_active) : true,
     hasImage: hasImage,
     imageUrl: imageUrl,
   };
@@ -23,25 +24,51 @@ function formatRecentWorkRow(row, isAdmin = false) {
   return result;
 }
 
-// 1. GET /api/recent-works (Public list)
+// Helper to get master section active state from site_section_settings
+async function getSectionActiveState() {
+  try {
+    const { rows } = await pool.query(
+      "SELECT is_active FROM site_section_settings WHERE section_key = 'home_recent_works' LIMIT 1"
+    );
+    if (rows.length > 0 && rows[0].is_active !== undefined) {
+      return Boolean(rows[0].is_active);
+    }
+    return true;
+  } catch (err) {
+    if (err.code === "42P01") {
+      console.warn("site_section_settings table does not exist yet. Defaulting sectionActive to true.");
+    } else {
+      console.warn("Could not query site_section_settings, defaulting sectionActive to true:", err.message);
+    }
+    return true;
+  }
+}
+
+// 1. GET /api/recent-works (Public list - ONLY active cards)
 async function getPublicRecentWorks(req, res) {
   try {
     res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Expires", "0");
 
+    const sectionActive = await getSectionActiveState();
+    if (!sectionActive) {
+      return res.json({ success: true, count: 0, sectionActive: false, data: [] });
+    }
+
     const query = `
       SELECT 
-        id, title, location,
+        id, title, location, is_active,
         (image_data IS NOT NULL) AS has_image_data,
         image_updated_at
       FROM home_recent_works
+      WHERE is_active = TRUE
       ORDER BY id ASC
     `;
     const { rows } = await pool.query(query);
 
     const items = rows.map((r) => formatRecentWorkRow(r, false));
-    return res.json({ success: true, count: items.length, data: items });
+    return res.json({ success: true, count: items.length, sectionActive: true, data: items });
   } catch (err) {
     console.error("Error fetching public recent works:", err);
     return res.status(500).json({ success: false, message: "Failed to fetch recent works." });
@@ -88,12 +115,14 @@ async function getRecentWorkImage(req, res) {
   }
 }
 
-// 3. GET /api/admin/recent-works (Admin list)
+// 3. GET /api/admin/recent-works (Admin list - all cards with isActive)
 async function getAdminRecentWorks(req, res) {
   try {
+    const sectionActive = await getSectionActiveState();
+
     const query = `
       SELECT 
-        id, title, location,
+        id, title, location, is_active,
         (image_data IS NOT NULL) AS has_image_data,
         image_updated_at, updated_at
       FROM home_recent_works
@@ -102,14 +131,14 @@ async function getAdminRecentWorks(req, res) {
     const { rows } = await pool.query(query);
 
     const items = rows.map((r) => formatRecentWorkRow(r, true));
-    return res.json({ success: true, count: items.length, data: items });
+    return res.json({ success: true, count: items.length, sectionActive, data: items });
   } catch (err) {
     console.error("Error fetching admin recent works:", err);
     return res.status(500).json({ success: false, message: "Failed to fetch recent works." });
   }
 }
 
-// 4. PUT /api/admin/recent-works/:id (Admin update text and/or image)
+// 4. PUT /api/admin/recent-works/:id (Admin update text and/or image without touching is_active)
 async function updateRecentWork(req, res) {
   try {
     const rawId = req.params.id;
@@ -165,7 +194,7 @@ async function updateRecentWork(req, res) {
             image_updated_at = NOW(),
             updated_at = NOW()
         WHERE id = $5
-        RETURNING id, title, location, (image_data IS NOT NULL) AS has_image_data, image_updated_at, updated_at
+        RETURNING id, title, location, is_active, (image_data IS NOT NULL) AS has_image_data, image_updated_at, updated_at
       `;
       queryParams = [trimmedTitle, trimmedLocation, imageData, imageMime, id];
     } else if (shouldRemoveImage) {
@@ -178,7 +207,7 @@ async function updateRecentWork(req, res) {
             image_updated_at = NULL,
             updated_at = NOW()
         WHERE id = $3
-        RETURNING id, title, location, (image_data IS NOT NULL) AS has_image_data, image_updated_at, updated_at
+        RETURNING id, title, location, is_active, (image_data IS NOT NULL) AS has_image_data, image_updated_at, updated_at
       `;
       queryParams = [trimmedTitle, trimmedLocation, id];
     } else {
@@ -188,7 +217,7 @@ async function updateRecentWork(req, res) {
             location = $2,
             updated_at = NOW()
         WHERE id = $3
-        RETURNING id, title, location, (image_data IS NOT NULL) AS has_image_data, image_updated_at, updated_at
+        RETURNING id, title, location, is_active, (image_data IS NOT NULL) AS has_image_data, image_updated_at, updated_at
       `;
       queryParams = [trimmedTitle, trimmedLocation, id];
     }
@@ -206,9 +235,89 @@ async function updateRecentWork(req, res) {
   }
 }
 
+// 5. PATCH /api/admin/recent-works/:id/active (Admin update is_active toggle)
+async function updateRecentWorkActive(req, res) {
+  try {
+    const rawId = req.params.id;
+    const id = parseInt(rawId, 10);
+
+    if (isNaN(id) || id < 1 || id > 4) {
+      return res.status(404).json({ success: false, message: "Recent work card not found. ID must be an integer between 1 and 4." });
+    }
+
+    const { isActive } = req.body;
+    if (typeof isActive !== "boolean") {
+      return res.status(400).json({ success: false, message: "Invalid payload. 'isActive' must be a boolean." });
+    }
+
+    const checkRes = await pool.query("SELECT id FROM home_recent_works WHERE id = $1", [id]);
+    if (!checkRes.rows.length) {
+      return res.status(404).json({ success: false, message: "Recent work card not found." });
+    }
+
+    const updateQuery = `
+      UPDATE home_recent_works
+      SET is_active = $1,
+          updated_at = NOW()
+      WHERE id = $2
+      RETURNING id, title, location, is_active, (image_data IS NOT NULL) AS has_image_data, image_updated_at, updated_at
+    `;
+    const { rows } = await pool.query(updateQuery, [isActive, id]);
+
+    return res.json({
+      success: true,
+      message: "Recent work visibility updated successfully.",
+      data: formatRecentWorkRow(rows[0], true),
+    });
+  } catch (err) {
+    console.error("Error updating recent work visibility:", err);
+    return res.status(500).json({ success: false, message: "Failed to update recent work visibility: " + err.message });
+  }
+}
+
+// 6. PATCH /api/admin/recent-works/section/active (Admin update master section visibility)
+async function updateSectionActive(req, res) {
+  try {
+    const { isActive } = req.body;
+    if (typeof isActive !== "boolean") {
+      return res.status(400).json({ success: false, message: "Invalid payload. 'isActive' must be a boolean." });
+    }
+
+    const upsertQuery = `
+      INSERT INTO site_section_settings (section_key, is_active, updated_at)
+      VALUES ('home_recent_works', $1, NOW())
+      ON CONFLICT (section_key)
+      DO UPDATE SET is_active = EXCLUDED.is_active, updated_at = NOW()
+      RETURNING is_active
+    `;
+    const { rows } = await pool.query(upsertQuery, [isActive]);
+    const sectionActive = rows.length > 0 ? Boolean(rows[0].is_active) : isActive;
+
+    return res.json({
+      success: true,
+      message: `Recent Works section ${sectionActive ? "shown" : "hidden"} successfully.`,
+      sectionActive,
+    });
+  } catch (err) {
+    console.error("Error updating Recent Works section visibility:", err);
+    if (err.code === "42P01") {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to update section visibility. Run the site_section_settings SQL migration.",
+      });
+    }
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update section visibility: " + err.message,
+    });
+  }
+}
+
 module.exports = {
   getPublicRecentWorks,
   getRecentWorkImage,
   getAdminRecentWorks,
   updateRecentWork,
+  updateRecentWorkActive,
+  updateSectionActive,
 };

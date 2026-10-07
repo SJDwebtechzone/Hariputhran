@@ -3,6 +3,7 @@ export interface RecentWorkItem {
   position: number;
   title: string;
   location: string;
+  isActive?: boolean;
   hasImage: boolean;
   imageUrl: string | null;
   updatedAt?: string | null;
@@ -12,8 +13,15 @@ export interface RecentWorkItem {
 export interface RecentWorksResponse {
   success: boolean;
   count: number;
+  sectionActive?: boolean;
   data: RecentWorkItem[];
   message?: string;
+}
+
+export interface SectionActiveResponse {
+  success: boolean;
+  message?: string;
+  sectionActive: boolean;
 }
 
 export interface RecentWorkSingleResponse {

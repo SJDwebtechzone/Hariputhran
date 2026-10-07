@@ -1,6 +1,6 @@
 import type { ServiceItemData } from "@/types/service";
 
-const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/+$/, "");
+const API_BASE = ((import.meta.env["VITE_API_URL"] as string) || "http://localhost:5000").replace(/\/+$/, "");
 
 export const DEFAULT_SERVICE_PHOTOS = [
   "/images/Underground Utility Infrastructure.jpg", // Position 1, 3, 5... (index 0, 2, 4...)
@@ -16,8 +16,8 @@ export const DEFAULT_SERVICE_PHOTOS = [
 export function getDefaultServiceImage(positionIndex: number = 0): string {
   const safeIndex = Math.max(0, positionIndex);
   return safeIndex % 2 === 0
-    ? DEFAULT_SERVICE_PHOTOS[0]
-    : DEFAULT_SERVICE_PHOTOS[1];
+    ? (DEFAULT_SERVICE_PHOTOS[0] ?? "/images/Underground Utility Infrastructure.jpg")
+    : (DEFAULT_SERVICE_PHOTOS[1] ?? "/images/Civil & Infrastructure Works.jpg");
 }
 
 /**
@@ -44,6 +44,10 @@ export function getServiceImageSrc(
       trimmed.startsWith("blob:") ||
       trimmed.startsWith("data:")
     ) {
+      return trimmed;
+    }
+    // Static frontend assets in public folder (e.g., /images/...)
+    if (trimmed.startsWith("/images/") || trimmed.startsWith("/logo") || trimmed.startsWith("/favicon")) {
       return trimmed;
     }
     // Relative API endpoint from backend -> prepend backend API_BASE

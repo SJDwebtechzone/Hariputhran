@@ -7,7 +7,6 @@ import {
   Users,
   CheckCircle2,
   ArrowRight,
-  ArrowUpRight,
   Phone,
   Mail,
   MapPin,
@@ -137,7 +136,7 @@ export function HomeHero() {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-[500px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 pb-8 sm:pt-24 sm:pb-12 text-white flex flex-col justify-between"
+      className="relative min-h-[500px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 pb-8 sm:pt-24 sm:pb-12 text-white flex flex-col justify-between max-sm:aspect-[1983/793] max-sm:min-h-0 max-sm:h-auto max-sm:pt-0 max-sm:pb-0 max-sm:mt-[88px] max-sm:overflow-hidden"
     >
       {/* Fixed Background Image Container */}
       <motion.div
@@ -161,8 +160,8 @@ export function HomeHero() {
       </motion.div>
 
       {/* Main Content Area (Vertically centered) */}
-      <div className="site-container relative z-10 flex flex-1 flex-col justify-center py-6 sm:py-10 lg:py-12">
-        <div className="max-w-[560px] min-h-[320px] sm:min-h-[440px] flex flex-col justify-center items-center sm:items-start text-center sm:text-left">
+      <div className="site-container relative z-10 flex flex-1 flex-col justify-center py-6 sm:py-10 lg:py-12 max-sm:py-0 max-sm:h-full max-sm:justify-center">
+        <div className="max-w-[560px] min-h-[320px] sm:min-h-[440px] flex flex-col justify-center items-center sm:items-start text-center sm:text-left max-sm:min-h-0 max-sm:max-w-[39vw] max-sm:items-start max-sm:text-left">
           {/* =========================================================
               BRAND LOGO HERO (Permanent Static Display)
               ========================================================= */}
@@ -174,13 +173,13 @@ export function HomeHero() {
             }
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="will-change-transform flex flex-col justify-center items-center sm:items-start"
+            className="will-change-transform flex flex-col justify-center items-center sm:items-start max-sm:items-start"
           >
             {/* Large Company Logo as the only visible element */}
             <img
               src="/logo.png"
               alt="Hariputhran Enterprises - Underground Sewerage & Infrastructure Contractor Chennai"
-              className="w-[200px] min-[375px]:w-[220px] sm:w-[250px] lg:w-[270px] xl:w-[280px] h-auto object-contain drop-shadow-2xl"
+              className="w-[200px] min-[375px]:w-[220px] sm:w-[250px] lg:w-[270px] xl:w-[280px] h-auto object-contain drop-shadow-2xl max-sm:w-[18.75vw]"
             />
 
             {/* Semantic H1 for Search Engines & Accessibility */}
@@ -306,7 +305,7 @@ export function ServicesSection() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="bg-white py-12 sm:py-16 lg:py-24 overflow-hidden" id="services">
+    <section className="bg-[#F5FAFF] py-12 sm:py-16 lg:py-24 overflow-hidden" id="services">
       <div className="site-container">
         <div className="grid gap-8 lg:grid-cols-[320px_1fr] xl:grid-cols-[360px_1fr] lg:gap-10 xl:gap-12 lg:items-start">
           {/* Left Side Header */}
@@ -316,9 +315,9 @@ export function ServicesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.55, delay: 0, ease: "easeOut" }}
-              className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0284c7] will-change-transform"
+              className="inline-flex items-center gap-2.5 font-mono text-sm sm:text-base lg:text-[17px] font-bold uppercase tracking-wider text-[#0284c7] will-change-transform"
             >
-              <span className="h-0.5 w-6 bg-[#f97316]" />
+              <span className="h-[3px] w-7 bg-[#f97316] rounded-full" />
               OUR SERVICES
             </motion.div>
             <motion.h2
@@ -377,7 +376,7 @@ export function ServicesSection() {
                   }
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.55, delay, ease: "easeOut" }}
-                  className="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-[#f8fbff] shadow-[0_2px_10px_rgba(2,132,199,0.04)] transition-all duration-300 hover:md:-translate-y-[5px] hover:border-[#f97316]/50 hover:bg-white hover:shadow-xl will-change-transform"
+                  className="group flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.05)] transition-all duration-300 hover:md:-translate-y-[5px] hover:border-[#f97316]/50 hover:shadow-xl will-change-transform"
                 >
                   {/* Top Image Container */}
                   <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
@@ -422,7 +421,7 @@ export function WhyChooseUs() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="relative border-t border-slate-100 bg-[#f8fbff] py-12 sm:py-16 lg:py-24 overflow-hidden">
+    <section className="relative border-t border-sky-100/70 bg-[#F5FAFF] py-12 sm:py-16 lg:py-24 overflow-hidden">
       {/* Decorative clean city blueprint skyline on right background */}
       <div className="pointer-events-none absolute right-0 bottom-0 h-full w-1/2 opacity-25 bg-[radial-gradient(#0284c7_0.75px,transparent_0.75px)] [background-size:16px_16px]" />
 
@@ -475,8 +474,8 @@ export function WhyChooseUs() {
             transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
             className="space-y-5 sm:space-y-6 will-change-transform"
           >
-            <div className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0284c7]">
-              <span className="h-0.5 w-6 bg-[#f97316]" />
+            <div className="inline-flex items-center gap-2.5 font-mono text-sm sm:text-base lg:text-[17px] font-bold uppercase tracking-wider text-[#0284c7]">
+              <span className="h-[3px] w-7 bg-[#f97316] rounded-full" />
               WHY CHOOSE US
             </div>
 
@@ -583,13 +582,15 @@ export const projectsData = [
 export function ProjectsSection() {
   const shouldReduceMotion = useReducedMotion();
   const [items, setItems] = useState<RecentWorkItem[]>([]);
+  const [sectionActive, setSectionActive] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [fetchFailed, setFetchFailed] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
     async function loadRecentWorks() {
       try {
-        const rawApiUrl = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
+        const rawApiUrl = ((import.meta.env["VITE_API_URL"] as string) || "").replace(/\/$/, "");
         const res = await fetch(`${rawApiUrl}/api/recent-works`, {
           cache: "no-store",
           headers: {
@@ -599,16 +600,29 @@ export function ProjectsSection() {
         });
         if (!res.ok) {
           console.warn("Recent Works: using fallback content, API status:", res.status);
+          if (isMounted) setFetchFailed(true);
           return;
         }
         const json = await res.json();
-        if (isMounted && json.success && Array.isArray(json.data) && json.data.length > 0) {
-          // Sort by position 1..4
-          const sorted = [...json.data].sort((a, b) => (a.position || a.id) - (b.position || b.id));
-          setItems(sorted);
+        if (isMounted) {
+          if (json.sectionActive === false) {
+            setSectionActive(false);
+          } else {
+            setSectionActive(true);
+          }
+
+          if (json.success && Array.isArray(json.data)) {
+            // Sort by position 1..4
+            const sorted = [...json.data].sort((a, b) => (a.position || a.id) - (b.position || b.id));
+            setItems(sorted);
+            setFetchFailed(false);
+          } else {
+            setFetchFailed(true);
+          }
         }
       } catch (err) {
         console.warn("Recent Works: using fallback content", err);
+        if (isMounted) setFetchFailed(true);
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -623,46 +637,35 @@ export function ProjectsSection() {
     };
   }, []);
 
+  // If section is toggled off or has 0 active cards, do not render the whole Recent Works section
+  if (!loading && !fetchFailed && (!sectionActive || items.length === 0)) {
+    return null;
+  }
+
   return (
-    <section className="bg-white py-12 sm:py-16 lg:py-24 overflow-hidden" id="projects">
+    <section className="bg-[#F5FAFF] py-12 sm:py-16 lg:py-24 overflow-hidden border-t border-sky-100/70" id="projects">
       <div className="site-container">
         {/* Header */}
-        <div className="flex flex-col justify-between gap-3 sm:gap-4 sm:flex-row sm:items-end">
-          <div>
-            <motion.div
-              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.55, delay: 0, ease: "easeOut" }}
-              className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0284c7] will-change-transform"
-            >
-              <span className="h-0.5 w-6 bg-[#f97316]" />
-              OUR PROJECTS
-            </motion.div>
-            <motion.h2
-              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.55, delay: 0.1, ease: "easeOut" }}
-              className="mt-2 font-['Poppins',sans-serif] text-2xl font-bold tracking-tight text-[#082342] sm:text-3xl lg:text-[36px] will-change-transform"
-            >
-              Recent Works
-            </motion.h2>
-          </div>
+        <div>
           <motion.div
             initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.55, delay: 0.2, ease: "easeOut" }}
-            className="will-change-transform"
+            transition={{ duration: 0.55, delay: 0, ease: "easeOut" }}
+            className="inline-flex items-center gap-2.5 font-mono text-sm sm:text-base lg:text-[17px] font-bold uppercase tracking-wider text-[#0284c7] will-change-transform"
           >
-            <Link
-              to="/service"
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0284c7] hover:text-[#f97316] transition-colors"
-            >
-              View All Projects <ArrowUpRight className="size-4" />
-            </Link>
+            <span className="h-[3px] w-7 bg-[#f97316] rounded-full" />
+            OUR PROJECTS
           </motion.div>
+          <motion.h2
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.55, delay: 0.1, ease: "easeOut" }}
+            className="mt-2 font-['Poppins',sans-serif] text-2xl font-bold tracking-tight text-[#082342] sm:text-3xl lg:text-[36px] will-change-transform"
+          >
+            Recent Works
+          </motion.h2>
         </div>
 
         {/* 4-Column Responsive Grid */}
@@ -672,7 +675,7 @@ export function ProjectsSection() {
             [1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className="flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.04)] animate-pulse"
+                className="flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.05)] animate-pulse"
               >
                 <div className="aspect-[4/3] w-full bg-slate-100" />
                 <div className="p-4 space-y-2.5">
@@ -681,7 +684,7 @@ export function ProjectsSection() {
                 </div>
               </div>
             ))
-          ) : items.length > 0 ? (
+          ) : !fetchFailed && items.length > 0 ? (
             /* Dynamic API Cards */
             items.map((project, idx) => {
               const delay = idx * 0.1;
@@ -700,7 +703,7 @@ export function ProjectsSection() {
                   }
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.6, delay, ease: "easeOut" }}
-                  className="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.04)] transition-all duration-300 hover:md:-translate-y-1 hover:shadow-xl will-change-transform"
+                  className="group flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.05)] transition-all duration-300 hover:md:-translate-y-1 hover:shadow-xl will-change-transform"
                 >
                   {/* Image Container with entrance scale: 1.04 -> 1, hover: scale 1.05 */}
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
@@ -757,7 +760,7 @@ export function ProjectsSection() {
                   }
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.6, delay, ease: "easeOut" }}
-                  className="group flex flex-col overflow-hidden rounded-xl border border-slate-100 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.04)] transition-all duration-300 hover:md:-translate-y-1 hover:shadow-xl will-change-transform"
+                  className="group flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.05)] transition-all duration-300 hover:md:-translate-y-1 hover:shadow-xl will-change-transform"
                 >
                   {/* Image Container with entrance scale: 1.04 -> 1, hover: scale 1.05 */}
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
@@ -848,11 +851,11 @@ export function StrengthsSection() {
   const active = hovered ?? (inView ? auto : null);
 
   return (
-    <section ref={sectionRef} className="bg-gradient-to-b from-white to-[#eaf6fd] py-12 sm:py-16 lg:py-24">
+    <section ref={sectionRef} className="bg-gradient-to-b from-[#F5FAFF] to-[#E0F1FC] py-12 sm:py-16 lg:py-24 border-t border-sky-100/70">
       <div className="site-container">
         {/* Header */}
-        <div className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm font-bold uppercase tracking-[2px] text-[#0375be]">
-          <span className="h-0.5 w-6 bg-gradient-to-r from-[#fa6c16] to-[#d41a1b]" />
+        <div className="inline-flex items-center gap-2.5 font-mono text-sm sm:text-base lg:text-[17px] font-bold uppercase tracking-[2px] text-[#0375be]">
+          <span className="h-[3px] w-7 bg-gradient-to-r from-[#fa6c16] to-[#d41a1b] rounded-full" />
           KEY STRENGTHS
         </div>
         <h2 className="mt-3 font-['Poppins',sans-serif] text-2xl min-[375px]:text-3xl font-bold leading-[1.1] tracking-tight text-slate-800 sm:text-4xl lg:text-[44px]">
@@ -926,7 +929,7 @@ export function StrengthsSection() {
    ========================================================================= */
 export function ContactCTA() {
   return (
-    <section className="bg-[#f8fbff] py-12 sm:py-16 lg:py-20">
+    <section className="bg-[#F5FAFF] py-12 sm:py-16 lg:py-20 border-t border-sky-100/70">
       <div className="site-container">
         <div className="overflow-hidden rounded-xl sm:rounded-2xl border border-slate-200 bg-white shadow-lg lg:grid lg:grid-cols-[1.1fr_1.5fr_1fr] lg:items-center">
           {/* Left: Engineering & Consultation Photo */}
@@ -998,12 +1001,14 @@ export function ContactCTA() {
 export function HomePage() {
   return (
     <PageFrame>
-      <HomeHero />
-      <ServicesSection />
-      <WhyChooseUs />
-      <ProjectsSection />
-      <StrengthsSection />
-      <ContactCTA />
+      <div className="bg-[#F5FAFF] min-h-screen">
+        <HomeHero />
+        <ServicesSection />
+        <WhyChooseUs />
+        <ProjectsSection />
+        <StrengthsSection />
+        <ContactCTA />
+      </div>
     </PageFrame>
   );
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
@@ -28,7 +28,7 @@ import { ServiceCard } from "@/components/services/ServiceCard";
 import { ServiceRequestDialog } from "@/components/services/ServiceRequestDialog";
 import type { ServiceItemData } from "@/types/service";
 
-const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/+$/, "");
+const API_BASE = ((import.meta.env["VITE_API_URL"] as string) || "http://localhost:5000").replace(/\/+$/, "");
 
 /* =========================================================================
    IMAGE PATH CONSTANTS (Centralized for easy updating)
@@ -216,7 +216,7 @@ export function ServicesHero() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="relative min-h-[500px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 pb-8 sm:pt-24 sm:pb-12 text-white flex flex-col justify-between">
+    <section className="relative min-h-[500px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 pb-8 sm:pt-24 sm:pb-12 text-white flex flex-col justify-between max-sm:aspect-[1923/818] max-sm:min-h-0 max-sm:h-auto max-sm:pt-0 max-sm:pb-0 max-sm:mt-[76px] max-sm:overflow-hidden">
       {/* Background Image with scale entrance 1.06 -> 1 */}
       <motion.div
         initial={shouldReduceMotion ? { scale: 1 } : { scale: 1.06 }}
@@ -232,17 +232,17 @@ export function ServicesHero() {
       </motion.div>
 
       {/* Main Content Area (Vertically centered and aligned matching Home Hero) */}
-      <div className="site-container relative z-10 flex flex-1 flex-col justify-center py-6 sm:py-10 lg:py-12">
-        <div className="max-w-[560px] min-h-[340px] sm:min-h-[440px] flex flex-col justify-center">
-          <div className="will-change-transform -mt-4 sm:-mt-10 lg:-mt-14">
+      <div className="site-container relative z-10 flex flex-1 flex-col justify-center py-6 sm:py-10 lg:py-12 max-sm:py-0 max-sm:h-full max-sm:justify-center">
+        <div className="max-w-[560px] min-h-[340px] sm:min-h-[440px] flex flex-col justify-center max-sm:min-h-0 max-sm:max-w-[42vw]">
+          <div className="will-change-transform -mt-4 sm:-mt-10 lg:-mt-14 max-sm:-mt-[3.89vw]">
             {/* Eyebrow */}
             <motion.div
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.2, ease: "easeOut" }}
-              className="inline-flex items-center gap-2.5 font-mono text-xs sm:text-base lg:text-[17px] font-bold uppercase tracking-[2px] text-[#f97316] will-change-transform"
+              className="inline-flex items-center gap-2.5 font-mono text-xs sm:text-base lg:text-[17px] font-bold uppercase tracking-[2px] text-[#f97316] will-change-transform max-sm:text-[1.18vw] max-sm:gap-[0.69vw] max-sm:tracking-[0.14vw]"
             >
-              <span className="h-[3px] w-7 bg-[#f97316] rounded-full" />
+              <span className="h-[3px] w-7 bg-[#f97316] rounded-full max-sm:h-[0.21vw] max-sm:w-[1.94vw]" />
               OUR SERVICES
             </motion.div>
 
@@ -251,7 +251,7 @@ export function ServicesHero() {
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
-              className="mt-3 font-['Poppins',sans-serif] text-2xl min-[375px]:text-3xl font-extrabold leading-[1.12] tracking-tight text-white sm:text-4xl lg:text-[44px] will-change-transform"
+              className="mt-3 font-['Poppins',sans-serif] text-2xl min-[375px]:text-3xl font-extrabold leading-[1.12] tracking-tight text-white sm:text-4xl lg:text-[44px] will-change-transform max-sm:mt-[0.83vw] max-sm:text-[3.06vw] max-sm:leading-[1.15] max-sm:tracking-tight"
             >
               Comprehensive <br />
               Infrastructure <br />
@@ -263,7 +263,7 @@ export function ServicesHero() {
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
-              className="mt-3 sm:mt-4 max-w-[500px] text-xs min-[375px]:text-sm sm:text-base lg:text-[17px] leading-relaxed text-slate-100 will-change-transform"
+              className="mt-3 sm:mt-4 max-w-[500px] text-xs min-[375px]:text-sm sm:text-base lg:text-[17px] leading-relaxed text-slate-100 will-change-transform max-sm:mt-[1.11vw] max-sm:max-w-[34.72vw] max-sm:text-[1.18vw] max-sm:leading-[1.4]"
             >
               From underground utilities to roads, drainage and pipeline networks,
               we deliver end-to-end infrastructure solutions with a focus on safety,
@@ -271,7 +271,7 @@ export function ServicesHero() {
             </motion.p>
 
             {/* Action Buttons */}
-            <div className="mt-5 sm:mt-6 flex flex-col min-[390px]:flex-row items-stretch min-[390px]:items-center gap-3 sm:gap-3.5">
+            <div className="mt-5 sm:mt-6 flex flex-col min-[390px]:flex-row items-stretch min-[390px]:items-center gap-3 sm:gap-3.5 max-sm:mt-[1.67vw] max-sm:flex-row max-sm:items-center max-sm:gap-[0.97vw]">
               <motion.div
                 initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -280,11 +280,11 @@ export function ServicesHero() {
               >
                 <Button
                   asChild
-                  className="h-10 w-full min-[390px]:w-auto justify-center rounded-full bg-[#f97316] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:scale-[1.02] hover:bg-[#ea580c]"
+                  className="h-10 w-full min-[390px]:w-auto justify-center rounded-full bg-[#f97316] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:scale-[1.02] hover:bg-[#ea580c] max-sm:h-[2.78vw] max-sm:w-auto max-sm:px-[1.67vw] max-sm:text-[0.83vw] max-sm:tracking-[0.08vw] max-sm:whitespace-nowrap"
                 >
                   <a href="#services-overview">
                     EXPLORE SERVICES
-                    <ArrowRight className="ml-1.5 size-4" />
+                    <ArrowRight className="ml-1.5 size-4 max-sm:ml-[0.4vw] max-sm:size-[1.11vw]" />
                   </a>
                 </Button>
               </motion.div>
@@ -298,7 +298,7 @@ export function ServicesHero() {
                 <Button
                   asChild
                   variant="outline"
-                  className="h-10 w-full min-[390px]:w-auto justify-center rounded-full border-white/50 bg-transparent px-6 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-xs transition-all hover:bg-white hover:text-[#082342]"
+                  className="h-10 w-full min-[390px]:w-auto justify-center rounded-full border-white/50 bg-transparent px-6 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-xs transition-all hover:bg-white hover:text-[#082342] max-sm:h-[2.78vw] max-sm:w-auto max-sm:px-[1.67vw] max-sm:text-[0.83vw] max-sm:tracking-[0.08vw] max-sm:whitespace-nowrap"
                 >
                   <Link to="/contact">GET A QUOTE</Link>
                 </Button>
@@ -315,48 +315,54 @@ export function ServicesHero() {
    SECTION 2: ServicesOverview ("Our Core Services", id="services-overview")
    ========================================================================= */
 
+const FALLBACK_CORE_SERVICES: ServiceItemData[] = [
+  {
+    id: 1,
+    title: "Underground Utility Construction",
+    description:
+      "We design-build and execute sewerage networks, storm-water drains and pipelines with precise levels, quality materials and strict safety practices. Every line is built to carry flow reliably for decades.",
+    features: [
+      "Sewerage & Storm-Water Networks",
+      "Water Supply & Utility Pipelines",
+      "Deep Chamber & Manhole Construction",
+      "Trench Excavation & Shoring",
+    ],
+    button_label: "Request a Quote",
+    button_link: "/contact",
+    icon_key: "Droplets",
+    image_url: CORE_GROUP_IMAGE_1,
+    has_image: true,
+    sort_order: 1,
+    is_active: true,
+  },
+  {
+    id: 2,
+    title: "Rehabilitation & Civil Restoration",
+    description:
+      "We revive ageing infrastructure and restore roads after excavation. Our crews and equipment keep disruption low, so public roads are back in service quickly and finished properly.",
+    features: [
+      "Sewer & Drain Rehabilitation",
+      "Road Cutting & Restoration",
+      "Pumping Station Works",
+      "Supporting Civil Works",
+    ],
+    button_label: "Discuss Your Project",
+    button_link: "/contact",
+    icon_key: "Construction",
+    image_url: CORE_GROUP_IMAGE_2,
+    has_image: true,
+    sort_order: 2,
+    is_active: true,
+  },
+];
+
 export function ServicesOverview() {
   const shouldReduceMotion = useReducedMotion();
-  const [services, setServices] = useState<ServiceItemData[]>([
-    {
-      id: 1,
-      title: "Underground Utility Construction",
-      description:
-        "We design-build and execute sewerage networks, storm-water drains and pipelines with precise levels, quality materials and strict safety practices. Every line is built to carry flow reliably for decades.",
-      features: [
-        "Sewerage & Storm-Water Networks",
-        "Water Supply & Utility Pipelines",
-        "Deep Chamber & Manhole Construction",
-        "Trench Excavation & Shoring",
-      ],
-      button_label: "Request a Quote",
-      button_link: "/contact",
-      icon_key: "Droplets",
-      image_url: CORE_GROUP_IMAGE_1,
-      has_image: true,
-      sort_order: 1,
-      is_active: true,
-    },
-    {
-      id: 2,
-      title: "Rehabilitation & Civil Restoration",
-      description:
-        "We revive ageing infrastructure and restore roads after excavation. Our crews and equipment keep disruption low, so public roads are back in service quickly and finished properly.",
-      features: [
-        "Sewer & Drain Rehabilitation",
-        "Road Cutting & Restoration",
-        "Pumping Station Works",
-        "Supporting Civil Works",
-      ],
-      button_label: "Discuss Your Project",
-      button_link: "/contact",
-      icon_key: "Construction",
-      image_url: CORE_GROUP_IMAGE_2,
-      has_image: true,
-      sort_order: 2,
-      is_active: true,
-    },
-  ]);
+  const hash = useRouterState({ select: (s) => s.location.hash });
+  const [highlightedId, setHighlightedId] = useState<string | null>(null);
+
+  const [services, setServices] = useState<ServiceItemData[] | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const [quoteModal, setQuoteModal] = useState<{
     open: boolean;
@@ -383,20 +389,35 @@ export function ServicesOverview() {
         const res = await fetch(`${API_BASE}/api/services`, {
           cache: "no-store",
           headers: {
-            "Pragma": "no-cache",
+            Pragma: "no-cache",
             "Cache-Control": "no-cache",
           },
         });
         if (!res.ok) {
-          console.warn("[Services] API returned status " + res.status + ", using static fallback.");
+          const reason = `HTTP status ${res.status}`;
+          console.warn("Core Services: using fallback content", reason);
+          if (isMounted) {
+            setServices(FALLBACK_CORE_SERVICES);
+            setLoading(false);
+          }
           return;
         }
         const data = await res.json();
-        if (isMounted && data.success && Array.isArray(data.data) && data.data.length > 0) {
-          setServices(data.data);
+        if (isMounted) {
+          if (data && data.success && Array.isArray(data.data)) {
+            setServices(data.data);
+          } else {
+            console.warn("Core Services: using fallback content", "Invalid JSON payload structure");
+            setServices(FALLBACK_CORE_SERVICES);
+          }
+          setLoading(false);
         }
-      } catch (err) {
-        console.warn("[Services] API fetch failed, falling back to static default copy:", err);
+      } catch (err: any) {
+        console.warn("Core Services: using fallback content", err?.message || err);
+        if (isMounted) {
+          setServices(FALLBACK_CORE_SERVICES);
+          setLoading(false);
+        }
       }
     }
 
@@ -406,11 +427,50 @@ export function ServicesOverview() {
     };
   }, []);
 
+  // Hash anchor scrolling and temporary highlight effect
+  useEffect(() => {
+    if (!hash) return;
+    const cleanHash = hash.replace(/^#/, "");
+    if (!cleanHash) return;
+
+    let pollTimer: ReturnType<typeof setTimeout> | null = null;
+    let highlightTimer: ReturnType<typeof setTimeout> | null = null;
+    let attempts = 0;
+    const maxAttempts = 30; // 3 seconds retry loop
+
+    const checkAndScroll = () => {
+      const el = document.getElementById(cleanHash);
+      if (el) {
+        el.scrollIntoView({
+          behavior: shouldReduceMotion ? "auto" : "smooth",
+          block: "start",
+        });
+        if (cleanHash.startsWith("service-")) {
+          setHighlightedId(cleanHash);
+          highlightTimer = setTimeout(() => {
+            setHighlightedId(null);
+          }, 2500);
+        }
+      } else if (attempts < maxAttempts) {
+        attempts++;
+        pollTimer = setTimeout(checkAndScroll, 100);
+      }
+    };
+
+    checkAndScroll();
+
+    return () => {
+      if (pollTimer) clearTimeout(pollTimer);
+      if (highlightTimer) clearTimeout(highlightTimer);
+    };
+  }, [hash, services, shouldReduceMotion]);
+
   return (
     <section
-      id="services-overview"
-      className="relative overflow-hidden bg-[#F5FAFF] py-12 sm:py-20 lg:py-28"
+      id="core-services"
+      className="relative overflow-hidden bg-[#F5FAFF] py-12 sm:py-20 lg:py-28 scroll-mt-[110px]"
     >
+      <div id="services-overview" className="scroll-mt-[110px]" />
       <style>{`
         @media (min-width: 1024px) {
           .slant-photo-left {
@@ -530,33 +590,78 @@ export function ServicesOverview() {
           </motion.p>
         </div>
 
-        {/* Dynamic Service Rows (Stacked with gap) */}
-        <div className="mt-10 space-y-8 sm:mt-14 sm:space-y-10 lg:mt-16 lg:space-y-12">
-          {services.map((service, index) => (
-            <motion.div
-              key={service.id || index}
-              initial={
-                shouldReduceMotion
-                  ? { opacity: 0 }
-                  : { opacity: 0, y: 25, scale: 0.97 }
-              }
-              whileInView={
-                shouldReduceMotion
-                  ? { opacity: 1 }
-                  : { opacity: 1, y: 0, scale: 1 }
-              }
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.55, delay: index * 0.12, ease: "easeOut" }}
-              className="will-change-transform"
-            >
-              <ServiceCard
-                service={service}
-                index={index}
-                onRequestQuote={handleRequestQuote}
-              />
-            </motion.div>
-          ))}
-        </div>
+        {/* Dynamic Service Rows or Empty State */}
+        {loading ? (
+          <div className="mt-10 space-y-6 sm:mt-14 sm:space-y-8" aria-busy="true" aria-label="Loading core services">
+            <div className="h-64 rounded-2xl bg-white/60 p-8 shadow-xs animate-pulse border border-slate-100" />
+          </div>
+        ) : !services || services.length === 0 ? (
+          <motion.div
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="mt-10 sm:mt-14 mx-auto max-w-2xl rounded-2xl bg-white p-8 sm:p-12 text-center shadow-[0_10px_35px_rgba(10,60,120,0.06)] border border-slate-100"
+          >
+            <div className="mx-auto grid size-14 place-items-center rounded-full bg-[#E0F1FC] text-[#0A8FD8] shadow-sm mb-5">
+              <Construction className="size-7" />
+            </div>
+            <h3 className="font-['Poppins',sans-serif] text-xl min-[375px]:text-2xl font-bold tracking-tight text-[#0B2A5B] sm:text-2xl">
+              Our service list is being updated
+            </h3>
+            <p className="mt-3 max-w-md mx-auto text-xs sm:text-sm leading-relaxed text-[#5B6B80]">
+              Please contact us and our team will be happy to help with your requirement.
+            </p>
+            <div className="mt-6 sm:mt-8">
+              <Button
+                asChild
+                className="h-11 rounded-full bg-[#f97316] px-8 text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-orange-500/20 transition-all hover:bg-[#ea580c] hover:scale-[1.02]"
+              >
+                <Link to="/contact">
+                  CONTACT US
+                  <ArrowRight className="ml-2 size-4" />
+                </Link>
+              </Button>
+            </div>
+          </motion.div>
+        ) : (
+          <div className="mt-10 space-y-8 sm:mt-14 sm:space-y-10 lg:mt-16 lg:space-y-12">
+            {services.map((service, index) => {
+              const cardId = service.id ? `service-${service.id}` : undefined;
+              const isTargetHighlighted = cardId && (highlightedId === cardId || highlightedId === String(service.id));
+
+              return (
+                <motion.div
+                  key={service.id || index}
+                  id={cardId}
+                  initial={
+                    shouldReduceMotion
+                      ? { opacity: 0 }
+                      : { opacity: 0, y: 25, scale: 0.97 }
+                  }
+                  whileInView={
+                    shouldReduceMotion
+                      ? { opacity: 1 }
+                      : { opacity: 1, y: 0, scale: 1 }
+                  }
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.55, delay: index * 0.12, ease: "easeOut" }}
+                  className={`scroll-mt-[110px] rounded-2xl will-change-transform transition-all duration-500 ${
+                    isTargetHighlighted
+                      ? "ring-4 ring-[#F97316] ring-offset-4 ring-offset-[#F5FAFF] shadow-2xl scale-[1.01]"
+                      : ""
+                  }`}
+                >
+                  <ServiceCard
+                    service={service}
+                    index={index}
+                    onRequestQuote={handleRequestQuote}
+                    isHighlighted={Boolean(isTargetHighlighted)}
+                  />
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Quote Request Modal */}

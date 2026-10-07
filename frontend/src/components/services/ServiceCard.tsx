@@ -12,9 +12,10 @@ interface ServiceCardProps {
   service: Partial<ServiceItemData>;
   index: number;
   onRequestQuote?: (service: Partial<ServiceItemData>) => void;
+  isHighlighted?: boolean;
 }
 
-export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequestQuote }) => {
+export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequestQuote, isHighlighted }) => {
   const Icon = getServiceIcon(service.icon_key);
   const isPhotoLeft = index % 2 === 0;
   const serviceNumber = String(index + 1).padStart(2, "0");
@@ -40,11 +41,12 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequ
   const ctaLink = service.button_link || "/contact";
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const currentSrc = e.currentTarget.src;
-    if (currentSrc !== fallbackSrc) {
-      console.warn(`[ServiceCard] Failed to load image: "${currentSrc}". Falling back to default photo.`);
-      e.currentTarget.src = fallbackSrc;
+    const target = e.currentTarget;
+    if (target.dataset["hasFallback"]) {
+      return;
     }
+    target.dataset["hasFallback"] = "true";
+    target.src = fallbackSrc;
   };
 
   return (

@@ -4,14 +4,11 @@ import {
   HardHat,
   LayoutDashboard,
   FolderGit2,
-  FileText,
-  Users,
   Settings as SettingsIcon,
   LogOut,
   Menu,
   X,
   Bell,
-  Plus,
   Shield,
   Layers3,
   MessageSquareText,
@@ -41,8 +38,6 @@ const NAV_ITEMS = [
   { id: "recent-works", label: "Recent Works", href: "/admin/recent-works", icon: FolderGit2 },
   { id: "service-requests", label: "Service Requests", href: "/admin/service-requests", icon: MessageSquareText },
   { id: "contact-messages", label: "Contact Messages", href: "/admin/contact-messages", icon: Mail },
-  { id: "documents", label: "Documents", href: "#", icon: FileText },
-  { id: "clients", label: "Clients", href: "#", icon: Users },
   { id: "settings", label: "Settings", href: "/settings", icon: SettingsIcon },
 ];
 
@@ -194,15 +189,17 @@ export function AdminLayout({
 
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
+            // Clean pathname without query parameters and trailing slashes
+            const rawPath = (currentPath || "").split("?")[0] || "";
+            const cleanPath = rawPath.replace(/\/+$/, "") || "/";
+            const isPathMatch =
+              item.href !== "#" &&
+              (cleanPath === item.href || cleanPath.startsWith(`${item.href}/`));
+
             // Determine active state based on explicit prop or current pathname
             const isActive = activeNav
-              ? activeNav === item.id
-              : (item.href === "/dashboard" && currentPath === "/dashboard") ||
-                (item.href === "/admin/services" && currentPath.startsWith("/admin/services")) ||
-                (item.href === "/admin/recent-works" && currentPath.startsWith("/admin/recent-works")) ||
-                (item.href === "/admin/service-requests" && currentPath.startsWith("/admin/service-requests")) ||
-                (item.href === "/admin/contact-messages" && currentPath.startsWith("/admin/contact-messages")) ||
-                (item.href === "/settings" && currentPath === "/settings");
+              ? activeNav === item.id || (activeNav === "projects" && item.id === "recent-works")
+              : isPathMatch;
 
             const isLink = item.href !== "#";
             const displayCount =
@@ -274,24 +271,6 @@ export function AdminLayout({
               </button>
             );
           })}
-
-          <div className="pt-6">
-            <div className="px-3 pb-2 font-mono text-[10px] font-bold uppercase tracking-wider text-slate-400">
-              System Status
-            </div>
-            <div className="rounded-xl border border-white/10 bg-white/5 p-3.5 text-xs">
-              <div className="flex items-center gap-2 font-semibold text-white">
-                <span className="relative flex size-2">
-                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
-                </span>
-                PostgreSQL Connected
-              </div>
-              <p className="mt-1 text-[11px] text-slate-400">
-                DB: Hariputhiran • API: Active
-              </p>
-            </div>
-          </div>
         </div>
 
         {/* Sidebar Footer / User Info & Sign Out */}
@@ -348,19 +327,6 @@ export function AdminLayout({
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Quick action: New Project */}
-            <Button
-              onClick={() =>
-                toast.info("Create Project", {
-                  description: "Project creation modal feature ready in next phase.",
-                })
-              }
-              className="hidden h-9 items-center gap-1.5 rounded-full bg-[#f97316] px-4 text-xs font-bold uppercase tracking-wider text-white shadow-sm hover:bg-[#ea580c] sm:flex"
-            >
-              <Plus className="size-3.5" />
-              New Project
-            </Button>
-
             {/* Notification Bell */}
             <NotificationBell />
 

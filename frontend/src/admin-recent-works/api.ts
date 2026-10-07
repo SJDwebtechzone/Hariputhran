@@ -5,7 +5,7 @@ import {
   UpdateRecentWorkPayload,
 } from "@/types/recentWork";
 
-const API_BASE_URL = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
+const API_BASE_URL = ((import.meta.env["VITE_API_URL"] as string) || "").replace(/\/$/, "");
 const TIMEOUT_MS = 20000;
 
 function getAuthToken(): string | null {
@@ -78,10 +78,15 @@ export async function fetchPublicRecentWorks(): Promise<RecentWorkItem[]> {
   return res.data || [];
 }
 
+export interface AdminRecentWorksData {
+  items: RecentWorkItem[];
+  sectionActive: boolean;
+}
+
 /**
  * 2. GET /api/admin/recent-works (Admin list)
  */
-export async function fetchAdminRecentWorks(): Promise<RecentWorkItem[]> {
+export async function fetchAdminRecentWorks(): Promise<AdminRecentWorksData> {
   const token = getAuthToken();
   if (!token) {
     handle401SessionExpiry();
@@ -95,7 +100,10 @@ export async function fetchAdminRecentWorks(): Promise<RecentWorkItem[]> {
     },
     cache: "no-store",
   });
-  return res.data || [];
+  return {
+    items: res.data || [],
+    sectionActive: res.sectionActive !== false,
+  };
 }
 
 /**
@@ -135,3 +143,59 @@ export async function updateAdminRecentWork(
 
   return res.data;
 }
+
+/**
+ * 4. PATCH /api/admin/recent-works/:id/active (Toggle Active / Hidden)
+ */
+export async function toggleRecentWorkActive(
+  id: number,
+  isActive: boolean
+): Promise<RecentWorkItem> {
+  const token = getAuthToken();
+  if (!token) {
+    handle401SessionExpiry();
+    throw new Error("Authentication required. Please sign in.");
+  }
+
+  const res = await apiFetch<RecentWorkSingleResponse>(
+    `${API_BASE_URL}/api/admin/recent-works/${id}/active`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ isActive }),
+    }
+  );
+
+  return res.data;
+}
+
+/**
+ * 5. PATCH /api/admin/recent-works/section/active (Toggle Master Section Active / Hidden)
+ */
+export async function toggleRecentWorksSectionActive(
+  isActive: boolean
+): Promise<boolean> {
+  const token = getAuthToken();
+  if (!token) {
+    handle401SessionExpiry();
+    throw new Error("Authentication required. Please sign in.");
+  }
+
+  const res = await apiFetch<{ success: boolean; sectionActive: boolean; message?: string }>(
+    `${API_BASE_URL}/api/admin/recent-works/section/active`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ isActive }),
+    }
+  );
+
+  return res.sectionActive !== false;
+}
+
