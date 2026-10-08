@@ -136,7 +136,7 @@ export function HomeHero() {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-[500px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 pb-8 sm:pt-24 sm:pb-12 text-white flex flex-col justify-between max-sm:aspect-[1983/793] max-sm:min-h-0 max-sm:h-auto max-sm:pt-0 max-sm:pb-0 max-sm:mt-[88px] max-sm:overflow-hidden"
+      className="relative min-h-[500px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 pb-8 sm:pt-24 sm:pb-12 text-white flex flex-col justify-between max-sm:aspect-[1983/793] max-sm:min-h-0 max-sm:h-auto max-sm:pt-0 max-sm:pb-0 mt-[104px] sm:mt-[132px] md:mt-0 max-sm:overflow-hidden"
     >
       {/* Fixed Background Image Container */}
       <motion.div
@@ -179,7 +179,7 @@ export function HomeHero() {
             <img
               src="/logo.png"
               alt="Hariputhran Enterprises - Underground Sewerage & Infrastructure Contractor Chennai"
-              className="w-[200px] min-[375px]:w-[220px] sm:w-[250px] lg:w-[270px] xl:w-[280px] h-auto object-contain drop-shadow-2xl max-sm:w-[18.75vw]"
+              className="w-[225px] min-[375px]:w-[250px] sm:w-[280px] lg:w-[305px] xl:w-[315px] h-auto object-contain drop-shadow-2xl max-sm:w-[21vw]"
             />
 
             {/* Semantic H1 for Search Engines & Accessibility */}
@@ -334,7 +334,7 @@ export function ServicesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.55, delay: 0.2, ease: "easeOut" }}
-              className="mt-4 text-sm sm:text-base leading-relaxed text-slate-600 will-change-transform"
+              className="mt-4 text-sm sm:text-base leading-relaxed text-slate-600 text-left sm:text-justify hyphens-auto will-change-transform"
             >
               From underground sewerage networks to road restoration, we deliver end-to-end civil engineering services with precision and expertise.
             </motion.p>
@@ -585,6 +585,40 @@ export function ProjectsSection() {
   const [sectionActive, setSectionActive] = useState(true);
   const [loading, setLoading] = useState(true);
   const [fetchFailed, setFetchFailed] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = () => {
+    if (!scrollerRef.current) return;
+    const el = scrollerRef.current;
+    const children = Array.from(el.children) as HTMLElement[];
+    if (!children.length) return;
+    const scrollerCenter = el.scrollLeft + el.clientWidth / 2;
+    let closestIndex = 0;
+    let minDistance = Infinity;
+    children.forEach((child, i) => {
+      const childCenter = child.offsetLeft + child.offsetWidth / 2;
+      const dist = Math.abs(scrollerCenter - childCenter);
+      if (dist < minDistance) {
+        minDistance = dist;
+        closestIndex = i;
+      }
+    });
+    setActiveIndex(closestIndex);
+  };
+
+  const scrollToCard = (index: number) => {
+    if (!scrollerRef.current) return;
+    const children = Array.from(scrollerRef.current.children) as HTMLElement[];
+    const target = children[index];
+    if (target) {
+      target.scrollIntoView({
+        behavior: shouldReduceMotion ? "auto" : "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -642,8 +676,14 @@ export function ProjectsSection() {
     return null;
   }
 
+  const renderedCount = loading
+    ? 4
+    : !fetchFailed && items.length > 0
+    ? items.length
+    : projectsData.length;
+
   return (
-    <section className="bg-[#F5FAFF] py-12 sm:py-16 lg:py-24 overflow-hidden border-t border-sky-100/70" id="projects">
+    <section className="bg-[#F5FAFF] py-12 sm:py-16 lg:py-24 pb-14 sm:pb-16 md:pb-16 lg:pb-24 overflow-hidden border-t border-sky-100/70" id="projects">
       <div className="site-container">
         {/* Header */}
         <div>
@@ -668,14 +708,21 @@ export function ProjectsSection() {
           </motion.h2>
         </div>
 
-        {/* 4-Column Responsive Grid */}
-        <div className="mt-8 sm:mt-10 grid grid-cols-1 gap-4.5 sm:grid-cols-2 lg:grid-cols-4 sm:gap-5">
+        {/* Responsive Container: Horizontal Scroller with snap on mobile (<md), Grid on desktop (>=md) */}
+        <div
+          ref={scrollerRef}
+          onScroll={handleScroll}
+          role="region"
+          aria-label="Recent works, swipe horizontally"
+          tabIndex={0}
+          className="mt-8 sm:mt-10 flex overflow-x-auto snap-x snap-mandatory overscroll-x-contain gap-4 -mx-4 px-4 sm:-mx-6 sm:px-6 scroll-px-4 sm:scroll-px-6 pb-2 pt-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0284c7] rounded-xl md:mt-10 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-5 md:mx-0 md:px-0 md:pb-0 md:pt-0 md:overflow-visible md:snap-none md:scroll-px-0 md:ring-0 md:focus-visible:ring-0"
+        >
           {loading ? (
             /* Loading Skeletons */
             [1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className="flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.05)] animate-pulse"
+                className="w-[82%] min-[480px]:w-[70%] shrink-0 snap-start md:w-auto md:shrink md:snap-none flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.05)] animate-pulse"
               >
                 <div className="aspect-[4/3] w-full bg-slate-100" />
                 <div className="p-4 space-y-2.5">
@@ -703,7 +750,7 @@ export function ProjectsSection() {
                   }
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.6, delay, ease: "easeOut" }}
-                  className="group flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.05)] transition-all duration-300 hover:md:-translate-y-1 hover:shadow-xl will-change-transform"
+                  className="w-[82%] min-[480px]:w-[70%] shrink-0 snap-start md:w-auto md:shrink md:snap-none group flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.05)] transition-all duration-300 hover:md:-translate-y-1 hover:shadow-xl will-change-transform"
                 >
                   {/* Image Container with entrance scale: 1.04 -> 1, hover: scale 1.05 */}
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
@@ -760,7 +807,7 @@ export function ProjectsSection() {
                   }
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.6, delay, ease: "easeOut" }}
-                  className="group flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.05)] transition-all duration-300 hover:md:-translate-y-1 hover:shadow-xl will-change-transform"
+                  className="w-[82%] min-[480px]:w-[70%] shrink-0 snap-start md:w-auto md:shrink md:snap-none group flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-[0_2px_10px_rgba(2,132,199,0.05)] transition-all duration-300 hover:md:-translate-y-1 hover:shadow-xl will-change-transform"
                 >
                   {/* Image Container with entrance scale: 1.04 -> 1, hover: scale 1.05 */}
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
@@ -800,6 +847,36 @@ export function ProjectsSection() {
             })
           )}
         </div>
+
+        {/* Mobile Pagination Dots */}
+        {renderedCount > 1 && (
+          <div
+            className="mt-6 flex items-center justify-center gap-1 md:hidden"
+            aria-label="Project carousel pagination"
+          >
+            {Array.from({ length: renderedCount }).map((_, idx) => {
+              const isActive = activeIndex === idx;
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => scrollToCard(idx)}
+                  aria-label={`Show project ${idx + 1} of ${renderedCount}`}
+                  aria-current={isActive ? "true" : undefined}
+                  className="flex size-11 items-center justify-center rounded-full focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#0284c7] touch-manipulation"
+                >
+                  <span
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      isActive
+                        ? "w-6 bg-[#0284c7]"
+                        : "w-2 bg-slate-300 hover:bg-slate-400"
+                    }`}
+                  />
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -953,7 +1030,7 @@ export function ContactCTA() {
             <h2 className="mt-3 font-['Poppins',sans-serif] text-2xl font-bold tracking-tight text-[#082342] sm:text-3xl leading-tight">
               Need a Reliable Partner <br />for Your Project?
             </h2>
-            <p className="mt-3 text-sm sm:text-base leading-relaxed text-slate-600">
+                          <p className="mt-3 text-sm sm:text-base leading-relaxed text-slate-600 text-justify sm:text-left">
               Get in touch with us for expert consultation and customized solutions for your infrastructure needs.
             </p>
           </div>

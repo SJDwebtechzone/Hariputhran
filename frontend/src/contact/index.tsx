@@ -105,7 +105,7 @@ export function ContactPage() {
   return (
     <PageFrame>
       {/* SECTION 1 — CONTACT HERO */}
-      <section className="relative overflow-hidden pt-24 pb-12 sm:pt-36 sm:pb-20">
+      <section className="relative overflow-hidden pt-[104px] pb-12 sm:pt-[132px] sm:pb-20 md:pt-36 md:pb-20">
         <div className="site-container grid items-center gap-8 sm:gap-10 md:grid-cols-[.9fr_1.1fr]">
           <div className="min-w-0">
             <motion.div
@@ -133,7 +133,7 @@ export function ContactPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
-              className="mt-4 sm:mt-6 max-w-md text-xs min-[375px]:text-sm leading-6 sm:leading-7 text-muted-foreground will-change-transform"
+              className="mt-4 sm:mt-6 max-w-md text-xs min-[375px]:text-sm leading-6 sm:leading-7 text-muted-foreground text-justify will-change-transform"
             >
               Have a question, tender requirement, or need civil engineering consultation? Our team is here to help. Get in touch with us and we’ll respond as soon as possible.
             </motion.p>
@@ -207,7 +207,7 @@ export function ContactPage() {
               <h2 className="mt-3 sm:mt-4 text-2xl min-[375px]:text-3xl font-semibold sm:text-4xl">
                 Let’s Talk<br />About <span className="text-brand">Infrastructure</span>
               </h2>
-              <p className="mt-3 sm:mt-5 text-xs sm:text-sm leading-6 text-muted-foreground">
+              <p className="mt-3 sm:mt-5 text-xs sm:text-sm leading-6 text-muted-foreground text-justify">
                 Fill out the form and we’ll get back to you within 24 hours.
               </p>
             </motion.div>
@@ -283,11 +283,11 @@ export function ContactPage() {
               </h3>
 
               <div className="mt-3.5 sm:mt-4 max-w-md rounded-xl sm:rounded-2xl border border-sky-100 bg-sky-50/70 p-3.5 sm:p-4 text-xs sm:text-sm leading-relaxed text-[#082342] text-left">
-                <p>
+                <p className="text-justify">
                   We have received your message and sent a confirmation to{" "}
                   <strong className="text-[#0284c7]">{submittedData?.email}</strong>.
                 </p>
-                <p className="mt-2 text-slate-600">
+                <p className="mt-2 text-slate-600 text-justify">
                   Our team will review your inquiry and get back to you within 24 hours.
                 </p>
               </div>
@@ -487,7 +487,7 @@ export function ContactPage() {
           >
             <Eyebrow>Our Locations</Eyebrow>
             <h2 className="mt-3 sm:mt-4 text-2xl min-[375px]:text-3xl font-semibold sm:text-4xl">Our Offices</h2>
-            <p className="mt-2.5 sm:mt-4 text-xs sm:text-sm text-muted-foreground">
+            <p className="mt-2.5 sm:mt-4 text-xs sm:text-sm text-muted-foreground text-justify">
               Visit us at one of our locations or get in touch for more details.
             </p>
             <div className="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 text-xs leading-6">
@@ -512,7 +512,7 @@ export function ContactPage() {
                   <p className="text-slate-600 mt-1 space-y-1">
                     <span className="block"><b>Phone:</b> +91 72003 33487 / 90032 21019</span>
                     <span className="block"><b>Email:</b> anand@hariputhranenterprises.com</span>
-                    <span className="block"><b>Web:</b> www.hariputhranenterprises.com</span>
+                    
                   </p>
                 </div>
               </div>

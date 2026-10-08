@@ -88,7 +88,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequ
                 </div>
 
                 {/* Description */}
-                <p className="mt-2.5 sm:mt-3 text-xs leading-relaxed text-[#5B6B80] sm:text-[14px]">
+                <p className="mt-2.5 sm:mt-3 text-xs leading-relaxed text-[#5B6B80] text-justify sm:text-[14px]">
                   {service.description}
                 </p>
 
@@ -169,7 +169,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequ
                 </div>
 
                 {/* Description */}
-                <p className="mt-2.5 sm:mt-3 text-xs leading-relaxed text-[#5B6B80] sm:text-[14px]">
+                <p className="mt-2.5 sm:mt-3 text-xs leading-relaxed text-[#5B6B80] text-justify sm:text-[14px]">
                   {service.description}
                 </p>
 

@@ -152,7 +152,7 @@ const forgotPassword = async (req, res) => {
       );
 
       // Construct frontend reset link
-      const frontendBaseUrl = process.env.FRONTEND_URL || "http://localhost:8080";
+      const frontendBaseUrl = (process.env.FRONTEND_URL || "https://hariputhranenterprises.com").replace(/\/+$/, "");
       const resetLink = `${frontendBaseUrl}/reset-password?token=${rawToken}`;
 
       // Dispatch branded reset email

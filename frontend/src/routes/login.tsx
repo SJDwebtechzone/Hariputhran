@@ -6,6 +6,7 @@ export const Route = createFileRoute("/login")({
     meta: [
       { title: "Staff & Client Portal — Hariputhran Enterprises" },
       { name: "description", content: "Secure portal login for Hariputhran Enterprises staff and clients." },
+      { name: "robots", content: "noindex, nofollow" },
       { property: "og:title", content: "Portal Login — Hariputhran Enterprises" },
       { property: "og:description", content: "Secure portal login for Hariputhran Enterprises staff and clients." },
       { property: "og:type", content: "website" },

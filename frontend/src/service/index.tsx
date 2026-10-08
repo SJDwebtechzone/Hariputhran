@@ -28,7 +28,7 @@ import { ServiceCard } from "@/components/services/ServiceCard";
 import { ServiceRequestDialog } from "@/components/services/ServiceRequestDialog";
 import type { ServiceItemData } from "@/types/service";
 
-const API_BASE = ((import.meta.env["VITE_API_URL"] as string) || "http://localhost:5000").replace(/\/+$/, "");
+const API_BASE = ((import.meta.env["VITE_API_URL"] as string) || (import.meta.env.DEV ? "http://localhost:5000" : "")).replace(/\/+$/, "");
 
 /* =========================================================================
    IMAGE PATH CONSTANTS (Centralized for easy updating)
@@ -216,7 +216,7 @@ export function ServicesHero() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="relative min-h-[500px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 pb-8 sm:pt-24 sm:pb-12 text-white flex flex-col justify-between max-sm:aspect-[1923/818] max-sm:min-h-0 max-sm:h-auto max-sm:pt-0 max-sm:pb-0 max-sm:mt-[76px] max-sm:overflow-hidden">
+    <section className="relative min-h-[500px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 pb-8 sm:pt-24 sm:pb-12 text-white flex flex-col justify-between max-sm:aspect-[1923/818] max-sm:min-h-0 max-sm:h-auto max-sm:pt-0 max-sm:pb-0 mt-[104px] sm:mt-[132px] md:mt-0 max-sm:overflow-hidden">
       {/* Background Image with scale entrance 1.06 -> 1 */}
       <motion.div
         initial={shouldReduceMotion ? { scale: 1 } : { scale: 1.06 }}
@@ -550,7 +550,7 @@ export function ServicesOverview() {
 
       <div className="relative z-10 mx-auto max-w-[1240px] px-3 sm:px-6 lg:px-8">
         {/* Header, centered */}
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-5xl text-center">
           {/* Eyebrow Pill Badge with Fading Side Lines */}
           <motion.div
             initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
@@ -571,7 +571,7 @@ export function ServicesOverview() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-            className="mt-3 sm:mt-4 font-['Poppins',sans-serif] text-2xl min-[375px]:text-3xl font-extrabold tracking-tight text-[#0B2A5B] sm:text-4xl lg:text-[42px] leading-tight will-change-transform"
+            className="mt-3 sm:mt-4 font-['Poppins',sans-serif] text-2xl min-[375px]:text-3xl font-extrabold tracking-tight text-[#0B2A5B] sm:text-3xl md:text-4xl lg:text-[42px] leading-tight will-change-transform md:whitespace-nowrap"
           >
             Core Services. <span className="text-[#0A9BE0]">Built for a Better Tomorrow.</span>
           </motion.h2>
@@ -581,12 +581,12 @@ export function ServicesOverview() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-            className="mx-auto mt-3 sm:mt-4 max-w-[740px] text-xs sm:text-sm leading-[1.6] text-[#5B6B80] sm:text-[16px] will-change-transform"
+            className="mx-auto mt-3 sm:mt-4 max-w-[740px] text-xs sm:text-sm leading-[1.6] text-[#5B6B80] text-justify sm:text-[16px] will-change-transform"
           >
             From laying the first pipe to restoring the road above it,{" "}
             <strong className="font-bold text-[#0B2A5B]">Hariputhran</strong> delivers
             complete underground infrastructure solutions for municipal bodies, contractors
-            and private developers.
+            and  developers.
           </motion.p>
         </div>
 
@@ -716,7 +716,7 @@ export function WorkProcessSection() {
               <span className="text-[#0284c7]">Your Project</span>
             </h2>
 
-            <p className="mt-2.5 sm:mt-3 text-xs leading-relaxed text-slate-500 sm:text-sm">
+            <p className="mt-2.5 sm:mt-3 text-xs leading-relaxed text-slate-500 text-justify sm:text-sm">
               A structured and transparent process to ensure quality, safety and on-time delivery.
             </p>
           </motion.div>
@@ -838,7 +838,7 @@ export function ServiceClosingBanner() {
               <span className="text-[#f97316]">Project?</span>
             </h2>
 
-            <p className="mt-2.5 sm:mt-3 max-w-md text-xs leading-relaxed text-slate-200 sm:text-sm">
+            <p className="mt-2.5 sm:mt-3 max-w-md text-xs leading-relaxed text-slate-200 text-justify sm:text-sm">
               Get in touch with our team for a consultation and let&apos;s build a stronger tomorrow.
             </p>
 

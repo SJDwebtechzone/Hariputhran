@@ -6,7 +6,10 @@ import {
   ServiceRequestItem,
 } from "@/types/serviceRequests";
 
-const API_BASE_URL = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
+const API_BASE_URL = (
+  (import.meta.env["VITE_API_URL"] as string) ||
+  (import.meta.env.DEV ? "http://localhost:5000" : "")
+).replace(/\/+$/, "");
 const TIMEOUT_MS = 20000;
 
 function getAuthToken(): string | null {

@@ -2,7 +2,7 @@ import type { ServiceItemData, ApiSuccessResponse, ApiErrorResponse, ApiResponse
 
 export type { ServiceItemData, ApiSuccessResponse, ApiErrorResponse, ApiResponse };
 
-const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/+$/, "");
+const API_BASE = ((import.meta.env["VITE_API_URL"] as string) || (import.meta.env.DEV ? "http://localhost:5000" : "")).replace(/\/+$/, "");
 const DEFAULT_TIMEOUT_MS = 20000;
 
 export class ApiError extends Error {

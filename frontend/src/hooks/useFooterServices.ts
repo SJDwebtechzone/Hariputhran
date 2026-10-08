@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { ServiceItemData } from "@/types/service";
 
-const API_BASE = ((import.meta.env["VITE_API_URL"] as string) || "http://localhost:5000").replace(/\/+$/, "");
+const API_BASE = ((import.meta.env["VITE_API_URL"] as string) || (import.meta.env.DEV ? "http://localhost:5000" : "")).replace(/\/+$/, "");
 const CACHE_TTL_MS = 60 * 1000; // 60-second module cache
 
 let cachedServices: ServiceItemData[] | null = null;

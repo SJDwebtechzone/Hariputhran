@@ -199,18 +199,19 @@ async function createServiceRequest(req, res) {
         };
 
         if (sentCount < 3) {
-          await sendCustomerConfirmationEmail(emailPayload);
-          // Set confirmation_sent_at
-          await pool.query(
-            "UPDATE service_requests SET confirmation_sent_at = NOW() WHERE id = $1",
-            [requestId]
-          );
+          const sendRes = await sendCustomerConfirmationEmail(emailPayload);
+          if (sendRes && !sendRes.dryRun) {
+            await pool.query(
+              "UPDATE service_requests SET confirmation_sent_at = NOW() WHERE id = $1",
+              [requestId]
+            );
+          }
         }
 
         // Send Admin notification
         await sendAdminNotificationEmail(emailPayload);
       } catch (mailErr) {
-        console.error(`[ServiceRequestMailer] Mail dispatch failed for request ID ${requestId}:`, mailErr.message);
+        console.error(`[ServiceRequestMailer] Mail dispatch failed for ${formatReference(requestId)}:`, mailErr.message);
       }
     });
   } catch (err) {

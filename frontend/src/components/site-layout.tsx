@@ -134,7 +134,7 @@ export function Footer() {
               className="h-12 sm:h-16 md:h-18 w-auto max-w-[240px] sm:max-w-[260px] object-contain"
             />
           </Link>
-          <p className="max-w-xs text-xs sm:text-xs leading-relaxed text-white">
+          <p className="max-w-sm text-xs leading-relaxed text-white text-justify [text-align-last:left] [text-justify:inter-word] hyphens-none text-pretty">
             Specialized civil &amp; underground utility infrastructure contractors delivering high-quality sewerage, drainage, pipeline, and road restoration works.
           </p>
           <div className="flex gap-2.5 pt-2">
@@ -220,11 +220,6 @@ export function Footer() {
         <div className="col-span-1 min-[360px]:col-span-2 md:col-span-1">
           <p className="font-mono text-xs font-bold uppercase tracking-wider text-[#f97316]">Contact Info</p>
           <div className="mt-4 space-y-3.5 text-xs text-white">
-            <div>
-              <p className="font-bold text-white text-sm">Anand K</p>
-              <p className="text-[11px] text-[#f97316] font-semibold">Proprietor</p>
-              <p className="text-[10.5px] text-white">Chennai Metro Water - Registered Contractor</p>
-            </div>
             {/* Phone Numbers on single line with one icon */}
             <div className="flex items-start gap-2.5">
               <span className="grid size-6 shrink-0 place-items-center rounded-full bg-white/10 text-[#f97316] mt-0.5">

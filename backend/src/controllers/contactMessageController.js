@@ -189,14 +189,15 @@ async function createContactMessage(req, res) {
 
       if (shouldSendCustomerEmail) {
         try {
-          await sendCustomerThankYouEmail(emailPayload);
-          // Update confirmation_sent_at
-          await emailClient.query(
-            `UPDATE contact_messages SET confirmation_sent_at = NOW() WHERE id = $1`,
-            [insertedRow.id]
-          );
+          const sendResult = await sendCustomerThankYouEmail(emailPayload);
+          if (sendResult && !sendResult.dryRun) {
+            await emailClient.query(
+              `UPDATE contact_messages SET confirmation_sent_at = NOW() WHERE id = $1`,
+              [insertedRow.id]
+            );
+          }
         } catch (sendErr) {
-          console.error(`Failed to send customer confirmation email (ID: ${insertedRow.id}):`, sendErr.message);
+          console.error(`Failed to send customer confirmation email (${formatReference(insertedRow.id)}):`, sendErr.message);
         }
       }
 
@@ -204,10 +205,10 @@ async function createContactMessage(req, res) {
       try {
         await sendAdminNotificationEmail(emailPayload);
       } catch (adminSendErr) {
-        console.error(`Failed to send admin notification email (ID: ${insertedRow.id}):`, adminSendErr.message);
+        console.error(`Failed to send admin notification email (${formatReference(insertedRow.id)}):`, adminSendErr.message);
       }
     } catch (bgErr) {
-      console.error(`Background email task error (ID: ${insertedRow?.id}):`, bgErr.message);
+      console.error(`Background email task error (${formatReference(insertedRow?.id)}):`, bgErr.message);
     } finally {
       if (emailClient) emailClient.release();
     }

@@ -2,8 +2,8 @@ import { OverviewApiResponse } from "@/types/dashboard";
 import { toast } from "sonner";
 
 function getApiBase(): string {
-  const envUrl = import.meta.env["VITE_API_URL"] as string | undefined;
-  return (envUrl || "http://localhost:5000").replace(/\/+$/, "");
+  const envUrl = (import.meta.env["VITE_API_URL"] as string | undefined) || "";
+  return (envUrl || (import.meta.env.DEV ? "http://localhost:5000" : "")).replace(/\/+$/, "");
 }
 
 function getAuthHeader(): Record<string, string> {

@@ -8,7 +8,7 @@ import {
 import { toast } from "sonner";
 
 function getApiBase(): string {
-  return (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/+$/, "");
+  return ((import.meta.env["VITE_API_URL"] as string) || (import.meta.env.DEV ? "http://localhost:5000" : "")).replace(/\/+$/, "");
 }
 
 function getAuthHeader(): Record<string, string> {

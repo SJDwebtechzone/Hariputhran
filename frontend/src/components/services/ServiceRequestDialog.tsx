@@ -256,7 +256,7 @@ export function ServiceRequestDialog({
               </div>
 
               <h3 className="mt-5 font-['Poppins',sans-serif] text-xl font-extrabold text-[#082342] sm:text-2xl">
-                Thank you for choosing {submittedData?.serviceName || serviceName}!
+                Thank you! We have received your {submittedData?.serviceName || serviceName} request.
               </h3>
 
               <div className="mt-4 max-w-md rounded-2xl border border-sky-100 bg-sky-50/70 p-4 text-xs leading-relaxed text-[#082342] text-left">

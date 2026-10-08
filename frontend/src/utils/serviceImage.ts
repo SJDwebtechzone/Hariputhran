@@ -1,6 +1,6 @@
 import type { ServiceItemData } from "@/types/service";
 
-const API_BASE = ((import.meta.env["VITE_API_URL"] as string) || "http://localhost:5000").replace(/\/+$/, "");
+const API_BASE = ((import.meta.env["VITE_API_URL"] as string) || (import.meta.env.DEV ? "http://localhost:5000" : "")).replace(/\/+$/, "");
 
 export const DEFAULT_SERVICE_PHOTOS = [
   "/images/Underground Utility Infrastructure.jpg", // Position 1, 3, 5... (index 0, 2, 4...)
