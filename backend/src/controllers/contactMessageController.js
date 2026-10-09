@@ -10,12 +10,8 @@ function normalizeIndianPhone(input) {
   if (!input || typeof input !== "string") return null;
   let cleaned = input.replace(/[\s\-\(\)\.]/g, "");
 
-  if (cleaned.startsWith("+91") && cleaned.length === 13) {
+  if (cleaned.startsWith("+91")) {
     cleaned = cleaned.slice(3);
-  } else if (cleaned.startsWith("91") && cleaned.length === 12) {
-    cleaned = cleaned.slice(2);
-  } else if (cleaned.startsWith("0") && cleaned.length === 11) {
-    cleaned = cleaned.slice(1);
   }
 
   if (/^[6-9]\d{9}$/.test(cleaned)) {
@@ -81,13 +77,15 @@ async function createContactMessage(req, res) {
     errors.email = "Please enter a valid email address.";
   }
 
-  // Validate Phone (optional, if given must be valid Indian mobile)
+  // Validate Phone (required, valid Indian mobile)
   let cleanPhone = null;
   if (phone !== undefined && phone !== null && String(phone).trim().length > 0) {
     cleanPhone = normalizeIndianPhone(String(phone));
     if (!cleanPhone) {
       errors.phone = "Please enter a valid 10-digit Indian mobile number starting with 6-9.";
     }
+  } else {
+    errors.phone = "Please enter your phone number.";
   }
 
   // Validate Subject (optional max 160)
@@ -96,12 +94,12 @@ async function createContactMessage(req, res) {
     .trim()
     .slice(0, 160);
 
-  // Validate Message (5-2000 chars, strip control chars except newlines and tabs)
+  // Validate Message (optional, 5-2000 chars)
   const cleanMessage = (typeof message === "string" ? message : "")
     .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
     .trim();
-  if (!cleanMessage || cleanMessage.length < 5 || cleanMessage.length > 2000) {
-    errors.message = "Please enter a message between 5 and 2000 characters.";
+  if (cleanMessage && (cleanMessage.length < 5 || cleanMessage.length > 2000)) {
+    errors.message = "BACKEND: If provided, message must be between 5 and 2000 characters.";
   }
 
   if (Object.keys(errors).length > 0) {

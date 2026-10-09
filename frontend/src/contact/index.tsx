@@ -42,16 +42,19 @@ export function ContactPage() {
       errors["email"] = "Please enter a valid email address.";
     }
 
-    if (phone.trim().length > 0) {
-      const cleanPhoneDigits = phone.replace(/\D/g, "");
-      if (!/^[6-9]\d{9}$/.test(cleanPhoneDigits)) {
+    const cleanPhone = phone.trim();
+    if (!cleanPhone) {
+      errors["phone"] = "Please enter your phone number.";
+    } else {
+      let cleaned = phone.replace(/[\s\-\(\)\.]/g, "");
+      if (cleaned.startsWith("+91")) {
+        cleaned = cleaned.slice(3);
+      }
+      if (!/^[6-9]\d{9}$/.test(cleaned)) {
         errors["phone"] = "Please enter a valid 10-digit Indian mobile number starting with 6-9.";
       }
     }
 
-    if (!cleanMessage || cleanMessage.length < 5 || cleanMessage.length > 2000) {
-      errors["message"] = "Please enter a message between 5 and 2000 characters.";
-    }
 
 
     if (Object.keys(errors).length > 0) {
@@ -66,7 +69,7 @@ export function ContactPage() {
         email: cleanEmail,
         phone: phone.trim() || undefined,
         subject: subject !== "Choose a subject" ? subject : undefined,
-        message: cleanMessage,
+        message: cleanMessage || "No message provided",
         website: website.trim() || undefined,
       };
 
@@ -385,9 +388,13 @@ export function ContactPage() {
                 transition={{ duration: 0.45, delay: 0.14, ease: "easeOut" }}
                 className="min-w-0 md:col-span-2 will-change-transform"
               >
-                <span className="mb-1.5 sm:mb-2 block text-xs font-medium">Phone Number</span>
+                <span className="mb-1.5 sm:mb-2 block text-xs font-medium">
+                  Phone Number <span className="text-red-500">*</span>
+                </span>
                 <input
+                  required
                   type="tel"
+                  maxLength={16}
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className={`h-11 w-full min-w-0 rounded-md border bg-background px-4 text-base sm:text-sm outline-none transition focus:border-brand ${
@@ -434,11 +441,8 @@ export function ContactPage() {
                 transition={{ duration: 0.45, delay: 0.28, ease: "easeOut" }}
                 className="min-w-0 md:col-span-2 will-change-transform"
               >
-                <span className="mb-1.5 sm:mb-2 block text-xs font-medium">
-                  Your Message <span className="text-red-500">*</span>
-                </span>
+                <span className="mb-1.5 sm:mb-2 block text-xs font-medium">Your Message</span>
                 <textarea
-                  required
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   className={`min-h-28 w-full min-w-0 rounded-md border bg-background p-4 text-base sm:text-sm outline-none transition focus:border-brand ${
