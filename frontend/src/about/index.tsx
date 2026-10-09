@@ -101,10 +101,10 @@ export function AboutPage() {
               Infrastructure, Built<br />With Precision.
             </h2>
             <p className="mt-3.5 sm:mt-4 text-xs min-[375px]:text-sm sm:text-base leading-relaxed text-slate-600 text-justify">
-              <strong className="font-semibold text-slate-900">Hariputhran Enterprises</strong> was founded with an unyielding commitment: to engineer and construct resilient <strong className="font-semibold text-slate-900">underground sewerage networks</strong>, stormwater drainage systems, and civil utility pipelines that stand the test of time.
+              <strong className="font-semibold text-[#f97316]">Hariputhran Enterprises</strong> was founded with an unyielding commitment: to engineer and construct resilient <strong className="font-semibold text-[#0284c7]">underground sewerage networks</strong>, stormwater drainage systems, and civil utility pipelines that stand the test of time.
             </p>
             <p className="mt-2.5 sm:mt-3 text-xs min-[375px]:text-sm sm:text-base leading-relaxed text-slate-600 text-justify">
-              From detailed site surveys and heavy excavation to <strong className="font-semibold text-slate-900">precision pipe laying</strong>, manhole chamber casting, and <strong className="font-semibold text-slate-900">complete road restoration</strong>, we deliver end-to-end municipal and commercial infrastructure solutions with uncompromising quality.
+              From detailed site surveys and heavy excavation to <strong className="font-semibold text-[#0284c7]">precision pipe laying</strong>, manhole chamber casting, and <strong className="font-semibold text-[#0284c7]">complete road restoration</strong>, we deliver end-to-end municipal and commercial infrastructure solutions with uncompromising quality.
             </p>
           </motion.div>
         </div>

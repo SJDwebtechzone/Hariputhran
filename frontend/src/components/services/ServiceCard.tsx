@@ -69,7 +69,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequ
             <div className="relative h-full rounded-xl sm:rounded-2xl bg-white p-4.5 min-[375px]:p-5 sm:p-8 lg:rounded-r-[24px] lg:rounded-l-none lg:py-8 lg:pr-8 lg:pl-18 xl:pl-22 slant-card-right">
               <div className="flex flex-col justify-between h-full">
                 {/* Header & Optional Icon Badge */}
-                <div className="flex items-start gap-3.5 sm:gap-5">
+                <div className="flex items-center gap-3.5 sm:gap-5">
                   {Icon && (
                     <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-gradient-to-b from-[#FFFFFF] to-[#E0F1FC] text-[#0A8FD8] shadow-[0_8px_20px_rgba(10,143,216,0.22)] ring-4 ring-white sm:size-16 sm:rounded-full">
                       <Icon className="size-5 stroke-[2.2] sm:size-7" />
@@ -77,30 +77,28 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequ
                   )}
 
                   <div className="min-w-0 flex-1">
-                    <span className="font-mono text-[10px] min-[375px]:text-[11px] font-bold uppercase tracking-[0.16em] text-[#F97316]">
-                      SERVICE {serviceNumber}
-                    </span>
+                    
 
-                    <h3 className="mt-0.5 sm:mt-1 font-['Poppins',sans-serif] text-lg min-[375px]:text-xl font-bold tracking-tight text-[#0B2A5B] sm:text-2xl lg:text-[23px] xl:text-[25px]">
+                    <h3 className="mt-0 leading-tight font-['Poppins',sans-serif] text-lg min-[375px]:text-xl font-bold tracking-tight text-[#0B2A5B] sm:text-2xl lg:text-[23px] xl:text-[25px]">
                       {mainWords} {lastWord && <span className="text-[#0A9BE0]">{lastWord}</span>}
                     </h3>
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="mt-2.5 sm:mt-3 text-xs leading-relaxed text-[#5B6B80] text-justify sm:text-[14px]">
+                <p className="mt-3 sm:mt-4 text-xs leading-relaxed text-[#5B6B80] text-left hyphens-none [text-wrap:pretty] sm:text-[14px]">
                   {service.description}
                 </p>
 
                 {/* 2-Column Checklist */}
                 {features.length > 0 && (
-                  <div className="mt-3.5 sm:mt-4 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2 sm:gap-y-2.5">
+                  <div className="mt-4 sm:mt-5 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2 sm:gap-y-2.5">
                     {features.map((item, idx) => (
-                      <div key={idx} className="flex items-center gap-2.5">
-                        <span className="grid size-4 shrink-0 place-items-center rounded-full bg-[#0A8FD8] text-white shadow-sm">
+                      <div key={idx} className="flex items-start gap-2.5">
+                        <span className="grid size-4 shrink-0 place-items-center rounded-full bg-[#0A8FD8] text-white shadow-sm mt-0.5 sm:mt-[3px]">
                           <Check className="size-2.5 stroke-[3.5]" />
                         </span>
-                        <span className="text-xs font-semibold text-[#0B2A5B] sm:text-[13.5px]">
+                        <span className="text-xs font-semibold text-[#0B2A5B] sm:text-[13.5px] leading-snug hyphens-none break-words">
                           {item}
                         </span>
                       </div>
@@ -109,7 +107,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequ
                 )}
 
                 {/* CTA Button */}
-                <div className="mt-4 sm:mt-5">
+                <div className="mt-5 sm:mt-6 max-md:h-11">
                   {onRequestQuote ? (
                     <Button
                       type="button"
@@ -150,7 +148,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequ
             <div className="relative h-full rounded-xl sm:rounded-2xl bg-white p-4.5 min-[375px]:p-5 sm:p-8 lg:rounded-l-[24px] lg:rounded-r-none lg:py-8 lg:pl-8 lg:pr-18 xl:pr-22 slant-card-left">
               <div className="flex flex-col justify-between h-full">
                 {/* Header & Optional Icon Badge */}
-                <div className="flex items-start gap-3.5 sm:gap-5">
+                <div className="flex items-center gap-3.5 sm:gap-5">
                   {Icon && (
                     <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-gradient-to-b from-[#FFFFFF] to-[#E0F1FC] text-[#0A8FD8] shadow-[0_8px_20px_rgba(10,143,216,0.22)] ring-4 ring-white sm:size-16 sm:rounded-full">
                       <Icon className="size-5 stroke-[2.2] sm:size-7" />
@@ -158,30 +156,28 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequ
                   )}
 
                   <div className="min-w-0 flex-1">
-                    <span className="font-mono text-[10px] min-[375px]:text-[11px] font-bold uppercase tracking-[0.16em] text-[#F97316]">
-                      SERVICE {serviceNumber}
-                    </span>
+                    
 
-                    <h3 className="mt-0.5 sm:mt-1 font-['Poppins',sans-serif] text-lg min-[375px]:text-xl font-bold tracking-tight text-[#0B2A5B] sm:text-2xl lg:text-[23px] xl:text-[25px]">
+                    <h3 className="mt-0 leading-tight font-['Poppins',sans-serif] text-lg min-[375px]:text-xl font-bold tracking-tight text-[#0B2A5B] sm:text-2xl lg:text-[23px] xl:text-[25px]">
                       {mainWords} {lastWord && <span className="text-[#0A9BE0]">{lastWord}</span>}
                     </h3>
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="mt-2.5 sm:mt-3 text-xs leading-relaxed text-[#5B6B80] text-justify sm:text-[14px]">
+                <p className="mt-3 sm:mt-4 text-xs leading-relaxed text-[#5B6B80] text-left hyphens-none [text-wrap:pretty] sm:text-[14px]">
                   {service.description}
                 </p>
 
                 {/* 2-Column Checklist */}
                 {features.length > 0 && (
-                  <div className="mt-3.5 sm:mt-4 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2 sm:gap-y-2.5">
+                  <div className="mt-4 sm:mt-5 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2 sm:gap-y-2.5">
                     {features.map((item, idx) => (
-                      <div key={idx} className="flex items-center gap-2.5">
-                        <span className="grid size-4 shrink-0 place-items-center rounded-full bg-[#0A8FD8] text-white shadow-sm">
+                      <div key={idx} className="flex items-start gap-2.5">
+                        <span className="grid size-4 shrink-0 place-items-center rounded-full bg-[#0A8FD8] text-white shadow-sm mt-0.5 sm:mt-[3px]">
                           <Check className="size-2.5 stroke-[3.5]" />
                         </span>
-                        <span className="text-xs font-semibold text-[#0B2A5B] sm:text-[13.5px]">
+                        <span className="text-xs font-semibold text-[#0B2A5B] sm:text-[13.5px] leading-snug hyphens-none break-words">
                           {item}
                         </span>
                       </div>
@@ -190,7 +186,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequ
                 )}
 
                 {/* CTA Button */}
-                <div className="mt-4 sm:mt-5">
+                <div className="mt-5 sm:mt-6 max-md:h-11">
                   {onRequestQuote ? (
                     <Button
                       type="button"
@@ -239,3 +235,4 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service, index, onRequ
     </div>
   );
 };
+

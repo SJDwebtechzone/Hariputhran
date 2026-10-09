@@ -847,11 +847,11 @@ export function ServiceClosingBanner() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-              className="mt-5 sm:mt-6 will-change-transform"
+              className="mt-5 sm:mt-6 will-change-transform max-md:self-start"
             >
               <Button
                 asChild
-                className="h-11 w-full min-[480px]:w-auto justify-center rounded-full bg-[#f97316] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-orange-500/25 transition-all hover:scale-[1.02] hover:bg-[#ea580c]"
+                className="h-11 w-auto justify-center rounded-full bg-[#f97316] px-6 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-orange-500/25 transition-all hover:scale-[1.02] hover:bg-[#ea580c]"
               >
                 <Link to="/contact">
                   GET IN TOUCH
