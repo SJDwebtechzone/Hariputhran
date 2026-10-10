@@ -136,7 +136,7 @@ export function HomeHero() {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-[500px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 pb-8 sm:pt-24 sm:pb-12 text-white flex flex-col justify-between max-sm:aspect-[1983/793] max-sm:min-h-0 max-sm:h-auto max-sm:pt-0 max-sm:pb-0 mt-[104px] sm:mt-[132px] md:mt-0 max-sm:overflow-hidden"
+      className="relative min-h-[500px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 pb-8 sm:pt-24 sm:pb-12 text-white flex flex-col justify-between max-sm:aspect-[1983/793] max-sm:min-h-0 max-sm:h-auto max-sm:pt-0 max-sm:pb-0 mt-[104px] sm:mt-[132px] md:mt-0 max-md:!mt-[82px] max-md:sm:!mt-[92px] max-sm:overflow-hidden"
     >
       {/* Fixed Background Image Container */}
       <motion.div
@@ -484,7 +484,7 @@ export function WhyChooseUs() {
               Lasting Infrastructure
             </h2>
 
-            <p className="text-sm sm:text-base lg:text-[16px] leading-relaxed text-slate-600">
+            <p className="text-sm sm:text-base lg:text-[16px] leading-relaxed text-slate-600 max-md:text-justify max-md:[text-align-last:left] max-md:[text-justify:inter-word]">
               We bring experience, technology and a dedicated team to deliver high-quality civil works that meet municipal and client standards.
             </p>
 
@@ -936,8 +936,8 @@ export function StrengthsSection() {
           KEY STRENGTHS
         </div>
         <h2 className="mt-3 font-['Poppins',sans-serif] text-2xl min-[375px]:text-3xl font-bold leading-[1.1] tracking-tight text-slate-800 sm:text-4xl lg:text-[44px]">
-          Why agencies &amp; teams <br />
-          pick{" "}
+          Why Agencies &amp; Teams <br />
+          Picks{" "}
           <span className="bg-gradient-to-r from-[#fa6c16] to-[#d41a1b] bg-clip-text text-transparent">
             HARIPUTHRAN.
           </span>

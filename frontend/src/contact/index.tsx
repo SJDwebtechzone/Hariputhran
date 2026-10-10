@@ -108,7 +108,7 @@ export function ContactPage() {
   return (
     <PageFrame>
       {/* SECTION 1 — CONTACT HERO */}
-      <section className="relative overflow-hidden pt-[104px] pb-12 sm:pt-[132px] sm:pb-20 md:pt-36 md:pb-20">
+      <section className="relative overflow-hidden pt-[104px] pb-12 sm:pt-[132px] sm:pb-20 md:pt-[120px] md:pb-20 max-md:!pt-[82px] max-md:sm:!pt-[92px]">
         <div className="site-container grid items-center gap-8 sm:gap-10 md:grid-cols-[.9fr_1.1fr]">
           <div className="min-w-0">
             <motion.div

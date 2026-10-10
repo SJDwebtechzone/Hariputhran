@@ -216,7 +216,7 @@ export function ServicesHero() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="relative min-h-[500px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 pb-8 sm:pt-24 sm:pb-12 text-white flex flex-col justify-between max-sm:aspect-[1923/818] max-sm:min-h-0 max-sm:h-auto max-sm:pt-0 max-sm:pb-0 mt-[104px] sm:mt-[132px] md:mt-0 max-sm:overflow-hidden">
+    <section className="relative min-h-[500px] sm:min-h-[660px] lg:min-h-[700px] overflow-hidden bg-[#0a2342] pt-20 pb-8 sm:pt-24 sm:pb-12 text-white flex flex-col justify-between max-sm:aspect-[1923/818] max-sm:min-h-0 max-sm:h-auto max-sm:pt-0 max-sm:pb-0 mt-[104px] sm:mt-[132px] md:mt-0 max-md:!mt-[82px] max-md:sm:!mt-[92px] max-sm:overflow-hidden">
       {/* Background Image with scale entrance 1.06 -> 1 */}
       <motion.div
         initial={shouldReduceMotion ? { scale: 1 } : { scale: 1.06 }}
@@ -263,7 +263,7 @@ export function ServicesHero() {
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
-              className="mt-3 sm:mt-4 max-w-[500px] text-xs min-[375px]:text-sm sm:text-base lg:text-[17px] leading-relaxed text-slate-100 will-change-transform max-sm:mt-[1.11vw] max-sm:max-w-[34.72vw] max-sm:text-[1.18vw] max-sm:leading-[1.4]"
+              className="mt-3 sm:mt-4 max-w-[500px] text-xs min-[375px]:text-sm sm:text-base lg:text-[17px] leading-relaxed text-slate-100 will-change-transform max-sm:mt-[1.11vw] max-sm:max-w-[38vw] max-sm:text-[1.5vw] max-sm:leading-[1.4]"
             >
               From underground utilities to roads, drainage and pipeline networks,
               we deliver end-to-end infrastructure solutions with a focus on safety,
@@ -271,7 +271,7 @@ export function ServicesHero() {
             </motion.p>
 
             {/* Action Buttons */}
-            <div className="mt-5 sm:mt-6 flex flex-col min-[390px]:flex-row items-stretch min-[390px]:items-center gap-3 sm:gap-3.5 max-sm:mt-[1.67vw] max-sm:flex-row max-sm:items-center max-sm:gap-[0.97vw]">
+            <div className="mt-5 sm:mt-6 flex flex-col min-[390px]:flex-row items-stretch min-[390px]:items-center gap-3 sm:gap-3.5 max-sm:mt-[0.7vw] max-sm:flex-row max-sm:items-center max-sm:gap-[0.97vw]">
               <motion.div
                 initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -691,7 +691,7 @@ export function WorkProcessSection() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-white py-12 sm:py-14 lg:py-16">
+    <section className="relative overflow-hidden bg-white py-12 sm:py-14 lg:py-16 max-md:overflow-x-clip">
       {/* Light blue soft glow on the left behind header */}
       <div className="pointer-events-none absolute -left-20 top-1/2 size-80 -translate-y-1/2 rounded-full bg-[#0284c7]/5 blur-3xl" />
 
@@ -722,59 +722,67 @@ export function WorkProcessSection() {
           </motion.div>
 
           {/* Right 5-Step Flow */}
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:flex lg:items-center lg:justify-between lg:gap-2">
-            {approachSteps.map((step, idx) => {
-              const Icon = step.icon;
-              const delay = idx * 0.1; // 0ms, 100ms, 200ms, 300ms, 400ms
+          <div className="relative max-md:-mx-4 max-md:min-w-0 max-md:overflow-visible">
+            <div
+              role="region"
+              aria-label="Our approach steps"
+              tabIndex={0}
+              className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:flex lg:items-center lg:justify-between lg:gap-2 max-md:flex max-md:flex-row max-md:flex-nowrap max-md:overflow-x-auto max-md:overflow-y-visible max-md:snap-x max-md:snap-proximity max-md:gap-4 max-md:w-full max-md:min-w-0 max-md:max-w-full max-md:overscroll-x-contain max-md:scroll-smooth max-md:px-4 max-md:scroll-px-4 max-md:touch-pan-x max-md:[scrollbar-width:none] max-md:[&::-webkit-scrollbar]:hidden max-md:after:content-[''] max-md:after:shrink-0 max-md:after:w-px"
+            >
+              {approachSteps.map((step, idx) => {
+                const Icon = step.icon;
+                const delay = idx * 0.1; // 0ms, 100ms, 200ms, 300ms, 400ms
 
-              return (
-                <motion.div
-                  key={step.number}
-                  initial={
-                    shouldReduceMotion
-                      ? { opacity: 0 }
-                      : { opacity: 0, y: 20, scale: 0.97 }
-                  }
-                  whileInView={
-                    shouldReduceMotion
-                      ? { opacity: 1 }
-                      : { opacity: 1, y: 0, scale: 1 }
-                  }
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.55, delay, ease: "easeOut" }}
-                  className="flex items-center will-change-transform"
-                >
-                  <div className="flex flex-col items-center text-center w-full">
-                    {/* Circle Icon Badge */}
-                    <div className="grid size-14 place-items-center rounded-full bg-white shadow-[0_8px_24px_-8px_rgba(2,132,199,0.35)] ring-1 ring-[#0284c7]/15 transition-transform duration-300 hover:scale-105 sm:size-16 lg:size-[72px]">
-                      <Icon className="size-6 sm:size-7 text-[#0284c7]" />
+                return (
+                  <motion.div
+                    key={step.number}
+                    initial={
+                      shouldReduceMotion
+                        ? { opacity: 0 }
+                        : { opacity: 0, y: 20, scale: 0.97 }
+                    }
+                    whileInView={
+                      shouldReduceMotion
+                        ? { opacity: 1 }
+                        : { opacity: 1, y: 0, scale: 1 }
+                    }
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{ duration: 0.55, delay, ease: "easeOut" }}
+                    className="flex items-center will-change-transform max-md:w-[44vw] max-md:min-w-[150px] max-md:max-w-[190px] max-md:shrink-0 max-md:grow-0 max-md:snap-start"
+                  >
+                    <div className="flex flex-col items-center text-center w-full">
+                      {/* Circle Icon Badge */}
+                      <div className="grid size-14 place-items-center rounded-full bg-white shadow-[0_8px_24px_-8px_rgba(2,132,199,0.35)] ring-1 ring-[#0284c7]/15 transition-transform duration-300 hover:scale-105 sm:size-16 lg:size-[72px]">
+                        <Icon className="size-6 sm:size-7 text-[#0284c7]" />
+                      </div>
+
+                      {/* Step Number */}
+                      <span className="mt-2 sm:mt-2.5 font-mono text-[11px] sm:text-xs font-bold text-[#082342]">
+                        {step.number}
+                      </span>
+
+                      {/* Title */}
+                      <h3 className="mt-0.5 font-['Poppins',sans-serif] text-xs font-bold uppercase tracking-wide text-[#082342]">
+                        {step.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="mt-1 max-w-[140px] text-[10.5px] sm:text-[11px] leading-relaxed text-slate-500">
+                        {step.description}
+                      </p>
                     </div>
 
-                    {/* Step Number */}
-                    <span className="mt-2 sm:mt-2.5 font-mono text-[11px] sm:text-xs font-bold text-[#082342]">
-                      {step.number}
-                    </span>
-
-                    {/* Title */}
-                    <h3 className="mt-0.5 font-['Poppins',sans-serif] text-xs font-bold uppercase tracking-wide text-[#082342]">
-                      {step.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="mt-1 max-w-[140px] text-[10.5px] sm:text-[11px] leading-relaxed text-slate-500">
-                      {step.description}
-                    </p>
-                  </div>
-
-                  {/* Desktop Chevron connector between steps */}
-                  {idx < approachSteps.length - 1 && (
-                    <div className="hidden px-2 lg:block">
-                      <ChevronRight className="size-5 text-[#0284c7]/70" />
-                    </div>
-                  )}
-                </motion.div>
-              );
-            })}
+                    {/* Desktop Chevron connector between steps */}
+                    {idx < approachSteps.length - 1 && (
+                      <div className="hidden px-2 lg:block max-md:block max-md:shrink-0">
+                        <ChevronRight className="size-5 text-[#0284c7]/70 max-md:size-4" />
+                      </div>
+                    )}
+                  </motion.div>
+                );
+              })}
+            </div>
+            <div className="md:hidden absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
           </div>
         </div>
       </div>

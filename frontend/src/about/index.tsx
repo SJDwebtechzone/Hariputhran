@@ -8,7 +8,7 @@ export function AboutPage() {
   return (
     <PageFrame>
       {/* SECTION 1 — HERO */}
-      <section className="pt-[104px] pb-12 sm:pt-[132px] sm:pb-16 md:pt-32 md:pb-16 lg:pt-36 lg:pb-20 overflow-hidden">
+      <section className="pt-[104px] pb-12 sm:pt-[132px] sm:pb-16 md:pt-28 md:pb-16 lg:pt-32 lg:pb-20 max-md:!pt-[82px] max-md:sm:!pt-[92px] overflow-hidden">
         <div className="site-container grid items-center gap-8 sm:gap-10 lg:gap-14 md:grid-cols-2">
           <div className="min-w-0">
             <motion.div
