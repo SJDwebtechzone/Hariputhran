@@ -6,7 +6,7 @@ import { ArrowUp, Phone } from "lucide-react";
    CONTACT CONFIGURATION (Single source of truth)
    Update this single variable to change the number for Call & WhatsApp
    ========================================================================= */
-export const FLOATING_CONTACT_PHONE = "9003221019";
+export const FLOATING_CONTACT_PHONE = "7200333487";
 export const FLOATING_WHATSAPP_NUMBER = "91" + FLOATING_CONTACT_PHONE.replace(/\D/g, "");
 export const FLOATING_WHATSAPP_DEFAULT_MESSAGE =
   "Hello Hariputhran Enterprises,\n\nI would like to know more about your services. Please contact me.\n\nThank you.";
